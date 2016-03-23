@@ -1,0 +1,49 @@
+<div>
+    <div class="modal-header">
+        <h3>New Contract</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="contractId" class="col-sm-2 control-label">ID</label>
+                <div class="col-sm-10">
+                    <input type="number" id="contractId" class="form-control" ng-model="contractsAddCtrl.contractId" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="symbol" class="col-sm-2 control-label">Symbol</label>
+                <div class="col-sm-10">
+                    <input type="text" id="symbol" class="form-control" ng-model="contractsAddCtrl.symbol" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="currency" class="col-sm-2 control-label">Currency</label>
+                <div class="col-sm-10">
+                    <input type="text" id="currency" class="form-control" ng-model="contractsAddCtrl.currency" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="cross" class="col-sm-2 control-label">Cross</label>
+                <div class="col-sm-10">
+                    <input type="text" id="cross" class="form-control" ng-model="contractsAddCtrl.cross()" disabled />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="securityType" class="col-sm-2 control-label">Security Type</label>
+                <div class="col-sm-10">
+                    <input type="text" id="securityType" class="form-control" ng-model="contractsAddCtrl.securityType" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="exchange" class="col-sm-2 control-label">Exchange</label>
+                <div class="col-sm-10">
+                    <input type="text" id="exchange" class="form-control" ng-model="contractsAddCtrl.exchange" required />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="contractsAddCtrl.submit()">Add</button>
+        <button class="btn btn-default" ng-click="contractsAddCtrl.cancel()">Cancel</button>
+    </div>
+</div>

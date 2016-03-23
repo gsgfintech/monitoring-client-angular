@@ -1,0 +1,41 @@
+{
+  "name": "monitoring-appclient",
+  "version": "0.0.0",
+  "dependencies": {
+    "angular": "^1.5.0",
+    "bootstrap-sass-official": "^3.2.0",
+    "angular-animate": "^1.4.0",
+    "angular-cookies": "^1.4.0",
+    "angular-resource": "^1.4.0",
+    "angular-route": "^1.4.0",
+    "angular-sanitize": "^1.4.0",
+    "angular-touch": "^1.4.0",
+    "angular-spinner": "^0.8.0",
+    "angular-signalr-hub": "^1.5.0",
+    "AngularJS-Toaster": "angularjs-toaster#^1.0.0",
+    "angular-bootstrap": "^1.1.2",
+    "angular-ui-router": "^0.2.17",
+    "ng-range-filter": "^0.1.0",
+    "angular-ui-router-tabs": "^1.7.0",
+    "angular-file-saver": "^1.0.2",
+    "angular-ui-switch": "^0.1.1",
+    "amstock3": "^3.19.4"
+  },
+  "devDependencies": {
+    "angular-mocks": "^1.4.0"
+  },
+  "appPath": "app",
+  "moduleName": "monitorApp",
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js"
+      ]
+    }
+  },
+  "resolutions": {
+    "angular-bootstrap": "^1.1.2"
+  }
+}

@@ -1,0 +1,43 @@
+<div>
+    <div class="modal-header">
+        <h3>{{contractsEditCtrl.contract.ContractID}}</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="symbol" class="col-sm-2 control-label">Symbol</label>
+                <div class="col-sm-10">
+                    <input type="text" id="symbol" class="form-control" ng-model="contractsEditCtrl.contract.Symbol" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="currency" class="col-sm-2 control-label">Currency</label>
+                <div class="col-sm-10">
+                    <input type="text" id="currency" class="form-control" ng-model="contractsEditCtrl.contract.Currency" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="cross" class="col-sm-2 control-label">Cross</label>
+                <div class="col-sm-10">
+                    <input type="text" id="cross" class="form-control" value="{{contractsEditCtrl.cross()}}" disabled />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="securityType" class="col-sm-2 control-label">Security Type</label>
+                <div class="col-sm-10">
+                    <input type="text" id="securityType" class="form-control" ng-model="contractsEditCtrl.contract.SecurityType" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="exchange" class="col-sm-2 control-label">Exchange</label>
+                <div class="col-sm-10">
+                    <input type="text" id="exchange" class="form-control" ng-model="contractsEditCtrl.contract.Exchange" required />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-danger" ng-click="contractsEditCtrl.submit()">Edit</button>
+        <button class="btn btn-default" ng-click="contractsEditCtrl.cancel()">Cancel</button>
+    </div>
+</div>

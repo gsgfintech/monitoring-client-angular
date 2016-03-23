@@ -1,0 +1,119 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Filter</h4>
+                </div>
+                <div class="panel-body">
+                    <form name="filterform" class="form-horizontal" ng-submit="stratDatapointsCtrl.loadData()">
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label for="stratname" class="col-sm-6 col-md-4 control-label">Strategy:</label>
+                                <div class="col-sm-6 col-md-8">
+                                    <select name="stratname" class="form-control" ng-model="stratDatapointsCtrl.stratName" required>
+                                        <option ng-repeat="strat in stratDatapointsCtrl.stratNames">{{strat}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="checkbox col-sm-6">
+                                <label>
+                                    <input type="checkbox" ng-model="stratDatapointsCtrl.tradedOnly" />
+                                    Traded only
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label for="start-date" class="col-sm-6 col-md-4 control-label">Start Date:</label>
+                                <p class="input-group col-sm-6 col-md-8">
+                                    <input name="start-date" type="date" class="form-control" uib-datepicker-popup ng-model="stratDatapointsCtrl.lowerBoundDate" is-open="stratDatapointsCtrl.lowerBoundDateOpen"
+                                           min-date="stratDatapointsCtrl.minDate" max-date="stratDatapointsCtrl.maxDate"
+                                           datepicker-options="stratDatapointsCtrl.dateOptions" ng-required="true" close-text="Close" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="stratDatapointsCtrl.open('lowerDate')"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="start-time" class="col-sm-6 col-md-4 control-label">Start Time:</label>
+                                <p title="start-time" class="input-group col-sm-6 col-md-8">
+                                    <uib-timepicker ng-model="stratDatapointsCtrl.lowerBoundTime" show-meridian="false" show-spinners="false"></uib-timepicker>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label for="end-date" class="col-sm-6 col-md-4 control-label">End Date:</label>
+                                <p class="input-group col-sm-6 col-md-8">
+                                    <input name="end-date" type="date" class="form-control" uib-datepicker-popup ng-model="stratDatapointsCtrl.upperBoundDate" is-open="stratDatapointsCtrl.upperBoundDateOpen"
+                                           min-date="stratDatapointsCtrl.minDate" max-date="stratDatapointsCtrl.maxDate"
+                                           datepicker-options="stratDatapointsCtrl.dateOptions" ng-required="true" close-text="Close" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="stratDatapointsCtrl.open('upperDate')"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="end-time" class="col-sm-6 col-md-4 control-label">Start Time:</label>
+                                <p title="end-time" class="input-group col-sm-6 col-md-8">
+                                    <uib-timepicker ng-model="stratDatapointsCtrl.upperBoundTime" show-meridian="false" show-spinners="false"></uib-timepicker>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <button type="submit" class="btn btn-primary" ng-disabled="filterform.$invalid || stratDatapointsCtrl.loading">Load Data</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="stratDatapointsCtrl.loading">
+        <div class="col-sm-4 col-md-3">
+            <p><div us-spinner>Loading... </div></p>
+        </div>
+    </div>
+    <div class="row" ng-hide="stratDatapointsCtrl.loading || !stratDatapointsCtrl.datapoints">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Datapoints</h4>
+                </div>
+                <div class="panel-body">
+                    <p><strong>Total:</strong> {{stratDatapointsCtrl.datapointsCount}} datapoints (showing the first {{stratDatapointsCtrl.datapoints.length}} items)</p>
+                    <button type="button" class="btn btn-primary" ng-click="stratDatapointsCtrl.exportToExcel()" ng-hide="stratDatapointsCtrl.downloading" ng-disabled="stratDatapointsCtrl.downloading || stratDatapointsCtrl.datapoints.length === 0">Export to Excel</button>
+                    <i class="col-sm-4 col-md-3" ng-show="stratDatapointsCtrl.downloading"><span us-spinner>Generating Excel... </span></i>
+                </div>
+                <table class="table table-condensed table-striped" ng-hide="stratDatapointsCtrl.stratName.indexOf('NewCresus') > -1">
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Tick Type</th>
+                        <th>Bid</th>
+                        <th>Bid Min</th>
+                        <th>Bid Max</th>
+                        <th>Ask</th>
+                        <th>Ask Min</th>
+                        <th>Ask Max</th>
+                        <th>Spread</th>
+                        <th>Traded</th>
+                    </tr>
+                    <tr ng-repeat="datapoint in stratDatapointsCtrl.datapoints">
+                        <td>{{datapoint.Timestamp | date:'dd/MM/yy HH:mm:ss.sss'}}</td>
+                        <td>{{stratDatapointsCtrl.formatTickType(datapoint.TickType)}}</td>
+                        <td>{{datapoint.Bid | number:5}}</td>
+                        <td>{{datapoint.BidMin | number:5}}</td>
+                        <td>{{datapoint.BidMax | number:5}}</td>
+                        <td>{{datapoint.Ask | number:5}}</td>
+                        <td>{{datapoint.AskMin | number:5}}</td>
+                        <td>{{datapoint.AskMax | number:5}}</td>
+                        <td>{{datapoint.Spread | number:5}}</td>
+                        <td>{{datapoint.Traded}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

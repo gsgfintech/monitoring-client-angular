@@ -1,0 +1,179 @@
+$icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+// bower:scss
+@import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
+// endbower
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+body {
+  padding-top: 60px;
+}
+
+.container {
+    width: 100%;
+    padding: 0;
+}
+
+.alert-success .alert-link-light {
+    color: #2b542c;
+}
+
+.alert-info .alert-link-light {
+    color: #245269;
+}
+
+.alert-warning .alert-link-light {
+    color: #66512c;
+}
+
+.alert-danger .alert-link-light {
+    color: #843534;
+}
+
+.align-left {
+    float: left;
+}
+
+.align-right {
+    float: right;
+}
+
+.btn-110px button {
+    width: 110px;
+}
+
+.green_block {
+    background-color: green;
+    color: white;
+    padding: 4px;
+}
+
+.grid-status-green {
+    color: green;
+}
+
+.grid-status-red {
+    color: red;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.red_block {
+    background-color: red;
+    color: white;
+    padding: 4px;
+}
+
+.table-padding-5px th, td {
+    padding: 5px;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Custom page header */
+.header {
+  border-bottom: 1px solid #e5e5e5;
+  margin-bottom: 10px;
+
+  /* Make the masthead heading the same height as the navigation */
+  h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 40px;
+    padding-bottom: 19px;
+  }
+}
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+
+  .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+  }
+}
+
+/* Supporting marketing content */
+.marketing {
+  margin: 40px 0;
+
+  p + h4 {
+    margin-top: 28px;
+  }
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  /* Space out the masthead */
+  .header {
+    margin-bottom: 30px;
+  }
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+    border-bottom: 0;
+  }
+}
+
+.text-overflow {
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.strat-newcresus-table-wrapper {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 1100px;
+    padding: 0;
+}
+
+    .strat-newcresus-table-wrapper th:first-child {
+        min-width: 45px;
+    }
+
+.smaller {
+    font-size: 70%;
+}
+
+.accordion-panel-body-no-padding .panel-body {
+    padding: 0;
+}
+
+.amChartsCompareList {
+    height: 150px;
+}

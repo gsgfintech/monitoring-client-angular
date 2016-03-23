@@ -1,0 +1,105 @@
+<div>
+    <div class="modal-header">
+        <h3 class="modal-title">{{loggerEditCtrl.config.Name}}</h3>
+    </div>
+    <div class="modal-body">
+        <form name="configForm" class="form-horizontal">
+            <uib-accordion close-others="false">
+                <uib-accordion-group heading="Market Data Broker Client">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="md-broker-name" class="col-sm-2">Name</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" id="md-broker-name" type="text" ng-model="loggerEditCtrl.config.MarketDataBrokerClient.Name" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="md-broker-number" class="col-sm-2">Number</label>
+                            <div class="col-sm-10">
+                                <input id="md-broker-number" class="form-control" type="number" ng-model="loggerEditCtrl.config.MarketDataBrokerClient.ClientNumber" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="md-broker-host" class="col-sm-2">Host</label>
+                            <div class="col-sm-10">
+                                <input id="md-broker-host" class="form-control" type="text" ng-model="loggerEditCtrl.config.MarketDataBrokerClient.Host" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="md-broker-port" class="col-sm-2">Port</label>
+                            <div class="col-sm-10">
+                                <input id="md-broker-port" class="form-control" type="number" ng-model="loggerEditCtrl.config.MarketDataBrokerClient.Port" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="md-broker-account" class="col-sm-2">Account</label>
+                            <div class="col-sm-10">
+                                <input id="md-broker-account" class="form-control" type="text" ng-model="loggerEditCtrl.config.MarketDataBrokerClient.TradingAccount" />
+                            </div>
+                        </div>
+                    </div>
+                </uib-accordion-group>
+                <uib-accordion-group heading="Record Settings">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" ng-model="loggerEditCtrl.config.RecordMarketDataTicks" />
+                                Record MD Ticks
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" ng-model="loggerEditCtrl.config.RecordRTBars" />
+                                Record RT Bars
+                            </label>
+                        </div>
+                    </div>
+                </uib-accordion-group>
+                <uib-accordion-group heading="Other Settings">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="controller-endpoint" class="col-sm-2">Controller Endpoint</label>
+                            <div class="col-sm-10">
+                                <input id="controller-endpoint" class="form-control" type="text" ng-model="loggerEditCtrl.config.ControllerEndpoint" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="monitoring-endpoint" class="col-sm-2">Monitoring Endpoint</label>
+                            <div class="col-sm-10">
+                                <input id="monitoring-endpoint" class="form-control" type="text" ng-model="loggerEditCtrl.config.MonitoringEndpoint" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="controller-logmdticks" class="col-sm-2">Log MD Ticks</label>
+                            <div class="col-sm-10">
+                                <input id="controller-logmdticks" type="checkbox" ng-model="loggerEditCtrl.config.LogMarketDataTicks" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pinger-service-port" class="col-sm-2">Pinger Service Port</label>
+                            <div class="col-sm-10">
+                                <input id="pinger-service-port" class="form-control" type="number" ng-model="loggerEditCtrl.config.PingerServicePort" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="db-batch-size" class="col-sm-2">DB Batch Size</label>
+                            <div class="col-sm-10">
+                                <input id="db-batch-size" class="form-control" type="number" ng-model="loggerEditCtrl.config.DBBatchSize" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="slack-webhook" class="col-sm-2">Slack Webhook</label>
+                            <div class="col-sm-10">
+                                <input id="slack-webhook" class="form-control" type="text" ng-model="loggerEditCtrl.config.SlackWebHook" />
+                            </div>
+                        </div>
+                    </div>
+                </uib-accordion-group>
+            </uib-accordion>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-disabled="configForm.$pristine" ng-click="loggerEditCtrl.submit()">OK</button>
+        <button class="btn btn-warning" ng-click="loggerEditCtrl.cancel()">Cancel</button>
+    </div>
+</div>

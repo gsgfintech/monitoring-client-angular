@@ -1,0 +1,34 @@
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="panel-title">Open Bulletins</span>
+                <div class="pull-right" ng-hide="newsBulletinsCtrl.openBulletins.length == 0">
+                    <button class="btn btn-warning btn-xs" ng-click="newsBulletinsCtrl.closeAllOpenBulletins()" ng-hide="newsBulletinsCtrl.openBulletins.length == 0">Close All</button>
+                </div>
+            </div>
+            <div class="panel-body">
+                <uib-alert ng-repeat="bulletin in newsBulletinsCtrl.openBulletins" type="info" close="newsBulletinsCtrl.closeBulletin(bulletin.Id)">
+                    <strong>{{bulletin.Timestamp | date:'dd/MM/yy HH:mm:ss'}} - [{{bulletin.BulletinType}}] {{bulletin.OrigExchange}}</strong> : {{bulletin.Message}}
+                </uib-alert>
+                <p ng-show="newsBulletinsCtrl.openBulletins.length == 0">No open bulletin</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="height:44px">
+                <div class="align-left">Bulletins Closed Today</div>
+                <div class="align-right"><button class="btn btn-default btn-xs" ng-click="newsBulletinsCtrl.doCollapseBulletinsClosedToday()">{{newsBulletinsCtrl.collapseBulletinsClosedTodayButtonTitle}}</button></div>
+            </div>
+            <div class="panel-body">
+                <div uib-collapse="newsBulletinsCtrl.collapseBulletinsClosedToday">
+                    <uib-alert ng-repeat="bulletin in newsBulletinsCtrl.bulletinsClosedToday" type="info">
+                        <strong>{{bulletin.Timestamp | date:'dd/MM/yy HH:mm:ss'}} - [{{bulletin.BulletinType}}] {{bulletin.OrigExchange}}</strong> : {{bulletin.Message}} <span style="font-style:italic; font-size:smaller">(Closed at {{bulletin.ClosedTimestamp | date:'dd/MM/yy HH:mm:ss'}})</span>
+                    </uib-alert>
+                </div>
+                <p ng-show="newsBulletinsCtrl.bulletinsClosedToday.length == 0">No bulletin closed today</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,152 @@
+﻿'use strict';
+
+angular.module('monitorApp')
+.controller('ExecutionsCtrl', ['$scope', '$rootScope', '$uibModal', 'FileSaver', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'ExecutionsExcelService', 'MenuService', function ($scope, $rootScope, $uibModal, FileSaver, MonitoringAppService, ExecutionsService, ExecutionDetailsService, ExecutionsExcelService, MenuService) {
+
+    var self = this;
+
+    self.date = new Date();
+
+    self.executions = [];
+    self.grossPnl = 0;
+    self.grossPnlPerCross = [];
+    self.executionsCount = 0;
+    self.totalCommissions = 0;
+
+    self.latestPositions = MonitoringAppService.getLatestPositions();
+
+    self.downloading = false;
+
+    self.requestAccount = function (accountName) {
+        MonitoringAppService.requestAccount(accountName);
+    };
+
+    self.getExecutions = function () {
+        ExecutionsService.query({ day: self.date.toISOString() }, function (executions) {
+            self.executions = executions;
+
+            MenuService.getTabsCounts().tradesCount = executions.length;
+
+            self.grossPnl = 0;
+            self.totalCommissions = 0;
+
+            for (var i = 0; i < self.executions.length; i++) {
+                // Total gross PnL
+                self.grossPnl = self.grossPnl + self.executions[i].RealizedPnlUsd;
+
+                // Gross PnL per cross
+                var existingIndex = findCrossIndexInPnlArray(self.executions[i].Cross);
+
+                if (existingIndex > -1) {
+                    self.grossPnlPerCross[existingIndex].grossPnl = self.grossPnlPerCross[existingIndex].grossPnl + (self.executions[i].RealizedPnlUsd || 0);
+                }
+                else {
+                    self.grossPnlPerCross.push({
+                        cross: self.executions[i].Cross,
+                        grossPnl: self.executions[i].RealizedPnlUsd || 0
+                    });
+                }
+
+                // Total commissions
+                self.totalCommissions = self.totalCommissions + self.executions[i].CommissionUsd;
+            }
+        });
+    };
+
+    function findCrossIndexInPnlArray(cross) {
+        for (var i = 0; i < self.grossPnlPerCross.length; i++) {
+            if (self.grossPnlPerCross[i].cross === cross) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    self.showTradeDetails = function (id) {
+        ExecutionDetailsService.get({ id: id }, function (response) {
+            if (response) {
+                console.log('Received details of execution', id);
+
+                $uibModal.open({
+                    templateUrl: 'views/execution-details.html',
+                    controller: 'ExecutionDetailsCtrl as executionDetailsCtrl',
+                    resolve: {
+                        trade: function () {
+                            return response;
+                        }
+                    }
+                });
+            } else {
+                console.error('Failed to load details of execution', id);
+            }
+        });
+    };
+
+    self.exportToExcel = function () {
+        console.log('Requesting Excel file for', self.date);
+
+        self.downloading = true;
+
+        ExecutionsExcelService.download({
+            day: self.date.toISOString()
+        }, function (result) {
+            console.log('Received ', result.response.filename);
+
+            var blob = result.response.blob;
+            var filename = result.response.filename || 'export.xlsx';
+
+            FileSaver.saveAs(blob, filename);
+
+            self.downloading = false;
+        });
+    };
+
+    $rootScope.$on('newExecutionReceivedEvent', function (event, execution) {
+        var executionTime = new Date(execution.ExecutionTime);
+
+        // Only reload if we're looking at today's trades
+        if (executionTime.getDate() === self.date.getDate()) {
+            self.executions.push(execution);
+
+            // Total gross PnL
+            self.grossPnl = self.grossPnl + execution.RealizedPnlUsd;
+
+            // Gross PnL per cross
+            var existingIndex = findCrossIndexInPnlArray(execution.Cross);
+
+            if (existingIndex > -1) {
+                self.grossPnlPerCross[existingIndex].grossPnl = self.grossPnlPerCross[existingIndex].grossPnl + (execution.RealizedPnlUsd || 0);
+            }
+            else {
+                self.grossPnlPerCross.push({
+                    cross: execution.Cross,
+                    grossPnl: execution.RealizedPnlUsd || 0
+                });
+            }
+
+            // Total commissions
+            self.totalCommissions = self.totalCommissions + execution.CommissionUsd;
+        }
+    });
+
+    $rootScope.$on('accounts.accountReceived', function (event, args) {
+        var activeAccount = args.account;
+
+        if (activeAccount) {
+            $uibModal.open({
+                templateUrl: 'views/account-details.html',
+                controller: 'AccountDetailsCtrl as accountDetailsCtrl',
+                animation: true,
+                resolve: {
+                    account: function () {
+                        return activeAccount;
+                    }
+                }
+            });
+        }
+    });
+
+    self.getExecutions();
+
+}]);

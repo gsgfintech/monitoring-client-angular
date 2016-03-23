@@ -1,0 +1,38 @@
+<uib-accordion close-others="false">
+    <uib-accordion-group ng-repeat="service in serviceControlServiceCtrl.services | orderBy:'Name'" heading="{{service.Name}}">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <button type="button" class="btn btn-default" ng-click="serviceControlServiceCtrl.editConfig(service)">Edit Config</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h3>Other Settings</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label>Monitoring Endpoint</label>
+                                </div>
+                                <div class="col-sm-4 text-overflow">
+                                    {{service.MonitoringEndpoint}}
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Pinger Port</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    {{service.PingerServicePort}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </uib-accordion-group>
+</uib-accordion>

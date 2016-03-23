@@ -1,0 +1,17 @@
+<div>
+    <div class="modal-header">
+        <h3 class="modal-title">{{accountDetailsCtrl.title}}</h3>
+    </div>
+    <div class="modal-body">
+        <p style="font-size: small; font-style: italic;">Last updated at {{accountDetailsCtrl.account.LastUpdate | date:'dd/MM/yy HH:mm:ss'}}</p>
+        <table class="table-striped">
+            <tr ng-repeat="attribute in accountDetailsCtrl.account.Attributes">
+                <td style="font-weight:bold">{{attribute.Key}}</td>
+                <td>{{attribute.Value}} {{attribute.Currency}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="accountDetailsCtrl.close()">Close</button>
+    </div>
+</div>
