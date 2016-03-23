@@ -438,7 +438,7 @@ module.exports = function (grunt) {
         }, {
             expand: true,
             cwd: '.',
-            src: 'bower_components/amstock3/amcharts/serials.js',
+            src: 'bower_components/amstock3/amcharts/serial.js',
             dest: '<%= yeoman.dist %>'
         }, {
             expand: true,
@@ -529,7 +529,6 @@ module.exports = function (grunt) {
     'concat',
     'ngAnnotate',
     'copy:dist',
-    //'cdnify',
     'cssmin',
     'uglify',
     'filerev',

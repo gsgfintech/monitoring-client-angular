@@ -2,7 +2,7 @@
 
 angular.module('monitorApp', ['angularSpinner', 'SignalR', 'ui.bootstrap', 'ngAnimate', 'ngFileSaver', 'ngResource', 'ngRoute', 'ngSanitize',
     'toaster', 'ui.router', 'ui.bootstrap', 'ui.router.tabs', 'uiSwitch'])
-//.constant('serverEnpoint', 'http://localhost:51468/')
+.constant('serverEnpoint', 'http://localhost:51468/')
 .constant('serverEnpoint', 'https://fxmonitor.gsg.capital:9098/')
 .constant('marketDataServiceEnpoint', 'https://tryphon.gsg.capital:6581/')
 .constant('systemsServiceEnpoint', 'https://tryphon.gsg.capital:6582/')
