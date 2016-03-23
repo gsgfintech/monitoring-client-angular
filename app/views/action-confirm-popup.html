@@ -1,0 +1,12 @@
+<div>
+    <div class="modal-header bg-danger">
+        <h3 class="modal-title text-danger"><span class="glyphicon glyphicon-warning-sign"></span> {{actionConfirmPopupCtrl.title}}</h3>
+    </div>
+    <div class="modal-body">
+        <h3>Are you sure that you want to <strong>{{actionConfirmPopupCtrl.action}}</strong> ?</h3>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-danger" ng-click="actionConfirmPopupCtrl.submit()">OK</button>
+        <button class="btn btn-default" ng-click="actionConfirmPopupCtrl.cancel()">Cancel</button>
+    </div>
+</div>

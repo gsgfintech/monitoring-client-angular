@@ -1,0 +1,192 @@
+<div class="row">
+    <div class="col-lg-5 col-xs-12">
+        <div ng-class="[{'panel panel-success': alertsCtrl.grossPnl - alertsCtrl.totalCommissions > 0}, {'panel panel-default': !alertsCtrl.grossPnl || alertsCtrl.grossPnl - alertsCtrl.totalCommissions == 0}, {'panel panel-danger': alertsCtrl.grossPnl - alertsCtrl.totalCommissions < 0}]">
+            <div class="panel-heading">
+                <strong class="panel-title">PnL (USD)</strong>
+                <div class="pull-right hidden-xs hidden-sm">
+                    Unrealised: {{alertsCtrl.position.curUnrealisedPnl | number:2}} |
+                    Gross: {{alertsCtrl.grossPnl | number:2}} |
+                    Fees: {{alertsCtrl.totalCommissions | number:0}} |
+                    Net: <strong style="font-size:large">{{alertsCtrl.grossPnl - alertsCtrl.totalCommissions | number:2}} USD</strong>
+                </div>
+                <div class="pull-right visible-sm-inline">
+                    Unrealised: {{alertsCtrl.position.curUnrealisedPnl | number:2}} |
+                    Net: <strong>{{alertsCtrl.grossPnl - alertsCtrl.totalCommissions | number:2}} USD</strong>
+                </div>
+                <div class="pull-right visible-xs-inline">
+                    Unr: {{alertsCtrl.position.curUnrealisedPnl | number:2}} |
+                    Net: <strong>{{alertsCtrl.grossPnl - alertsCtrl.totalCommissions | number:2}} USD</strong>
+                </div>
+            </div>
+            <table class="table">
+                <tr>
+                    <th>Cross</th>
+                    <th>Quantity</th>
+                    <th class="hidden-xs hidden-sm">Avg Cost</th>
+                    <th class="hidden-xs hidden-sm">Last</th>
+                    <th>
+                        UPnL
+                        <span class="hidden-xs">(USD)</span>
+                    </th>
+                    <th>
+                        RPnL
+                        <span class="hidden-xs">(USD)</span>
+                    </th>
+                </tr>
+                <tr ng-repeat="position in alertsCtrl.position.positions | orderBy:'Cross'">
+                    <td>{{position.Cross}}</td>
+                    <td ng-class="[{'bg-success': position.PositionQuantity > 0}, {'bg-danger': position.PositionQuantity < 0}]">{{position.PositionQuantity / 1000 | number}}<span ng-show="position.PositionQuantity !== 0">K</span></td>
+                    <td class="hidden-xs hidden-sm"><span ng-show="position.AverageCost !== 0">{{alertsCtrl.formatRate(position.Cross, position.AverageCost)}}</span></td>
+                    <td class="hidden-xs hidden-sm">{{alertsCtrl.formatRate(position.Cross, position.MarketPrice)}}</td>
+                    <td ng-class="[{'bg-success': position.UnrealizedPnlUsd > 0}, {'bg-danger': position.UnrealizedPnlUsd < 0}]"><span ng-show="position.UnrealizedPnlUsd !== 0">{{position.UnrealizedPnlUsd | number:2}}</span></td>
+                    <td ng-class="[{'bg-success': alertsCtrl.getPnlForCross(position.Cross) > 0}, {'bg-danger': alertsCtrl.getPnlForCross(position.Cross) < 0}]">{{alertsCtrl.getPnlForCross(position.Cross) | number:2}}</td>
+                </tr>
+            </table>
+            <div class="panel-footer">
+                <p style="font-size: small; font-style: italic;">Last updated at {{alertsCtrl.position.timestamp | date:'dd/MM/yy HH:mm:ss'}}</p>
+            </div>
+            <p ng-show="executionsCtrl.latestPositions.length === 0">No open position</p>
+        </div>
+    </div>
+    <div class="col-lg-7 col-md-12 col-sm-12 col-xs-12">
+        <div ng-class="[{'panel panel-success': alertsCtrl.overallSystemStatus() === 'GREEN'}, {'panel panel-warning': alertsCtrl.overallSystemStatus() === 'YELLOW'}, {'panel panel-danger': alertsCtrl.overallSystemStatus() === 'RED'}]">
+            <div class="panel-heading">
+                <h4 class="pull-left">Systems <small>(Local system timezone)</small></h4>
+                <div class="pull-right hidden-xs">
+                    <form class="form-inline">
+                        <input type="text" class="form-control" placeholder="Filter" ng-model="filter.$" />
+                        <select class="form-control" ng-model="filter.Status">
+                            <option></option>
+                            <option>RED</option>
+                            <option>YELLOW</option>
+                            <option>GREEN</option>
+                        </select>
+                    </form>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <table class="table table-hover table-condensed">
+                <tr>
+                    <th></th>
+                    <th><div class="hidden-xs hidden-sm">Status</div></th>
+                    <th>Last HB</th>
+                    <th><div class="hidden-xs">Broker Conn</div></th>
+                    <th><div class="hidden-xs">Is Trading</div></th>
+                    <th><div class="hidden-xs">Start Time</div></th>
+                </tr>
+                <tr ng-repeat="system in alertsCtrl.systems | orderBy:'_id' | filter:filter:strict"
+                    ng-class="[{'bg-success': system.OverallStatusLevel === 'GREEN'}, {'bg-warning': system.OverallStatusLevel === 'YELLOW'}, {'bg-danger': system.OverallStatusLevel === 'RED'}]"
+                    ng-click="alertsCtrl.showSystemDetails(system.Name)">
+                    <td><strong>{{system.Name}}</strong></td>
+                    <td><div class="hidden-sm">{{system.Message}}</div></td>
+                    <td>
+                        <div class="hidden-sm">{{system.LastHeardFrom | date:'dd/MM/yy HH:mm:ss'}}</div>
+                        <div class="visible-sm">{{system.LastHeardFrom | date:'HH:mm:ss'}}</div>
+                    </td>
+                    <td>
+                        <div class="hidden-xs">
+                            <div class="label label-success" ng-show="system.ConnectionStatus === 'GREEN'"><span class="glyphicon glyphicon-ok-sign"></span></div>
+                            <div class="label label-warning" ng-show="system.ConnectionStatus === 'YELLOW'"><span class="glyphicon glyphicon-warning-sign"></span></div>
+                            <div class="label label-danger" ng-show="system.ConnectionStatus === 'RED'"><span class="glyphicon glyphicon-remove-sign"></span></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="hidden-xs">
+                            <div class="label label-success" ng-show="system.TradingStatus === 'GREEN'"><span class="glyphicon glyphicon-ok-sign"></span></div>
+                            <div class="label label-warning" ng-show="system.TradingStatus === 'YELLOW'"><span class="glyphicon glyphicon-warning-sign"></span></div>
+                            <div class="label label-danger" ng-show="system.TradingStatus === 'RED'"><span class="glyphicon glyphicon-remove-sign"></span></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="hidden-xs">
+                            <div class="hidden-sm">{{system.StartTime | date:'dd/MM/yy HH:mm:ss'}}</div>
+                            <div class="visible-sm">{{system.StartTime | date:'HH:mm:ss'}}</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>
+                    Trades
+                    <span class="badge">{{alertsCtrl.executions.length}}</span>
+                </h4>
+            </div>
+            <table class="table table-hover" ng-hide="!alertsCtrl.executions || alertsCtrl.executions.length === 0">
+                <tr>
+                    <th>Exec Time (HKT)</th>
+                    <th>Side</th>
+                    <th>Quantity</th>
+                    <th>Pair</th>
+                    <th>Rate</th>
+                    <th>PnL (USD)</th>
+                    <th class="hidden-xs">PnL (pips)</th>
+                    <th class="hidden-xs hidden-sm">Duration</th>
+                </tr>
+                <tr ng-repeat="execution in alertsCtrl.executions | orderBy:'-ExecutionTime' track by execution.ExecutionId" ng-click="alertsCtrl.showTradeDetails(execution.ExecutionId)">
+                    <td>{{execution.ExecutionTime | date:'HH:mm:ss'}}</td>
+                    <td>
+                        <div class="hidden-xs">{{execution.Side}}</div>
+                        <div class="visible-xs">{{alertsCtrl.shortenSide(execution.Side)}}</div>
+                    </td>
+                    <td>{{execution.Quantity / 1000}}K</td>
+                    <td>
+                        <div class="hidden-xs">{{execution.Cross}}</div>
+                        <div class="visible-xs">{{alertsCtrl.shortenCross(execution.Cross)}}</div>
+                    </td>
+                    <td>{{alertsCtrl.formatRate(execution.Cross, execution.Price)}}</td>
+                    <td ng-class="[{'bg-success': execution.RealizedPnlUsd > 0}, {'bg-danger': execution.RealizedPnlUsd < 0}]">{{execution.RealizedPnlUsd | number:2}}</td>
+                    <td ng-class="[{'hidden-xs bg-success': execution.RealizedPnlPips > 0}, {'hidden-xs bg-danger': execution.RealizedPnlPips < 0}]">{{execution.RealizedPnlPips | number:1}}</td>
+                    <td class="hidden-xs hidden-sm">{{execution.TradeDuration}}</td>
+                </tr>
+            </table>
+            <div class="panel-body" ng-show="!alertsCtrl.executions || alertsCtrl.executions.length == 0">
+                <p>No trade today</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="height:44px">
+                <div class="align-left">
+                    Open Alerts
+                    <span class="badge">{{alertsCtrl.openAlerts.length}}</span>
+                </div>
+                <div class="align-right"><button class="btn btn-warning btn-xs" ng-click="alertsCtrl.closeAllOpenAlerts()" ng-hide="alertsCtrl.openAlerts.length == 0">Close All</button></div>
+            </div>
+            <div class="panel-body">
+                <uib-alert ng-repeat="alert in alertsCtrl.openAlerts" type="{{alert.type}}" close="alertsCtrl.closeAlert($index)">
+                    <a class="alert alert-link-light" ng-click="alertsCtrl.showOpenAlertDetails($index)">
+                        <span style="font-weight: bold">{{alert.Timestamp | date:'dd/MM/yy HH:mm:ss'}} - [{{alert.Level}}] {{alert.Source}}</span> : {{alert.Subject}}
+                    </a>
+                </uib-alert>
+                <p ng-show="alertsCtrl.openAlerts.length == 0">No open alert</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="height:44px">
+                <div class="align-left">Alerts Closed Today</div>
+                <div class="align-right"><button ng-hide="alertsCtrl.alertsClosedToday.length == 0" class="btn btn-default btn-xs" ng-click="alertsCtrl.doCollapseAlertsClosedToday()">{{alertsCtrl.collapseAlertsClosedTodayButtonTitle}}</button></div>
+            </div>
+            <div class="panel-body">
+                <div collapse="alertsCtrl.collapseAlertsClosedToday">
+                    <uib-alert ng-repeat="alert in alertsCtrl.alertsClosedToday" type="{{alert.type}}">
+                        <a href="#" class="alert alert-link-light" ng-click="alertsCtrl.showClosedAlertDetails($index)">
+                            <span style="font-weight: bold">{{alert.Timestamp | date:'dd/MM/yy HH:mm:ss'}} - [{{alert.Level}}] {{alert.Source}}</span> : {{alert.Subject}} <span style="font-style:italic; font-size:smaller">(Closed at {{alert.ClosedTimestamp | date:'dd/MM/yy HH:mm:ss'}})</span>
+                        </a>
+                    </uib-alert>
+                </div>
+                <p ng-show="alertsCtrl.alertsClosedToday.length == 0">No closed alert</p>
+            </div>
+        </div>
+    </div>
+</div>

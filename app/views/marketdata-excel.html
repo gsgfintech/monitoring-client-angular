@@ -1,0 +1,94 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Filter</h4>
+                </div>
+                <div class="panel-body">
+                    <form name="filterform" class="form-horizontal" ng-submit="marketDataExcelCtrl.loadData()">
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label for="cross" class="col-sm-6 col-md-4 control-label">Cross:</label>
+                                <div class="col-sm-6 col-md-8">
+                                    <select name="cross" class="form-control" ng-model="marketDataExcelCtrl.cross" required>
+                                        <option ng-repeat="cross in marketDataExcelCtrl.crosses">{{cross}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label for="start-date" class="col-sm-6 col-md-4 control-label">Start Date:</label>
+                                <div class="col-sm-6 col-md-8">
+                                    <input id="start-date" type="date" class="form-control" ng-model="marketDataExcelCtrl.lowerBoundDate" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="start-time" class="col-sm-6 col-md-4 control-label">Start Time:</label>
+                                <div class="col-sm-6 col-md-8">
+                                    <input id="start-time" class="form-control" type="time" ng-model="marketDataExcelCtrl.lowerBoundTime" step="60" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label for="end-date" class="col-sm-6 col-md-4 control-label">End Date:</label>
+                                <div class="col-sm-6 col-md-8">
+                                    <input id="end-date" type="date" class="form-control" ng-model="marketDataExcelCtrl.upperBoundDate" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="end-time" class="col-sm-6 col-md-4 control-label">End Time:</label>
+                                <div class="col-sm-6 col-md-8">
+                                    <input id="end-time" class="form-control" type="time" ng-model="marketDataExcelCtrl.upperBoundTime" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <button type="submit" class="btn btn-primary" ng-disabled="filterform.$invalid || marketDataExcelCtrl.loading">Load Data</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="marketDataExcelCtrl.loading">
+        <div class="col-sm-4 col-md-3">
+            <p><div us-spinner>Loading... </div></p>
+        </div>
+    </div>
+    <div class="row" ng-hide="marketDataExcelCtrl.loading || !marketDataExcelCtrl.ticks">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="panel-title">Ticks</span>
+                </div>
+                <div class="panel-body">
+                    <p><strong>Total:</strong> {{marketDataExcelCtrl.ticksCount | number}} ticks (showing the first {{marketDataExcelCtrl.ticks.length | number}} items)</p>
+                    <button type="button" class="btn btn-primary" ng-click="marketDataExcelCtrl.exportToExcel()" ng-disabled="marketDataExcelCtrl.downloading">Export to Excel</button>
+                </div>
+                <table class="table table-condensed table-striped">
+                    <tr>
+                        <th>Timestamp ({{marketDataExcelCtrl.lowerBoundTime | date:'Z'}})</th>
+                        <th>Cross</th>
+                        <th>Tick Type</th>
+                        <th>Price</th>
+                        <th>Return</th>
+                        <th>Size</th>
+                    </tr>
+                    <tr ng-repeat="tick in marketDataExcelCtrl.ticks">
+                        <td>{{tick.Timestamp | date:'dd/MM/yy HH:mm:ss.sss'}}</td>
+                        <td>{{tick.Cross}}</td>
+                        <td>{{tick.TickType}}</td>
+                        <td>{{tick.Price | number:5}}</td>
+                        <td>{{tick.Return | number:5}}</td>
+                        <td>{{tick.Size | number}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

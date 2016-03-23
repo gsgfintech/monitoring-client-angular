@@ -1,0 +1,224 @@
+﻿<uib-accordion close-others="false">
+    <uib-accordion-group ng-repeat="tradeEngine in tradeEngineCtrl.tradeEngines | orderBy:'Name' track by tradeEngine.Name" is-open="$first">
+        <uib-accordion-heading>
+            <div style="height:20px">
+                <div class="align-left">{{tradeEngine.Name}}</div>
+                <div class="align-right" ng-show="tradeEngine.status.OverallStatusLevel">
+                    <div style="display:inline-block" class="label label-success" ng-show="tradeEngine.status.OverallStatusLevel === 'GREEN'"><span class="glyphicon glyphicon-ok-sign"></span></div>
+                    <div style="display:inline-block" class="label label-warning" ng-show="tradeEngine.status.OverallStatusLevel === 'YELLOW'"><span class="glyphicon glyphicon-warning-sign"></span></div>
+                    <div style="display:inline-block" class="label label-danger" ng-show="tradeEngine.status.OverallStatusLevel === 'RED'"><span class="glyphicon glyphicon-remove-sign"></span></div>
+
+                    <div ng-show="tradeEngine.status.ConnectionStatus" style="display:inline-block" ng-class="[{'label label-success': tradeEngine.status.ConnectionStatus === 'GREEN'}, {'label label-warning': tradeEngine.status.ConnectionStatus === 'YELLOW'}, {'label label-danger': tradeEngine.status.ConnectionStatus === 'RED'}]">{{tradeEngineCtrl.formatConnectedToIBStatus(tradeEngine.status.ConnectionStatus)}}</div>
+                    <div ng-show="tradeEngine.status.TradingStatus" style="display:inline-block" ng-class="[{'label label-success': tradeEngine.status.TradingStatus === 'GREEN'}, {'label label-warning': tradeEngine.status.TradingStatus === 'YELLOW'}, {'label label-danger': tradeEngine.status.TradingStatus === 'RED'}]">{{tradeEngineCtrl.formatTradingStatus(tradeEngine.status.TradingStatus)}}</div>
+                </div>
+            </div>
+        </uib-accordion-heading>
+        <div class="panel-body">
+            <div class="row">
+                <div class="btn-group">
+                    <button type="button" ng-click="tradeEngineCtrl.startTradeEngine(tradeEngine.Name)" class="btn btn-success">Start</button>
+                    <button type="button" ng-click="tradeEngineCtrl.stopTradeEngine(tradeEngine.Name)" class="btn btn-danger">Stop</button>
+                    <button type="button" ng-click="tradeEngineCtrl.restartTradeEngine(tradeEngine.Name)" class="btn btn-danger">Restart</button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" ng-click="tradeEngineCtrl.startTradingTradeEngine(tradeEngine.Name)" class="btn btn-success">Start Trading</button>
+                    <button type="button" ng-click="tradeEngineCtrl.stopTradingTradeEngine(tradeEngine.Name)" class="btn btn-danger">Stop Trading</button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-danger" ng-click="tradeEngineCtrl.cancelAllOrders(tradeEngine.Name)">Cancel All Orders</button>
+                    <button type="button" class="btn btn-danger" ng-click="tradeEngineCtrl.closeAllPositions(tradeEngine.Name)">Close All Positions</button>
+                </div>
+                <button type="button" class="btn btn-default" ng-click="tradeEngineCtrl.editConfig(tradeEngine)">Edit Config</button>
+            </div>
+            <div class="row">
+                <h3>Broker Settings</h3>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Market Data Broker Client</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label>Name</label>
+                                </div>
+                                <div class="col-sm-4 text-overflow">
+                                    {{tradeEngine.MarketDataBrokerClient.Name}}
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Number</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    {{tradeEngine.MarketDataBrokerClient.ClientNumber}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label>Host</label>
+                                </div>
+                                <div class="col-sm-4 text-overflow">
+                                    {{tradeEngine.MarketDataBrokerClient.Host}}
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Port</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    {{tradeEngine.MarketDataBrokerClient.Port}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label>Account</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    {{tradeEngine.MarketDataBrokerClient.TradingAccount}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Trading Broker Client</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label>Name</label>
+                                </div>
+                                <div class="col-sm-4 text-overflow">
+                                    {{tradeEngine.TradingBrokerClient.Name}}
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Number</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    {{tradeEngine.TradingBrokerClient.ClientNumber}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label>Host</label>
+                                </div>
+                                <div class="col-sm-4 text-overflow">
+                                    {{tradeEngine.TradingBrokerClient.Host}}
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Port</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    {{tradeEngine.TradingBrokerClient.Port}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label>Account</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    {{tradeEngine.TradingBrokerClient.TradingAccount}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <h3>Strats Settings</h3>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Strategies</h4>
+                        </div>
+                        <table class="table table-hover" ng-hide="!tradeEngine.Strats || tradeEngine.Strats.length === 0">
+                            <tr>
+                                <th>Name</th>
+                                <th>Version</th>
+                                <th>Active on {{tradeEngine.Name}}</th>
+                            </tr>
+                            <tr ng-repeat="strat in tradeEngine.Strats | orderBy:['Name','Version']">
+                                <td>{{strat.Name}}</td>
+                                <td>{{strat.Version}}</td>
+                                <td>
+                                    <div ng-click="tradeEngineCtrl.toggleStrat(strat.Active, tradeEngine.Name, strat.Name, strat.Version)">
+                                        <switch ng-model="strat.Active"></switch>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="panel-body" ng-show="!tradeEngine.Strats || tradeEngine.Strats.length === 0">
+                            <p>No strategy</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <h3>Other Settings</h3>
+            </div>
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Controller</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label>Controller</label>
+                            </div>
+                            <div class="col-sm-4">
+                                {{tradeEngine.ControllerEndpoint}}
+                            </div>
+                            <div class="col-sm-2">
+                                <label>Log MD Ticks</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="checkbox" ng-model="tradeEngine.LogMarketDataTicks" disabled />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label>Converter Service</label>
+                            </div>
+                            <div class="col-sm-4">
+                                {{tradeEngine.ConverterServiceEndpoint}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Monitoring</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label>Monitoring</label>
+                            </div>
+                            <div class="col-sm-4">
+                                {{tradeEngine.AlertingEndpoint}}
+                            </div>
+                            <div class="col-sm-2">
+                                <label>Pinger Service Port</label>
+                            </div>
+                            <div class="col-sm-4">
+                                {{tradeEngine.PingerServicePort}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label>Slack Webhook</label>
+                            </div>
+                            <div class="col-sm-10 text-overflow">
+                                {{tradeEngine.SlackWebHook}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </uib-accordion-group>
+</uib-accordion>

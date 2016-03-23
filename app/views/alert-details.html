@@ -1,0 +1,36 @@
+<div>
+    <div class="modal-header">
+        <h3 class="modal-title">Alert Details</h3>
+    </div>
+    <div class="modal-body">
+        <table>
+            <tr>
+                <td style="padding-right:10px; font-weight:bold">Opened:</td>
+                <td>{{alertDetailsCtrl.alert.Timestamp | date:'dd/MM/yy HH:mm:ss'}}</td>
+            </tr>
+            <tr ng-hide="!alertDetailsCtrl.alert.ClosedTimestamp">
+                <td style="padding-right:10px; font-weight:bold">Closed:</td>
+                <td>{{alertDetailsCtrl.alert.ClosedTimestamp | date:'dd/MM/yy HH:mm:ss'}}</td>
+            </tr>
+            <tr>
+                <td style="padding-right:10px; font-weight:bold">Source:</td>
+                <td>{{alertDetailsCtrl.alert.Source}}</td>
+            </tr>
+            <tr>
+                <td style="padding-right:10px; font-weight:bold">Level:</td>
+                <td>{{alertDetailsCtrl.alert.Level}}</td>
+            </tr>
+            <tr>
+                <td style="padding-right:10px; font-weight:bold; vertical-align:top">Headline:</td>
+                <td>{{alertDetailsCtrl.alert.Subject}}</td>
+            </tr>
+            <tr>
+                <td style="padding-right:10px; font-weight:bold; vertical-align:top">Content:</td>
+                <td>{{alertDetailsCtrl.alert.Body}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="alertDetailsCtrl.close()">Close</button>
+    </div>
+</div>

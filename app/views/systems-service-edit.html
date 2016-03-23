@@ -1,0 +1,31 @@
+<div>
+    <div class="modal-header">
+        <h3 class="modal-title">{{systemsServiceEditCtrl.config.Name}}</h3>
+    </div>
+    <div class="modal-body">
+        <form name="configForm" class="form-horizontal">
+            <uib-accordion close-others="false">
+                <uib-accordion-group heading="Other Settings">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="monitoring-endpoint" class="col-sm-2">Monitoring Endpoint</label>
+                            <div class="col-sm-10">
+                                <input id="monitoring-endpoint" class="form-control" type="text" ng-model="systemsServiceEditCtrl.config.MonitoringEndpoint" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pinger-service-port" class="col-sm-2">Pinger Service Port</label>
+                            <div class="col-sm-10">
+                                <input id="pinger-service-port" class="form-control" type="number" ng-model="systemsServiceEditCtrl.config.PingerServicePort" />
+                            </div>
+                        </div>
+                    </div>
+                </uib-accordion-group>
+            </uib-accordion>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-disabled="configForm.$pristine" ng-click="systemsServiceEditCtrl.submit()">OK</button>
+        <button class="btn btn-warning" ng-click="systemsServiceEditCtrl.cancel()">Cancel</button>
+    </div>
+</div>

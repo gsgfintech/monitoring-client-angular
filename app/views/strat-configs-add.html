@@ -1,0 +1,50 @@
+<div>
+    <div class="modal-header">
+        <h3 class="modal-title">New Strat Config</h3>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <ul>
+                    <li>Enter number for integers</li>
+                    <li>Enter number with decimals for double</li>
+                    <li>Enter "true" or "false" for booleans</li>
+                    <li>Other fields will be interpreted as text</li>
+                </ul>
+            </div>
+        </div>
+        <form name="configForm" class="form-horizontal">
+            <div ng-repeat="(key, value) in stratConfigsAddCtrl.config | orderBy:'key'" class="form-group">
+                <div class="col-sm-3 col-md-3">
+                    <label for="{{key}}">{{key}}</label>
+                </div>
+                <div class="col-sm-8 col-md-8">
+                    <input name="{{key}}" type="text" class="form-control" ng-model="stratConfigsAddCtrl.config[key]" ng-disabled="key === 'StratName' || key === 'StratVersion' || key === 'ConfigVersion'" required />
+                </div>
+                <div class="col-sm-1 col-md-1" ng-hide="key === 'StratName' || key === 'StratVersion' || key === 'ConfigVersion'">
+                    <button class="btn btn-xs btn-danger" ng-click="stratConfigsAddCtrl.deleteField(key)"><span class="glyphicon glyphicon-minus-sign"></span></button>
+                </div>
+            </div>
+        </form>
+        <div class="row" ng-hide="stratConfigsAddCtrl.showAddForm">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <button type="button" class="btn btn-success" ng-click="stratConfigsAddCtrl.showAddForm = !stratConfigsAddCtrl.showAddForm"><span class="glyphicon glyphicon-plus-sign"></span> Add Field</button>
+            </div>
+        </div>
+        <div class="row" ng-show="stratConfigsAddCtrl.showAddForm">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <form name="fieldAddForm" class="form-inline" ng-submit="stratConfigsAddCtrl.addField()">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Key" ng-model="stratConfigsAddCtrl.newFieldKey" required />
+                    </div>
+                    <button type="submit" ng-disabled="fieldAddForm.$invalid" class="btn btn-primary">Add Field</button>
+                    <button type="button" ng-click="stratConfigsAddCtrl.clearAddForm()" class="btn btn-danger">Cancel</button>
+                </form>
+            </div>
+        </div>
+  </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="stratConfigsAddCtrl.submit()">Insert</button>
+        <button class="btn btn-default" ng-click="stratConfigsAddCtrl.cancel()">Cancel</button>
+    </div>
+</div>

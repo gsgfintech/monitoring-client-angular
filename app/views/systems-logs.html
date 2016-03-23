@@ -1,0 +1,59 @@
+﻿<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>System</h4>
+            </div>
+            <div class="panel-body">
+                <form name="filterform" class="form-horizontal" ng-submit="systemsLogsCtrl.startLoadData()">
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label for="system" class="col-sm-6 col-md-4 control-label">System:</label>
+                            <div class="col-sm-6 col-md-8">
+                                <select name="system" class="form-control" ng-model="systemsLogsCtrl.systemName" required>
+                                    <option ng-repeat="system in systemsLogsCtrl.systemNames">{{system}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-primary" ng-disabled="filterform.$invalid || systemsLogsCtrl.loading">Load Data</button>
+                            <button type="button" class="btn btn-default" ng-disabled="!systemsLogsCtrl.loading || systemsLogsCtrl.isPaused" ng-click="systemsLogsCtrl.pauseLoadData()">Pause <span class="glyphicon glyphicon-pause"></span></button>
+                            <button type="button" class="btn btn-default" ng-disabled="!systemsLogsCtrl.loading || !systemsLogsCtrl.isPaused" ng-click="systemsLogsCtrl.resumeLoadData()">Resume <span class="glyphicon glyphicon-play"></span></button>
+                            <button type="button" class="btn btn-default" ng-disabled="!systemsLogsCtrl.loading" ng-click="systemsLogsCtrl.stopLoadData()">Stop <span class="glyphicon glyphicon-stop"></span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" ng-hide="!systemsLogsCtrl.logEntries">
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="pull-left">Logs <small>(Local system timezone)</small></h4>
+                <div class="pull-right">
+                    <form class="form-inline">
+                        <input type="text" class="form-control" placeholder="Filter" ng-model="logFilter" />
+                        <select class="form-control" ng-model="logFilter">
+                            <option></option>
+                            <option>FATAL</option>
+                            <option>ERROR</option>
+                            <option>WARN</option>
+                            <option>INFO</option>
+                            <option>DEBUG</option>
+                        </select>
+                    </form>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-body" style="height:800px; overflow:scroll">
+                <samp ng-repeat="entry in systemsLogsCtrl.logEntries | filter:logFilter:strict track by $index" class="text-nowrap">
+                    <small ng-class="[{'text-danger': entry.indexOf(' FATAL ') > -1}, {'text-danger': entry.indexOf(' ERROR ') > -1}, {'text-warning': entry.indexOf(' WARN ') > -1}]">{{entry}}</small><br />
+                </samp>
+            </div>
+        </div>
+    </div>
+</div>

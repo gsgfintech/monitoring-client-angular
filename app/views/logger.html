@@ -1,0 +1,149 @@
+<uib-accordion close-others="false">
+    <uib-accordion-group ng-repeat="logger in loggerCtrl.loggers | orderBy:'Name'">
+        <uib-accordion-heading>
+            <div style="height:20px">
+                <div class="align-left">{{logger.Name}}</div>
+                <div class="align-right">
+                    <div ng-show="logger.status.Status" style="display:inline-block" ng-class="[{'label label-success': logger.status.Status == 'GREEN'}, {'label label-warning': logger.status.Status == 'YELLOW'}, {'label label-danger': logger.status.Status == 'RED'}]">{{logger.status.Status}}</div>
+                    <div ng-show="logger.status.Status" style="display:inline-block" ng-class="[{'label label-success': logger.status.IsConnectedToIB}, {'label label-danger': !logger.status.IsConnectedToIB}]">{{loggerCtrl.formatConnectedToIBStatus(logger.status.IsConnectedToIB)}}</div>
+                    <div ng-show="logger.crossesCount > -1" style="display:inline-block" ng-class="[{'label label-success': logger.crossesCount <= 10}, {'label label-danger': logger.crossesCount > 10}]">{{logger.crossesCount}} Pairs</div>
+                </div>
+            </div>
+        </uib-accordion-heading>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="btn-group">
+                        <button type="button" ng-click="loggerCtrl.startLogger(logger.Name)" class="btn btn-success">Start</button>
+                        <button type="button" ng-click="loggerCtrl.stopLogger(logger.Name)" class="btn btn-danger">Stop</button>
+                        <button type="button" ng-click="loggerCtrl.restartLogger(logger.Name)" class="btn btn-danger">Restart</button>
+                    </div>
+                    <button type="button" class="btn btn-default" ng-click="loggerCtrl.editConfig(logger)">Edit Config</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h3>Broker Settings</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label>Name</label>
+                                </div>
+                                <div class="col-sm-4 text-overflow">
+                                    {{logger.MarketDataBrokerClient.Name}}
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Number</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    {{logger.MarketDataBrokerClient.ClientNumber}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label>Host</label>
+                                </div>
+                                <div class="col-sm-4 text-overflow">
+                                    {{logger.MarketDataBrokerClient.Host}}
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Port</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    {{logger.MarketDataBrokerClient.Port}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h3>Record Settings</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label>Record MD Ticks</label>
+                                </div>
+                                <div class="col-sm-4 text-overflow">
+                                    <input type="checkbox" ng-model="logger.RecordMarketDataTicks" disabled />
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Record RT Bars</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="checkbox" ng-model="logger.RecordRTBars" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h3>Other Settings</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label>Controller Endpoint</label>
+                                </div>
+                                <div class="col-sm-4 text-overflow">
+                                    {{logger.ControllerEndpoint}}
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Pinger Port</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    {{logger.PingerServicePort}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label>Monitoring Endpoint</label>
+                                </div>
+                                <div class="col-sm-4 text-overflow">
+                                    {{logger.MonitoringEndpoint}}
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Log Ticks (in log file)</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="checkbox" ng-model="logger.LogTicks" disabled />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label>Slack Webhook</label>
+                                </div>
+                                <div class="col-sm-4 text-overflow">
+                                    {{logger.SlackWebhook}}
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>DB Batch Size</label>
+                                </div>
+                                <div class="col-sm-4 text-overflow">
+                                    {{logger.DBBatchSize}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </uib-accordion-group>
+</uib-accordion>

@@ -1,0 +1,35 @@
+<div class="row" ng-show="stratNewCresusCtrl.matrices.length === 0">
+    <div class="col-sm-12">
+        <p><em>Nothing to display</em></p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <uib-accordion close-others="false">
+            <uib-accordion-group ng-repeat="matrix in stratNewCresusCtrl.matrices | orderBy:['Strategy','Cross']" class="accordion-panel-body-no-padding">
+                <uib-accordion-heading style="padding-bottom:20px">
+                    {{matrix.Strategy}} - {{matrix.Cross}} <small>Last refreshed: {{matrix.Timestamp | date:'yyyy-MM-dd HH:mm Z'}}</small>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default btn-xs" ng-click="stratNewCresusCtrl.exportToExcel(matrix)"><span class="glyphicon glyphicon-download-alt"></span> Excel</button>
+                    </div>
+                </uib-accordion-heading>
+                <div class="strat-newcresus-table-wrapper">
+                    <table class="table table-condensed table-bordered">
+                        <thead>
+                            <tr>
+                                <th>dt <span class="glyphicon glyphicon-menu-right"></span><br /><span class="glyphicon glyphicon-menu-down"></span> t</th>
+                                <th class="small" ng-repeat="i in [matrix.MidAvgDiffsMatrix[0].length] | range">{{i}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in matrix.MidAvgDiffsMatrix">
+                                <th class="small">{{$index}}</th>
+                                <td class="smaller" ng-repeat="column in row track by $index">{{stratNewCresusCtrl.formatValue(column, matrix.Cross) | number:1}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </uib-accordion-group>
+        </uib-accordion>
+    </div>
+</div>

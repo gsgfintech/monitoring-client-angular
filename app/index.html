@@ -1,0 +1,194 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>FX Monitor</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/AngularJS-Toaster/toaster.css" />
+    <link rel="stylesheet" href="bower_components/angular-ui-switch/angular-ui-switch.css" />
+    <!-- endbower -->
+    <link rel="stylesheet" href="bower_components/amstock3/amcharts/plugins/export/export.css" />
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+</head>
+<body ng-app="monitorApp">
+    <!-- Add your site or application content here -->
+    <!--<div class="header">-->
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#/alerts">GSG Fintech</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="js-navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li ui-sref-active="active"><a ng-href="#/alerts">Alerts <span class="badge">{{menuCtrl.tabsSettings.alertsCount}}</span></a></li>
+                        <li ui-sref-active="active"><a ng-href="#/orders">Orders <span class="badge">{{menuCtrl.tabsSettings.ordersCount}}</span></a></li>
+                        <li ui-sref-active="active"><a ng-href="#/executions">Trades <span class="badge">{{menuCtrl.tabsSettings.tradesCount}}</span></a></li>
+                        <li ui-sref-active="active"><a ng-href="#/bulletins">News Bulletins <span class="badge">{{menuCtrl.tabsSettings.newsBulletinsCount}}</span></a></li>
+                        <li ui-sref-active="active" class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Market Data <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li ui-sref-active="active"><a ng-href="#/contracts">Contracts (IB)</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li ui-sref-active="active"><a ng-href="#/marketdata/graphs">Graphs</a></li>
+                                <li ui-sref-active="active"><a ng-href="#/marketdata/fxevents">FX Events</a></li>
+                                <li ui-sref-active="active"><a ng-href="#/marketdata/excel">Excel Export</a></li>
+                            </ul>
+                        </li>
+                        <li ui-sref-active="active" class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Systems <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li ui-sref-active="active"><a ng-href="#/tradeengines">Trade Engines <span class="badge">{{menuCtrl.tabsSettings.tradeEnginesCount}}</span></a></li>
+                                <li ui-sref-active="active"><a ng-href="#/loggers">DB Loggers <span class="badge">{{menuCtrl.tabsSettings.dbLoggersCount}}</span></a></li>
+                                <li role="separator" class="divider"></li>
+                                <li ui-sref-active="active"><a ng-href="#/systems/converter-service">Converter Services</a></li>
+                                <li ui-sref-active="active"><a ng-href="#/systems/service-control-service">Service Control Services</a></li>
+                                <li ui-sref-active="active"><a ng-href="#/systems/systems-service">System Services</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li ui-sref-active="active"><a ng-href="#/broker-client-configs">Broker Client Configs</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li ui-sref-active="active"><a ng-href="#/systems/logs">Logs</a></li>
+                            </ul>
+                        </li>
+                        <li ui-sref-active="active" class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Strats <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li ui-sref-active="active"><a ng-href="#/strats">Strats</a></li>
+                                <li ui-sref-active="active"><a ng-href="#/strat/configs">Configurations</a></li>
+                                <li ui-sref-active="active"><a ng-href="#/strat/datapoints">Data Export</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li ui-sref-active="active"><a ng-href="#/strat/newcresus">New Cresus</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div>
+        </nav>
+    <!--</div>-->
+
+    <div class="container">
+        <div ng-view=""></div>
+        <toaster-container toaster-options="{'close-button':true, 'animation-class': 'toast-top-right'}"></toaster-container>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <p><span class="glyphicon glyphicon-copyright-mark"></span> 2016 GSG Limited</p>
+        </div>
+    </div>
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/spin.js/spin.js"></script>
+    <script src="bower_components/angular-spinner/angular-spinner.js"></script>
+    <script src="bower_components/signalr/jquery.signalR.js"></script>
+    <script src="bower_components/angular-signalr-hub/signalr-hub.js"></script>
+    <script src="bower_components/AngularJS-Toaster/toaster.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/ng-range-filter/index.js"></script>
+    <script src="bower_components/angular-ui-router-tabs/src/ui-router-tabs.js"></script>
+    <script src="bower_components/blob-polyfill/Blob.js"></script>
+    <script src="bower_components/file-saver.js/FileSaver.js"></script>
+    <script src="bower_components/angular-file-saver/dist/angular-file-saver.bundle.js"></script>
+    <script src="bower_components/angular-ui-switch/angular-ui-switch.js"></script>
+    <script src="bower_components/amstock3/amcharts/amstock.js"></script>
+    <!-- endbower -->
+    <script src="bower_components/amstock3/amcharts/amcharts.js"></script>
+    <script src="bower_components/amstock3/amcharts/serial.js"></script>
+    <script src="bower_components/amstock3/amcharts/plugins/dataloader/dataloader.js"></script>
+    <script src="bower_components/amstock3/amcharts/plugins/export/export.js"></script>
+    <script src="bower_components/amstock3/amcharts/themes/light.js"></script>
+    <!-- endbuild -->
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/services/executions-factory.js"></script>
+    <script src="scripts/services/marketdata-excel-factory.js"></script>
+    <script src="scripts/services/menu-factory.js"></script>
+    <script src="scripts/services/monitoring-app-hub-factory.js"></script>
+    <script src="scripts/services/orders-factory.js"></script>
+    <script src="scripts/services/popup-factory.js"></script>
+    <script src="scripts/services/positions-factory.js"></script>
+    <script src="scripts/services/strat-factory.js"></script>
+    <script src="scripts/services/strat-configs-factory.js"></script>
+    <script src="scripts/services/strat-datapoints-excel-factory.js"></script>
+    <script src="scripts/services/strat-datapoints-factory.js"></script>
+    <script src="scripts/services/strat-datapoints-stratnames-factory.js"></script>
+    <script src="scripts/services/systems-configs-factory.js"></script>
+    <script src="scripts/services/systems-logs-factory.js"></script>
+    <script src="scripts/services/systems-status-factory.js"></script>
+    <script src="scripts/controllers/account-details-controller.js"></script>
+    <script src="scripts/controllers/alert-details-controller.js"></script>
+    <script src="scripts/controllers/alerts-controller.js"></script>
+    <script src="scripts/controllers/contracts-controller.js"></script>
+    <script src="scripts/controllers/contracts-add-controller.js"></script>
+    <script src="scripts/controllers/execution-details-controller.js"></script>
+    <script src="scripts/controllers/executions-controller.js"></script>
+    <script src="scripts/controllers/graphs-controller.js"></script>
+    <script src="scripts/controllers/logger-controller.js"></script>
+    <script src="scripts/controllers/marketdata-excel-controller.js"></script>
+    <script src="scripts/controllers/menu-controller.js"></script>
+    <script src="scripts/controllers/newsbulletin-controller.js"></script>
+    <script src="scripts/controllers/order-details-controller.js"></script>
+    <script src="scripts/controllers/orders-controller.js"></script>
+    <script src="scripts/controllers/strat-configs-add-controller.js"></script>
+    <script src="scripts/controllers/strat-configs-controller.js"></script>
+    <script src="scripts/controllers/strat-configs-delete-controller.js"></script>
+    <script src="scripts/controllers/strat-datapoints-controller.js"></script>
+    <script src="scripts/controllers/strat-newcresus-controller.js"></script>
+    <script src="scripts/controllers/system-status-details-controller.js"></script>
+    <script src="scripts/controllers/systems-logs-controller.js"></script>
+    <script src="scripts/controllers/trade-engine-close-pos-confirm-controller.js"></script>
+    <script src="scripts/controllers/trade-engine-controller.js"></script>
+    <script src="scripts/controllers/trade-engine-cxl-orders-confirm-controller.js"></script>
+    <script src="scripts/controllers/trade-engine-edit-controller.js"></script>
+    <script src="scripts/controllers/strats-controller.js"></script>
+    <script src="scripts/controllers/strats-delete-controller.js"></script>
+    <script src="scripts/controllers/strats-edit-controller.js"></script>
+    <script src="scripts/controllers/strats-add-controller.js"></script>
+    <script src="scripts/services/trade-engines-service.js"></script>
+    <script src="scripts/controllers/action-confirm-popup-controller.js"></script>
+    <script src="scripts/services/dbloggers-service.js"></script>
+    <script src="scripts/services/systems-service.js"></script>
+    <script src="scripts/services/contracts-service.js"></script>
+    <script src="scripts/controllers/contracts-edit-controller.js"></script>
+    <script src="scripts/controllers/contracts-delete-controller.js"></script>
+    <script src="scripts/directives/amstock-charts-directive.js"></script>
+    <script src="scripts/services/market-data-factory.js"></script>
+    <script src="scripts/controllers/logger-edit-controller.js"></script>
+    <script src="scripts/services/newsbulletins-service.js"></script>
+    <script src="scripts/controllers/systems-services-controller.js"></script>
+    <script src="scripts/controllers/systems-service-edit-controller.js"></script>
+    <script src="scripts/controllers/converter-services-controller.js"></script>
+    <script src="scripts/controllers/converter-service-edit-controller.js"></script>
+    <script src="scripts/controllers/service-control-services-controller.js"></script>
+    <script src="scripts/controllers/service-control-service-edit-controller.js"></script>
+    <script src="scripts/controllers/fxevents-controller.js"></script>
+    <script src="scripts/services/fxevents-service.js"></script>
+    <!-- endbuild -->
+</body>
+</html>
