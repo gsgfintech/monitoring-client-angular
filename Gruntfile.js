@@ -425,6 +425,36 @@ module.exports = function (grunt) {
           cwd: '.',
           src: 'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*',
           dest: '<%= yeoman.dist %>'
+        }, {
+            expand: true,
+            cwd: '.',
+            src: 'bower_components/amstock3/amcharts/plugins/export/export.css',
+            dest: '<%= yeoman.dist %>'
+        }, {
+            expand: true,
+            cwd: '.',
+            src: 'bower_components/amstock3/amcharts/amcharts.js',
+            dest: '<%= yeoman.dist %>'
+        }, {
+            expand: true,
+            cwd: '.',
+            src: 'bower_components/amstock3/amcharts/serials.js',
+            dest: '<%= yeoman.dist %>'
+        }, {
+            expand: true,
+            cwd: '.',
+            src: 'bower_components/amstock3/amcharts/amstock.js',
+            dest: '<%= yeoman.dist %>'
+        }, {
+            expand: true,
+            cwd: '.',
+            src: 'bower_components/amstock3/amcharts/plugins/dataloader/dataloader.js',
+            dest: '<%= yeoman.dist %>'
+        }, {
+            expand: true,
+            cwd: '.',
+            src: 'bower_components/amstock3/amcharts/plugins/export/export.js',
+            dest: '<%= yeoman.dist %>'
         }]
       },
       styles: {
@@ -499,7 +529,7 @@ module.exports = function (grunt) {
     'concat',
     'ngAnnotate',
     'copy:dist',
-    'cdnify',
+    //'cdnify',
     'cssmin',
     'uglify',
     'filerev',

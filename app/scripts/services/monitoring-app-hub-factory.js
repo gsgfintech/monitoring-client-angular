@@ -316,8 +316,6 @@ angular.module('monitorApp')
 
             // Systems
             'systemStatusUpdateReceived': function (status) {
-                console.log('Received status update for', status.Name);
-
                 $rootScope.$broadcast('systemStatusUpdateReceivedEvent', status);
             },
             'systemStatusAttributeAcked': function (systemName, attributeName, ackedUntil) {

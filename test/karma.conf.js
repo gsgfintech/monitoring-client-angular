@@ -38,13 +38,11 @@ module.exports = function(config) {
       'bower_components/AngularJS-Toaster/toaster.js',
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'bower_components/angular-ui-router/release/angular-ui-router.js',
-      'bower_components/ng-range-filter/index.js',
       'bower_components/angular-ui-router-tabs/src/ui-router-tabs.js',
       'bower_components/blob-polyfill/Blob.js',
       'bower_components/file-saver.js/FileSaver.js',
       'bower_components/angular-file-saver/dist/angular-file-saver.bundle.js',
       'bower_components/angular-ui-switch/angular-ui-switch.js',
-      'bower_components/amstock3/amcharts/serial.js',
       'bower_components/amstock3/amcharts/amstock.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
