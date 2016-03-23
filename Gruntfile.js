@@ -428,11 +428,6 @@ module.exports = function (grunt) {
         }, {
             expand: true,
             cwd: '.',
-            src: 'bower_components/amstock3/amcharts/plugins/export/export.css',
-            dest: '<%= yeoman.dist %>'
-        }, {
-            expand: true,
-            cwd: '.',
             src: 'bower_components/amstock3/amcharts/amcharts.js',
             dest: '<%= yeoman.dist %>'
         }, {
@@ -448,12 +443,17 @@ module.exports = function (grunt) {
         }, {
             expand: true,
             cwd: '.',
-            src: 'bower_components/amstock3/amcharts/plugins/dataloader/dataloader.js',
+            src: 'bower_components/amstock3/amcharts/images/*',
             dest: '<%= yeoman.dist %>'
         }, {
             expand: true,
             cwd: '.',
-            src: 'bower_components/amstock3/amcharts/plugins/export/export.js',
+            src: 'bower_components/amstock3/amcharts/plugins/dataloader/*',
+            dest: '<%= yeoman.dist %>'
+        }, {
+            expand: true,
+            cwd: '.',
+            src: 'bower_components/amstock3/amcharts/plugins/export/**',
             dest: '<%= yeoman.dist %>'
         }]
       },
