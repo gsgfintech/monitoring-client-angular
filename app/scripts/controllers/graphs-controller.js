@@ -1,9 +1,11 @@
 ﻿'use strict';
 
 angular.module('monitorApp')
-.controller('GraphsCtrl', ['serverEnpoint', 'marketDataServiceEnpoint', function (serverEnpoint, marketDataServiceEnpoint) {
+.controller('GraphsCtrl', ['$stateParams', 'serverEnpoint', 'marketDataServiceEnpoint', function ($stateParams, serverEnpoint, marketDataServiceEnpoint) {
 
     var self = this;
+
+    self.cross = $stateParams.cross;
 
     self.graphParams = {
         crosses: ['AUDUSD', 'EURUSD', 'GBPUSD', 'NZDUSD', 'USDCAD', 'USDCHF', 'USDJPY'],

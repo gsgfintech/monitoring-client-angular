@@ -38,7 +38,6 @@ module.exports = function(config) {
       'bower_components/AngularJS-Toaster/toaster.js',
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'bower_components/angular-ui-router/release/angular-ui-router.js',
-      'bower_components/angular-ui-router-tabs/src/ui-router-tabs.js',
       'bower_components/blob-polyfill/Blob.js',
       'bower_components/file-saver.js/FileSaver.js',
       'bower_components/angular-file-saver/dist/angular-file-saver.bundle.js',
