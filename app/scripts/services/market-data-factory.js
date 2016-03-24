@@ -16,4 +16,9 @@ angular.module('monitorApp')
     return $resource(address, {
         crosses: 'crosses'
     });
+}])
+.factory('MarketDataCrossesService', ['$resource', 'marketDataServiceEnpoint', function ($resource, marketDataServiceEnpoint) {
+    var address = marketDataServiceEnpoint + 'api/marketdata/crosses';
+
+    return $resource(address);
 }]);

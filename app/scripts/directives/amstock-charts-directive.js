@@ -6,14 +6,15 @@ angular.module('monitorApp')
         template: '<div></div>',
         restrict: 'A',
         scope: {
-            params: '=',
             height: '@',
             width: '@'
         },
         link: function (scope, element) {
 
             function buildDataSets(params) {
-                var dataSets = [];
+                if (!params) {
+                    return [];
+                }
 
                 function postProcess(data) {
                     for (var x in data) {
@@ -30,44 +31,47 @@ angular.module('monitorApp')
                     return data;
                 }
 
-                for (var i = 0; i < params.crosses.length; i++) {
-                    var cross = params.crosses[i];
+                var cross = params.cross;
+                var duration = params.duration;
 
-                    dataSets.push({
-                        'title': cross,
-                        'fieldMappings': [
-                            { 'fromField': 'MidOpen', 'toField': 'open' },
-                            { 'fromField': 'MidHigh', 'toField': 'high' },
-                            { 'fromField': 'MidLow', 'toField': 'low' },
-                            { 'fromField': 'MidClose', 'toField': 'close' }
-                        ],
-                        'compared': false,
-                        'categoryField': 'Timestamp',
+                var dataSet = {
+                    'title': cross,
+                    'fieldMappings': [
+                        { 'fromField': 'MidOpen', 'toField': 'open' },
+                        { 'fromField': 'MidHigh', 'toField': 'high' },
+                        { 'fromField': 'MidLow', 'toField': 'low' },
+                        { 'fromField': 'MidClose', 'toField': 'close' }
+                    ],
+                    'compared': false,
+                    'categoryField': 'Timestamp',
 
-                        'dataLoader': {
-                            'url': params.marketDataEndpoint + 'api/marketdata/last/' + params.duration + '/' + cross,
-                            'format': 'json',
-                            'showCurtain': false,
-                            'showErrors': true,
-                            'async': true,
-                            'reload': 10,
-                        },
+                    'dataLoader': {
+                        'url': params.marketDataEndpoint + 'api/marketdata/last/' + duration + '/' + cross,
+                        'format': 'json',
+                        'showCurtain': false,
+                        'showErrors': true,
+                        'async': true,
+                        'reload': 10,
+                    },
 
-                        'eventDataLoader': {
-                            'url': params.tradesEndpoint + 'api/executionsweb/graph/last/' + params.duration + '/' + cross,
-                            'format': 'json',
-                            'showCurtain': false,
-                            'showErrors': true,
-                            'async': true,
-                            'postProcess': postProcess
-                        }
-                    });
-                }
+                    'eventDataLoader': {
+                        'url': params.tradesEndpoint + 'api/executionsweb/graph/last/' + duration + '/' + cross,
+                        'format': 'json',
+                        'showCurtain': false,
+                        'showErrors': true,
+                        'async': true,
+                        'postProcess': postProcess
+                    }
+                };
 
-                return dataSets;
+                return [dataSet];
             }
 
             function buildPeriodSelector(params) {
+                if (!params) {
+                    return null;
+                }
+
                 var duration = params.duration;
                 var oneTenth = Math.round(duration / 10);
                 var oneQuarter = Math.round(duration / 4);
@@ -102,10 +106,16 @@ angular.module('monitorApp')
                     label: duration + ' mins'
                 });
 
-                return { periods: periods };
+                return {
+                    inputFieldsEnabled: false,
+                    periods: periods,
+                    position: 'top',
+                };
             }
 
             function createStockChart(elemId, params) {
+                console.log('Rendering new stock chart for', params.cross);
+
                 AmCharts.makeChart(elemId, {
                     'type': 'stock',
                     'color': '#fff',
@@ -132,8 +142,6 @@ angular.module('monitorApp')
                                 'comparedGraphLineThickness': 2,
                                 'columnWidth': 0.7,
                                 'useDataSetColors': false,
-                                'comparable': true,
-                                'compareField': 'close',
                                 'showBalloon': false,
                                 'proCandlesticks': false
                             }],
@@ -149,9 +157,10 @@ angular.module('monitorApp')
                         'color': '#fff',
                         'plotAreaFillColors': '#333',
                         'plotAreaFillAlphas': 1,
-                        'marginLeft': 60,
+                        'marginLeft': 10,
                         'marginTop': 5,
-                        'marginBottom': 5
+                        'marginBottom': 5,
+                        'marginRight': 70
                     },
 
                     'chartScrollbarSettings': {
@@ -179,7 +188,8 @@ angular.module('monitorApp')
                         'gridAlpha': 1,
                         'inside': false,
                         'showLastLabel': true,
-                        'color': 'black'
+                        'color': 'black',
+                        'position': 'right'
                     },
 
                     'chartCursorSettings': {
@@ -199,13 +209,9 @@ angular.module('monitorApp')
                         'offsetY': 10
                     },
 
-                    'dataSetSelector': {
-                        'position': 'left',
-                        'selectText': 'Cross:'
-                    },
-
                     'export': {
-                        'enabled': true
+                        'enabled': true,
+                        'position': 'bottom-right'
                     },
 
                     'periodSelector': buildPeriodSelector(params)
@@ -245,7 +251,12 @@ angular.module('monitorApp')
                 'width': width
             });
 
-            createStockChart(id, scope.params);
+            // Event Handlers
+            scope.$on('amStockCharts.canRender', function (event, params) {
+                console.log('Received event', event.name);
+
+                createStockChart(id, params);
+            });
         }
     };
 }]);
