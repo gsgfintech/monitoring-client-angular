@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('monitorApp')
-.controller('AlertsCtrl', ['$scope', '$rootScope', '$uibModal', '$interval', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'PositionsService', 'SystemsStatusService', function ($scope, $rootScope, $uibModal, $interval, MonitoringAppService, ExecutionsService, ExecutionDetailsService, PositionsService, SystemsStatusService) {
+.controller('AlertsCtrl', ['$scope', '$rootScope', '$uibModal', '$interval', 'AlertsCloseService', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'PositionsService', 'SystemsStatusService', function ($scope, $rootScope, $uibModal, $interval, AlertsCloseService, MonitoringAppService, ExecutionsService, ExecutionDetailsService, PositionsService, SystemsStatusService) {
 
     var self = this;
 
@@ -110,7 +110,15 @@ angular.module('monitorApp')
     };
 
     self.closeAllOpenAlerts = function () {
-        MonitoringAppService.closeAllOpenAlerts();
+        var idsToClose = self.openAlerts.map(function (alert) {
+            return alert.AlertId;
+        });
+
+        AlertsCloseService.save({
+            ids: idsToClose
+        }, function (result) {
+            console.log(result);
+        });
     };
 
     self.showOpenAlertDetails = function (index) {

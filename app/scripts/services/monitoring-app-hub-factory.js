@@ -354,7 +354,7 @@ angular.module('monitorApp')
             'requestAccount',
 
             // Alerts
-            'requestAllOpenAlerts', 'requestAlertsClosedToday', 'requestCloseAlert', 'requestCloseAllOpenAlerts', 'requestAlertById',
+            'requestAllOpenAlerts', 'requestAlertsClosedToday', 'requestAlertById',
 
             // Crosses
             'requestSaveContract',
@@ -420,12 +420,6 @@ angular.module('monitorApp')
         hub.requestAlertsClosedToday();
     };
 
-    var closeAlert = function (index) {
-        console.log('Requesting to close alert ' + index);
-
-        hub.requestCloseAlert(allOpenAlerts[index].AlertId);
-    };
-
     var proceedToCloseAlert = function (alertId) {
         var index = findOpenAlertIndex(alertId);
 
@@ -443,12 +437,6 @@ angular.module('monitorApp')
 
             $rootScope.$apply();
         }
-    };
-
-    var closeAllOpenAlerts = function () {
-        console.log('Requesting to close all open alerts');
-
-        hub.requestCloseAllOpenAlerts();
     };
 
     // Crosses
@@ -552,8 +540,6 @@ angular.module('monitorApp')
         getAlertsClosedToday: function () {
             return alertsClosedToday;
         },
-        closeAlert: closeAlert,
-        closeAllOpenAlerts: closeAllOpenAlerts,
 
         // Crosses
         validateLoggerForCross: validateLoggerForCross,
