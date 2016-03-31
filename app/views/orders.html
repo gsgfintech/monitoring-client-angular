@@ -22,7 +22,7 @@
                     <th class="hidden-sm">Time In Force</th>
                 </tr>
                 <tr ng-repeat="order in ordersCtrl.orders | filter:{status:'Submit'} | orderBy:'-PlacedTime'" ng-class="[{'warning': order.Status == 'PendingSubmit' || order.Status == 'PreSubmitted'}]" ng-click="ordersCtrl.showOrderDetails(order.PermanentID)">
-                    <td>{{order.OrderId}}</td>
+                    <td>{{order.OrderID}}</td>
                     <td>{{order.PlacedTime | date:'dd/MM/yy HH:mm:ss'}}</td>
                     <td>{{order.Strategy}}</td>
                     <td>{{order.Status}}</td>
@@ -84,7 +84,7 @@
                     <th class="hidden-sm">Time In Force</th>
                 </tr>
                 <tr ng-repeat="order in ordersCtrl.orders | filter:{Status:'!Submit'} | orderBy:'-PlacedTime'" ng-class="[{'success': order.Status == 'Filled'}, {'danger': order.Status == 'Cancelled' || order.Status == 'ApiCanceled'}]" ng-click="ordersCtrl.showOrderDetails(order.PermanentID)">
-                    <td>{{order.OrderId}}</td>
+                    <td>{{order.OrderID}}</td>
                     <td>{{order.PlacedTime | date:'dd/MM/yy HH:mm:ss'}}</td>
                     <td>{{order.Strategy}}</td>
                     <td>{{order.Status}}</td>
