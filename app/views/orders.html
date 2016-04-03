@@ -8,6 +8,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Placed Time ({{ordersCtrl.date | date:'Z'}})</th>
+                    <th>Last Update ({{ordersCtrl.date | date:'Z'}})</th>
                     <th>Strategy</th>
                     <th>Status</th>
                     <th>Type</th>
@@ -24,6 +25,7 @@
                 <tr ng-repeat="order in ordersCtrl.orders | filter:{status:'Submit'} | orderBy:'-PlacedTime'" ng-class="[{'warning': order.Status == 'PendingSubmit' || order.Status == 'PreSubmitted'}]" ng-click="ordersCtrl.showOrderDetails(order.PermanentID)">
                     <td>{{order.OrderID}}</td>
                     <td>{{order.PlacedTime | date:'dd/MM/yy HH:mm:ss'}}</td>
+                    <td>{{order.LastUpdateTime | date:'dd/MM/yy HH:mm:ss'}}</td>
                     <td>{{order.Strategy}}</td>
                     <td>{{order.Status}}</td>
                     <td>{{order.Type}}</td>
@@ -69,6 +71,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Placed Time ({{ordersCtrl.date | date:'Z'}})</th>
+                    <th>Last Update ({{ordersCtrl.date | date:'Z'}})</th>
                     <th>Strategy</th>
                     <th>Status</th>
                     <th>Type</th>
@@ -86,6 +89,7 @@
                 <tr ng-repeat="order in ordersCtrl.orders | filter:{Status:'!Submit'} | orderBy:'-PlacedTime'" ng-class="[{'success': order.Status == 'Filled'}, {'danger': order.Status == 'Cancelled' || order.Status == 'ApiCanceled'}]" ng-click="ordersCtrl.showOrderDetails(order.PermanentID)">
                     <td>{{order.OrderID}}</td>
                     <td>{{order.PlacedTime | date:'dd/MM/yy HH:mm:ss'}}</td>
+                    <td>{{order.LastUpdateTime | date:'dd/MM/yy HH:mm:ss'}}</td>
                     <td>{{order.Strategy}}</td>
                     <td>{{order.Status}}</td>
                     <td>{{order.Type}}</td>

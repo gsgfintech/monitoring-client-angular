@@ -98,6 +98,12 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="converter-endpoint" class="col-sm-2">Market Data Service</label>
+                            <div class="col-sm-10">
+                                <input id="converter-endpoint" class="form-control" type="text" ng-model="tradeEngineEditCtrl.config.MDServiceEndpoint" />
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="controller-logmdticks" class="col-sm-2">Log MD Ticks</label>
                             <div class="col-sm-10">
                                 <input id="controller-logmdticks" type="checkbox" ng-model="tradeEngineEditCtrl.config.LogMarketDataTicks" />
