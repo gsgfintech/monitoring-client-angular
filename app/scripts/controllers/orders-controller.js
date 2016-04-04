@@ -10,13 +10,29 @@ angular.module('monitorApp')
     self.orders = [];
     self.ordersCount = 0;
 
+    self.crosses = '';
+    self.crossFilter = '';
+
     self.downloading = false;
 
     self.getOrders = function () {
         OrdersService.query({ day: self.date.toISOString() }, function (orders) {
             self.orders = orders;
             MenuService.getTabsCounts().ordersCount = orders.length;
+
+            // Populate list of crosses
+            self.crosses = '';
+
+            for (var i = 0; i < orders.length; i++) {
+                if (self.crosses.indexOf(orders[i].Cross) < 0) {
+                    self.crosses = self.crosses + ',' + orders[i].Cross;
+                }
+            }
         });
+    };
+
+    self.listCrosses = function () {
+        return self.crosses.split(',');
     };
 
     self.showOrderDetails = function (permanentId) {

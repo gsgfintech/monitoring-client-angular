@@ -58,6 +58,15 @@
             <div class="panel-heading" style="padding-bottom:20px">
                 <span class="panel-title">Inactive Orders</span>
                 <div class="pull-right">
+                    <form class="form-inline">
+                        <div class="form-group-sm">
+                            <select class="form-control" ng-model="ordersCtrl.crossFilter">
+                                <option ng-repeat="cross in ordersCtrl.listCrosses()">{{cross}}</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="pull-right">
                     <form class="form-inline" ng-submit="ordersCtrl.getOrders()">
                         <div class="form-group-sm">
                             <input type="date" class="form-control" ng-model="ordersCtrl.date" />
@@ -86,7 +95,7 @@
                     <th class="hidden-sm">Slippage</th>
                     <th class="hidden-sm">Time In Force</th>
                 </tr>
-                <tr ng-repeat="order in ordersCtrl.orders | filter:{Status:'!Submit'} | orderBy:'-PlacedTime'" ng-class="[{'success': order.Status == 'Filled'}, {'danger': order.Status == 'Cancelled' || order.Status == 'ApiCanceled'}]" ng-click="ordersCtrl.showOrderDetails(order.PermanentID)">
+                <tr ng-repeat="order in ordersCtrl.orders | filter:{Status:'!Submit', Cross:ordersCtrl.crossFilter} | orderBy:'-PlacedTime'" ng-class="[{'success': order.Status == 'Filled'}, {'danger': order.Status == 'Cancelled' || order.Status == 'ApiCanceled'}]" ng-click="ordersCtrl.showOrderDetails(order.PermanentID)">
                     <td>{{order.OrderID}}</td>
                     <td>{{order.PlacedTime | date:'dd/MM/yy HH:mm:ss'}}</td>
                     <td>{{order.LastUpdateTime | date:'dd/MM/yy HH:mm:ss'}}</td>
@@ -95,7 +104,7 @@
                     <td>{{order.Type}}</td>
                     <td>{{order.Side}}</td>
                     <td>{{order.Quantity | number}}</td>
-                    <td>{{order.Pair}}</td>
+                    <td>{{order.Cross}}</td>
                     <td>{{order.FillPrice | number:5}}</td>
                     <td>{{order.LimitPrice | number:5}}</td>
                     <td>{{order.StopPrice | number:5}}</td>
