@@ -14,7 +14,6 @@ angular.module('monitorApp')
 
         var self = this;
 
-        self.loading = false;
         self.downloading = false;
 
         self.minDate = new Date(2015, 11, 1);
@@ -54,24 +53,6 @@ angular.module('monitorApp')
             }
         };
 
-        self.loadData = function () {
-            if (self.stratName.indexOf('NewCresusAlgo') > -1) { // NewCresusAlgo is handled separately: it will return matrices in an Excel workbook
-                self.exportToExcel();
-            }
-
-            self.loading = true;
-
-            computeStartAndEnd();
-
-            console.log('Loading data for', self.stratName, 'from', self.start, 'to', self.end, '(traded only:', self.tradedOnly, ')');
-
-            if (self.tradedOnly) {
-                StratDatapointsTradedService.get(getQueryParams(), dataLoadedCb);
-            } else {
-                StratDatapointsService.get(getQueryParams(), dataLoadedCb);
-            }
-        };
-
         self.formatTickType = function (numVal) {
             if (numVal === 1) {
                 return 'BID';
@@ -103,14 +84,6 @@ angular.module('monitorApp')
                 lowerBound: self.start,
                 upperBound: self.end
             };
-        }
-
-        function dataLoadedCb(result) {
-            console.log('Loaded', result.count, 'datapoints');
-            self.datapoints = result.sample;
-            self.datapointsCount = result.count;
-
-            self.loading = false;
         }
 
         function filedDownloadedCb(result) {

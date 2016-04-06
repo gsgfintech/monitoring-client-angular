@@ -6,7 +6,7 @@
                     <h4>Filter</h4>
                 </div>
                 <div class="panel-body">
-                    <form name="filterform" class="form-horizontal" ng-submit="stratDatapointsCtrl.loadData()">
+                    <form name="filterform" class="form-horizontal" ng-submit="stratDatapointsCtrl.exportToExcel()">
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 <label for="stratname" class="col-sm-6 col-md-4 control-label">Strategy:</label>
@@ -63,7 +63,7 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
-                                <button type="submit" class="btn btn-primary" ng-disabled="filterform.$invalid || stratDatapointsCtrl.loading">Load Data</button>
+                                <button type="submit" class="btn btn-primary" ng-disabled="filterform.$invalid || stratDatapointsCtrl.loading">Load Excel</button>
                             </div>
                         </div>
                     </form>
@@ -71,49 +71,9 @@
             </div>
         </div>
     </div>
-    <div class="row" ng-show="stratDatapointsCtrl.loading">
+    <div class="row" ng-show="stratDatapointsCtrl.downloading">
         <div class="col-sm-4 col-md-3">
-            <p><div us-spinner>Loading... </div></p>
-        </div>
-    </div>
-    <div class="row" ng-hide="stratDatapointsCtrl.loading || !stratDatapointsCtrl.datapoints">
-        <div class="col-sm-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4>Datapoints</h4>
-                </div>
-                <div class="panel-body">
-                    <p><strong>Total:</strong> {{stratDatapointsCtrl.datapointsCount}} datapoints (showing the first {{stratDatapointsCtrl.datapoints.length}} items)</p>
-                    <button type="button" class="btn btn-primary" ng-click="stratDatapointsCtrl.exportToExcel()" ng-hide="stratDatapointsCtrl.downloading" ng-disabled="stratDatapointsCtrl.downloading || stratDatapointsCtrl.datapoints.length === 0">Export to Excel</button>
-                    <i class="col-sm-4 col-md-3" ng-show="stratDatapointsCtrl.downloading"><span us-spinner>Generating Excel... </span></i>
-                </div>
-                <table class="table table-condensed table-striped" ng-hide="stratDatapointsCtrl.stratName.indexOf('NewCresus') > -1">
-                    <tr>
-                        <th>Timestamp</th>
-                        <th>Tick Type</th>
-                        <th>Bid</th>
-                        <th>Bid Min</th>
-                        <th>Bid Max</th>
-                        <th>Ask</th>
-                        <th>Ask Min</th>
-                        <th>Ask Max</th>
-                        <th>Spread</th>
-                        <th>Traded</th>
-                    </tr>
-                    <tr ng-repeat="datapoint in stratDatapointsCtrl.datapoints">
-                        <td>{{datapoint.Timestamp | date:'dd/MM/yy HH:mm:ss.sss'}}</td>
-                        <td>{{stratDatapointsCtrl.formatTickType(datapoint.TickType)}}</td>
-                        <td>{{datapoint.Bid | number:5}}</td>
-                        <td>{{datapoint.BidMin | number:5}}</td>
-                        <td>{{datapoint.BidMax | number:5}}</td>
-                        <td>{{datapoint.Ask | number:5}}</td>
-                        <td>{{datapoint.AskMin | number:5}}</td>
-                        <td>{{datapoint.AskMax | number:5}}</td>
-                        <td>{{datapoint.Spread | number:5}}</td>
-                        <td>{{datapoint.Traded}}</td>
-                    </tr>
-                </table>
-            </div>
+            <p><div us-spinner>Loading file... </div></p>
         </div>
     </div>
 </div>
