@@ -63,6 +63,16 @@ angular.module('monitorApp')
         return -1;
     }
 
+    self.formatRate = function (cross, rate) {
+        if (!rate) {
+            return null;
+        } else if (cross.indexOf('JPY') > -1) {
+            return rate.toFixed(3);
+        } else {
+            return rate.toFixed(5);
+        }
+    };
+
     self.showTradeDetails = function (id) {
         ExecutionDetailsService.get({ id: id }, function (response) {
             if (response) {

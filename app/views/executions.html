@@ -17,24 +17,18 @@
                             <tr>
                                 <th>Cross</th>
                                 <th>Quantity</th>
-                                <th>Market Value</th>
                                 <th>Average Cost</th>
                                 <th>Last</th>
                                 <th class="hidden-sm hidden-xs">PnL</th>
                                 <th>PnL (USD)</th>
-                                <th class="hidden-sm">PnL (pips)</th>
-                                <th class="hidden-sm">Duration</th>
                             </tr>
                             <tr ng-repeat="positionSecurity in position.PositionSecurities | orderBy:'Cross'">
                                 <td>{{positionSecurity.Cross}}</td>
-                                <td ng-class="[{'bg-success': positionSecurity.PositionQuantity > 0}, {'bg-danger': positionSecurity.PositionQuantity < 0}]">{{positionSecurity.PositionQuantity | number}}</td>
-                                <td>{{positionSecurity.MarketValue | number:2}}</td>
-                                <td>{{positionSecurity.AverageCost | number:5}}</td>
-                                <td>{{positionSecurity.MarketPrice | number:5}}</td>
+                                <td ng-class="[{'bg-success': positionSecurity.PositionQuantity > 0}, {'bg-danger': positionSecurity.PositionQuantity < 0}]">{{positionSecurity.PositionQuantity / 1000}}K</td>
+                                <td>{{executionsCtrl.formatRate(positionSecurity.Cross, positionSecurity.AverageCost)}}</td>
+                                <td>{{executionsCtrl.formatRate(positionSecurity.Cross, positionSecurity.MarketPrice)}}</td>
                                 <td ng-class="[{'hidden-sm hidden-xs bg-success': positionSecurity.RealizedPnL > 0}, {'hidden-sm hidden-xs bg-danger': positionSecurity.RealizedPnL < 0}]">{{positionSecurity.RealizedPnL | number:2}}</td>
                                 <td ng-class="[{'bg-success': positionSecurity.RealizedPnlUsd > 0}, {'bg-danger': positionSecurity.RealizedPnlUsd < 0}]">{{positionSecurity.RealizedPnlUsd | number:2}}</td>
-                                <td ng-class="[{'hidden-sm bg-success': execution.RealizedPnlPips > 0}, {'hidden-sm bg-danger': execution.RealizedPnlPips < 0}]">{{execution.RealizedPnlPips | number:1}}</td>
-                                <td class="hidden-sm">{{execution.TradeDuration}}</td>
                             </tr>
                         </table>
                         <div class="panel-footer">
@@ -69,16 +63,20 @@
                     <th>Pair</th>
                     <th>Rate</th>
                     <th>P&amp;L (USD)</th>
+                    <th class="hidden-sm">PnL (pips)</th>
+                    <th class="hidden-sm">Duration</th>
                     <th class="hidden-sm hidden-xs">Fees (USD)</th>
                 </tr>
                 <tr ng-repeat="execution in executionsCtrl.executions | orderBy:'-ExecutionTime' track by execution.ExecutionId" ng-click="executionsCtrl.showTradeDetails(execution.ExecutionId)">
                     <td>{{execution.ExecutionTime | date:'dd/MM/yy HH:mm:ss'}}</td>
                     <td>{{execution.Strategy}}</td>
                     <td>{{execution.Side}}</td>
-                    <td>{{execution.Quantity | number}}</td>
+                    <td>{{execution.Quantity / 1000}}K</td>
                     <td>{{execution.Cross}}</td>
-                    <td>{{execution.Price | number:5}}</td>
+                    <td>{{executionsCtrl.formatRate(execution.Cross, execution.Price)}}</td>
                     <td ng-class="[{'bg-success': execution.RealizedPnlUsd > 0}, {'bg-danger': execution.RealizedPnlUsd < 0}]">{{execution.RealizedPnlUsd | number:2}}</td>
+                    <td ng-class="[{'hidden-sm bg-success': execution.RealizedPnlPips > 0}, {'hidden-sm bg-danger': execution.RealizedPnlPips < 0}]">{{execution.RealizedPnlPips | number:1}}</td>
+                    <td class="hidden-sm">{{execution.TradeDuration}}</td>
                     <td class="hidden-sm hidden-xs">{{execution.CommissionUsd | number:2}}</td>
                 </tr>
             </table>

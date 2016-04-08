@@ -35,6 +35,16 @@ angular.module('monitorApp')
         return self.crosses.split(',');
     };
 
+    self.formatRate = function (cross, rate) {
+        if (!rate) {
+            return null;
+        } else if (cross.indexOf('JPY') > -1) {
+            return rate.toFixed(3);
+        } else {
+            return rate.toFixed(5);
+        }
+    };
+
     self.showOrderDetails = function (permanentId) {
         OrderDetailsService.get({ id: permanentId }, function (response) {
             if (response) {

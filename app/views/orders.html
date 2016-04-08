@@ -17,9 +17,6 @@
                     <th>Pair</th>
                     <th>Limit Price</th>
                     <th>Stop Price</th>
-                    <th class="hidden-sm">Last Bid</th>
-                    <th class="hidden-sm">Last Ask</th>
-                    <th class="hidden-sm">Slippage</th>
                     <th class="hidden-sm">Time In Force</th>
                 </tr>
                 <tr ng-repeat="order in ordersCtrl.orders | filter:{Status:'Submit'} | orderBy:'-PlacedTime'" ng-class="[{'warning': order.Status == 'PendingSubmit' || order.Status == 'PreSubmitted'}]" ng-click="ordersCtrl.showOrderDetails(order.PermanentID)">
@@ -30,19 +27,10 @@
                     <td>{{order.Status}}</td>
                     <td>{{order.Type}}</td>
                     <td>{{order.Side}}</td>
-                    <td>{{order.Quantity | number}}</td>
+                    <td>{{order.Quantity / 1000}}K</td>
                     <td>{{order.Cross}}</td>
-                    <td>{{order.LimitPrice | number:5}}</td>
-                    <td>{{order.StopPrice | number:5}}</td>
-                    <td class="hidden-sm">
-                        <div ng-show="order.Side === 'SELL'">{{order.LastBid}}</div>
-                    </td>
-                    <td class="hidden-sm">
-                        <div ng-show="order.Side === 'BUY'">{{order.LastAsk}}</div>
-                    </td>
-                    <td class="hidden-sm">
-                        <div ng-hide="order.Slippage == null">{{order.Slippage}} pips</div>
-                    </td>
+                    <td>{{ordersCtrl.formatRate(order.Cross, order.LimitPrice)}}</td>
+                    <td>{{ordersCtrl.formatRate(order.Cross, order.StopPrice)}}</td>
                     <td class="hidden-sm">{{order.TimeInForce}}</td>
                 </tr>
             </table>
@@ -103,11 +91,11 @@
                     <td>{{order.Status}}</td>
                     <td>{{order.Type}}</td>
                     <td>{{order.Side}}</td>
-                    <td>{{order.Quantity | number}}</td>
+                    <td>{{order.Quantity / 1000}}K</td>
                     <td>{{order.Cross}}</td>
-                    <td>{{order.FillPrice | number:5}}</td>
-                    <td>{{order.LimitPrice | number:5}}</td>
-                    <td>{{order.StopPrice | number:5}}</td>
+                    <td>{{ordersCtrl.formatRate(order.Cross, order.FillPrice)}}</td>
+                    <td>{{ordersCtrl.formatRate(order.Cross, order.LimitPrice)}}</td>
+                    <td>{{ordersCtrl.formatRate(order.Cross, order.StopPrice)}}</td>
                     <td class="hidden-sm">
                         <div ng-show="order.Side === 'SELL'">{{order.LastBid}}</div>
                     </td>
@@ -115,7 +103,7 @@
                         <div ng-show="order.Side === 'BUY'">{{order.LastAsk}}</div>
                     </td>
                     <td class="hidden-sm">
-                        <div ng-hide="order.Slippage == null">{{order.Slippage}} pips</div>
+                        <div ng-hide="order.Slippage == null || order.Type !== 'MARKET'">{{order.Slippage}} pips</div>
                     </td>
                     <td class="hidden-sm">{{order.TimeInForce}}</td>
                 </tr>
