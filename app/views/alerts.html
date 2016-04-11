@@ -160,7 +160,7 @@
                 <div class="align-right"><button class="btn btn-warning btn-xs" ng-click="alertsCtrl.closeAllOpenAlerts()" ng-hide="alertsCtrl.openAlerts.length == 0">Close All</button></div>
             </div>
             <div class="panel-body">
-                <uib-alert ng-repeat="alert in alertsCtrl.openAlerts" type="{{alert.type}}" close="alertsCtrl.closeAlert($index)">
+                <uib-alert ng-repeat="alert in alertsCtrl.openAlerts" type="{{alert.type}}" close="alertsCtrl.closeAlert(alert.AlertId)">
                     <a class="alert alert-link-light" ng-click="alertsCtrl.showOpenAlertDetails($index)">
                         <span style="font-weight: bold">{{alert.Timestamp | date:'dd/MM/yy HH:mm:ss'}} - [{{alert.Level}}] {{alert.Source}}</span> : {{alert.Subject}}
                     </a>

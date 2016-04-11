@@ -105,8 +105,16 @@ angular.module('monitorApp')
         }
     };
 
-    self.closeAlert = function (index) {
-        MonitoringAppService.closeAlert(index);
+    self.closeAlert = function (alertId) {
+        AlertsCloseService.save({
+            ids: [alertId]
+        }, function (result) {
+            if (result.success) {
+                console.log('Closed alert', alertId);
+            } else {
+                console.error('Failed to closed alert', alertId);
+            }
+        });
     };
 
     self.closeAllOpenAlerts = function () {
