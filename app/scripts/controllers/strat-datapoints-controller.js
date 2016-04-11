@@ -36,7 +36,7 @@ angular.module('monitorApp')
         self.start = null;
         self.end = null;
 
-        self.stratNames = StratDatapointsStratnameService.query();
+        self.stratNames = [];
         self.stratName = null;
 
         self.tradedOnly = false;
@@ -44,6 +44,33 @@ angular.module('monitorApp')
         self.datapoints = null;
         self.datapointsCount = 0;
         self.columnHeaders = null;
+
+        StratDatapointsStratnameService.query(function (stratNames) {
+            console.log('Received', stratNames.length, 'strats');
+
+            self.stratNames.splice(0, self.stratNames.length);
+
+            for (var i = 0; i < stratNames.length; i++) {
+                var shortStratName = stratNames[i].split('_')[0];
+                shortStratName = shortStratName.substring(0, shortStratName.length - 3);
+
+                if (!isStratNameAlreadyInList(shortStratName)) {
+                    self.stratNames.push(shortStratName + '_All');
+                }
+
+                self.stratNames.push(stratNames[i]);
+            }
+        });
+
+        function isStratNameAlreadyInList(stratName) {
+            for (var i = 0; i < self.stratNames.length; i++) {
+                if (self.stratNames[i].indexOf(stratName) > -1) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         self.open = function (bound) {
             if (bound === 'lowerDate') {
