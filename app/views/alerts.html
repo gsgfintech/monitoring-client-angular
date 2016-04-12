@@ -178,7 +178,7 @@
                 <div class="align-right"><button ng-hide="alertsCtrl.alertsClosedToday.length == 0" class="btn btn-default btn-xs" ng-click="alertsCtrl.doCollapseAlertsClosedToday()">{{alertsCtrl.collapseAlertsClosedTodayButtonTitle}}</button></div>
             </div>
             <div class="panel-body">
-                <div collapse="alertsCtrl.collapseAlertsClosedToday">
+                <div ng-hide="alertsCtrl.collapseAlertsClosedToday">
                     <uib-alert ng-repeat="alert in alertsCtrl.alertsClosedToday" type="{{alert.type}}">
                         <a href="#" class="alert alert-link-light" ng-click="alertsCtrl.showClosedAlertDetails($index)">
                             <span style="font-weight: bold">{{alert.Timestamp | date:'dd/MM/yy HH:mm:ss'}} - [{{alert.Level}}] {{alert.Source}}</span> : {{alert.Subject}} <span style="font-style:italic; font-size:smaller">(Closed at {{alert.ClosedTimestamp | date:'dd/MM/yy HH:mm:ss'}})</span>
