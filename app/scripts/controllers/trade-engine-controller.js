@@ -40,15 +40,17 @@ angular.module('monitorApp')
         StratService.query(function (strats) {
             if (strats) {
                 for (var i = 0; i < strats.length; i++) {
-                    for (var j = 0; j < self.tradeEngines.length; j++) {
-                        var stratIndex = findStratIndex(self.tradeEngines[j], strats[i].Name, strats[i].Version);
+                    if (strats[i].Available) {
+                        for (var j = 0; j < self.tradeEngines.length; j++) {
+                            var stratIndex = findStratIndex(self.tradeEngines[j], strats[i].Name, strats[i].Version);
 
-                        if (stratIndex < 0) { // New strat for this trade engine, need to add it
-                            self.tradeEngines[j].Strats.push({
-                                Name: strats[i].Name,
-                                Version: strats[i].Version,
-                                Active: false
-                            });
+                            if (stratIndex < 0) { // New strat for this trade engine, need to add it
+                                self.tradeEngines[j].Strats.push({
+                                    Name: strats[i].Name,
+                                    Version: strats[i].Version,
+                                    Active: false
+                                });
+                            }
                         }
                     }
                 }

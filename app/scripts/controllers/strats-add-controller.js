@@ -9,6 +9,7 @@ angular.module('monitorApp')
     self.version = null;
     self.dllPath = null;
     self.stratTypeName = null;
+    self.stratAvailable = true;
 
     self.submit = function () {
         var strat = new StratService();
@@ -16,6 +17,7 @@ angular.module('monitorApp')
         strat.Version = self.version;
         strat.DllPath = self.dllPath;
         strat.StratTypeName = self.stratTypeName;
+        strat.Available = self.stratAvailable;
 
         console.log('Closing modal with strat:', strat);
         $uibModalInstance.close(strat);
