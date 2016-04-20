@@ -139,6 +139,7 @@
                                 <th>Name</th>
                                 <th>Version</th>
                                 <th>Active on {{tradeEngine.Name}}</th>
+                                <th>Trading on {{tradeEngine.Name}}</th>
                             </tr>
                             <tr ng-repeat="strat in tradeEngine.Strats | orderBy:['Name','Version']">
                                 <td>{{strat.Name}}</td>
@@ -146,6 +147,11 @@
                                 <td>
                                     <div ng-click="tradeEngineCtrl.toggleStrat(strat.Active, tradeEngine.Name, strat.Name, strat.Version)">
                                         <switch ng-model="strat.Active"></switch>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div ng-click="tradeEngineCtrl.toggleStratTrading(strat.Trading, tradeEngine.Name, strat.Name, strat.Version)">
+                                        <switch ng-model="strat.Trading"></switch>
                                     </div>
                                 </td>
                             </tr>

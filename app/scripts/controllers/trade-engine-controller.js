@@ -360,6 +360,126 @@ angular.module('monitorApp')
         });
     }
 
+    self.toggleStratTrading = function (isNotTrading, engineName, stratName, stratVersion) {
+        if (!isNotTrading) {
+            stopTradingStrat(engineName, stratName, stratVersion);
+        } else {
+            startTradingStrat(engineName, stratName, stratVersion);
+        }
+    };
+
+    function startTradingStrat(engineName, stratName, stratVersion) {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'views/action-confirm-popup.html',
+            controller: 'ActionConfirmPopupCtrl',
+            controllerAs: 'actionConfirmPopupCtrl',
+            resolve: {
+                title: function () {
+                    return 'Start Trading Strat';
+                },
+                action: function () {
+                    return 'start trading strat ' + stratName + ' ' + stratVersion + ' on ' + engineName;
+                },
+                objToPass: function () {
+                    return null;
+                }
+            }
+        });
+
+        modalInstance.result.then(function () {
+            console.log('Requesting to start trading strat', stratName, stratVersion, 'on', engineName);
+
+            TradeEnginesStratsService.get({
+                engineName: engineName,
+                action: 'starttradingstrategy',
+                strategyName: stratName,
+                strategyVersion: stratVersion
+            }, function (result) {
+                var tradeEngineIndex = findTradeEngineIndex(engineName);
+                var stratIndex = findStratIndex(self.tradeEngines[tradeEngineIndex], stratName, stratVersion);
+
+                if (result.Success) {
+                    var successMsg = 'Successfully started trading of strat ' + stratName + ' ' + stratVersion + ' on ' + engineName;
+                    console.log(successMsg);
+                    PopupService.showSuccess('Start Trading Strat', successMsg);
+
+                    // Save the change to the trade engine's config
+                    self.tradeEngines[tradeEngineIndex].Strats[stratIndex].Trading = false;
+
+                    var tradeEngineBkp = angular.copy(self.tradeEngines[tradeEngineIndex]);
+                    delete self.tradeEngines[tradeEngineIndex].status;
+                    self.tradeEngines[tradeEngineIndex].$update(function (updated) {
+                        console.log('updated', updated.status);
+                        self.tradeEngines[tradeEngineIndex] = tradeEngineBkp;
+                    });
+                } else {
+                    var errMsg = 'Failed to start trading strat ' + stratName + ' ' + stratVersion + ' on ' + engineName + ': ' + result.Message;
+                    console.error(errMsg);
+                    PopupService.showError('Start Trading Strat', errMsg);
+
+                    // Revert the change to the trade engine's config
+                    self.tradeEngines[tradeEngineIndex].Strats[stratIndex].Trading = true;
+                }
+            });
+        });
+    }
+
+    function stopTradingStrat(engineName, stratName, stratVersion) {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'views/action-confirm-popup.html',
+            controller: 'ActionConfirmPopupCtrl',
+            controllerAs: 'actionConfirmPopupCtrl',
+            resolve: {
+                title: function () {
+                    return 'Stop Trading Strat';
+                },
+                action: function () {
+                    return 'stop trading strat ' + stratName + ' ' + stratVersion + ' on ' + engineName;
+                },
+                objToPass: function () {
+                    return null;
+                }
+            }
+        });
+
+        modalInstance.result.then(function () {
+            console.log('Requesting to stop trading strat', stratName, stratVersion, 'on', engineName);
+
+            TradeEnginesStratsService.get({
+                engineName: engineName,
+                action: 'stoptradingstrategy',
+                strategyName: stratName,
+                strategyVersion: stratVersion
+            }, function (result) {
+                var tradeEngineIndex = findTradeEngineIndex(engineName);
+                var stratIndex = findStratIndex(self.tradeEngines[tradeEngineIndex], stratName, stratVersion);
+
+                if (result.Success) {
+                    var successMsg = 'Successfully stopped trading of strat ' + stratName + ' ' + stratVersion + ' on ' + engineName;
+                    console.log(successMsg);
+                    PopupService.showSuccess('Stop Trading Strat', successMsg);
+
+                    // Save the change to the trade engine's config
+                    self.tradeEngines[tradeEngineIndex].Strats[stratIndex].Trading = false;
+
+                    var tradeEngineBkp = angular.copy(self.tradeEngines[tradeEngineIndex]);
+                    delete self.tradeEngines[tradeEngineIndex].status;
+                    self.tradeEngines[tradeEngineIndex].$update(function (updated) {
+                        console.log('updated', updated.status);
+                        self.tradeEngines[tradeEngineIndex] = tradeEngineBkp;
+                    });
+                } else {
+                    var errMsg = 'Failed to stop trading strat ' + stratName + ' ' + stratVersion + ' on ' + engineName + ': ' + result.Message;
+                    console.error(errMsg);
+                    PopupService.showError('Stop Trading Strat', errMsg);
+
+                    // Revert the change to the trade engine's config
+                    self.tradeEngines[tradeEngineIndex].Strats[stratIndex].Trading = true;
+                }
+            });
+        });
+    }
+
     self.formatTradingStatus = function (isTrading) {
         if (isTrading) {
             return 'Trading';
