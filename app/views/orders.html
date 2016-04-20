@@ -7,31 +7,60 @@
             <table class="table table-hover" ng-hide="!ordersCtrl.orders || ordersCtrl.orders.length == 0">
                 <tr>
                     <th>ID</th>
-                    <th>Placed Time ({{ordersCtrl.date | date:'Z'}})</th>
-                    <th>Last Update ({{ordersCtrl.date | date:'Z'}})</th>
-                    <th>Strategy</th>
+                    <th>
+                        <div class="hidden-xs">Placed Time ({{ordersCtrl.date | date:'Z'}})</div>
+                        <div class="visible-xs">Placed</div>
+                    </th>
+                    <th>
+                        <div class="hidden-xs">Last Update ({{ordersCtrl.date | date:'Z'}})</div>
+                        <div class="visible-xs">Updated</div>
+                    </th>
+                    <th class="hidden-sm hidden-xs">Strategy</th>
                     <th>Status</th>
                     <th>Type</th>
                     <th>Side</th>
-                    <th>Quantity</th>
+                    <th>
+                        <div class="hidden-xs">Quantity</div>
+                        <div class="visible-xs">Qty</div>
+                    </th>
                     <th>Pair</th>
-                    <th>Limit Price</th>
-                    <th>Stop Price</th>
-                    <th class="hidden-sm">Time In Force</th>
+                    <th>
+                        <div class="hidden-xs">Limit Price</div>
+                        <div class="visible-xs">Lmt</div>
+                    </th>
+                    <th>
+                        <div class="hidden-xs">Stop Price</div>
+                        <div class="visible-xs">Stp</div>
+                    </th>
+                    <th class="hidden-sm hidden-xs">Trail Amt</th>
+                    <th class="hidden-sm hidden-xs">Time In Force</th>
                 </tr>
                 <tr ng-repeat="order in ordersCtrl.orders | filter:{Status:'Submit'} | orderBy:'-PlacedTime'" ng-class="[{'warning': order.Status == 'PendingSubmit' || order.Status == 'PreSubmitted'}]" ng-click="ordersCtrl.showOrderDetails(order.PermanentID)">
                     <td>{{order.OrderID}}</td>
-                    <td>{{order.PlacedTime | date:'dd/MM/yy HH:mm:ss'}}</td>
-                    <td>{{order.LastUpdateTime | date:'dd/MM/yy HH:mm:ss'}}</td>
-                    <td>{{order.Strategy}}</td>
-                    <td>{{order.Status}}</td>
-                    <td>{{order.Type}}</td>
-                    <td>{{order.Side}}</td>
+                    <td>{{order.PlacedTime | date:'HH:mm:ss'}}</td>
+                    <td>{{order.LastUpdateTime | date:'HH:mm:ss'}}</td>
+                    <td class="hidden-sm hidden-xs">{{order.Strategy}}</td>
+                    <td>
+                        <div class="hidden-xs">{{order.Status}}</div>
+                        <div class="visible-xs">{{ordersCtrl.shortenStatus(order.Status)}}</div>
+                    </td>
+                    <td>
+                        <div class="hidden-xs">{{order.Type}}</div>
+                        <div class="visible-xs">{{ordersCtrl.shortenType(order.Type)}}</div>
+                    </td>
+                    <td>
+                        <div class="hidden-xs">{{order.Side}}</div>
+                        <div class="visible-xs">{{ordersCtrl.shortenSide(order.Side)}}</div>
+                    </td>
                     <td>{{order.Quantity / 1000}}K</td>
-                    <td>{{order.Cross}}</td>
+                    <td>
+                        <div class="hidden-xs">{{order.Cross}}</div>
+                        <div class="visible-xs">{{ordersCtrl.shortenCross(order.Cross)}}</div>
+                    </td>
                     <td>{{ordersCtrl.formatRate(order.Cross, order.LimitPrice)}}</td>
                     <td>{{ordersCtrl.formatRate(order.Cross, order.StopPrice)}}</td>
-                    <td class="hidden-sm">{{order.TimeInForce}}</td>
+                    <td class="hidden-sm hidden-xs">{{ordersCtrl.convertToPips(order.Cross, order.TrailingAmount)}}</td>
+                    <td class="hidden-sm hidden-xs">{{order.TimeInForce}}</td>
                 </tr>
             </table>
             <div class="panel-body" ng-show="!ordersCtrl.orders || ordersCtrl.orders.length === 0">
@@ -59,7 +88,7 @@
                         <div class="form-group-sm">
                             <input type="date" class="form-control" ng-model="ordersCtrl.date" />
                             <button type="submit" class="btn btn-default btn-sm">Go</button>
-                            <button type="button" class="btn btn-default btn-sm" ng-disabled="ordersCtrl.downloading || !ordersCtrl.orders || ordersCtrl.orders.length == 0" ng-click="ordersCtrl.exportToExcel()">Excel</button>
+                            <button type="button" class="btn btn-default btn-sm hidden-sm hidden-xs" ng-disabled="ordersCtrl.downloading || !ordersCtrl.orders || ordersCtrl.orders.length == 0" ng-click="ordersCtrl.exportToExcel()">Excel</button>
                         </div>
                     </form>
                 </div>
@@ -67,45 +96,77 @@
             <table class="table table-hover" ng-hide="!ordersCtrl.orders || ordersCtrl.orders.length === 0">
                 <tr>
                     <th>ID</th>
-                    <th>Placed Time ({{ordersCtrl.date | date:'Z'}})</th>
-                    <th>Last Update ({{ordersCtrl.date | date:'Z'}})</th>
-                    <th>Strategy</th>
+                    <th>
+                        <div class="hidden-xs">Placed Time ({{ordersCtrl.date | date:'Z'}})</div>
+                        <div class="visible-xs">Placed</div>
+                    </th>
+                    <th>
+                        <div class="hidden-xs">Last Update ({{ordersCtrl.date | date:'Z'}})</div>
+                        <div class="visible-xs">Updated</div>
+                    </th>
+                    <th class="hidden-sm hidden-xs">Strategy</th>
                     <th>Status</th>
                     <th>Type</th>
                     <th>Side</th>
-                    <th>Quantity</th>
+                    <th>
+                        <div class="hidden-xs">Quantity</div>
+                        <div class="visible-xs">Qty</div>
+                    </th>
                     <th>Pair</th>
-                    <th>Fill Price</th>
-                    <th>Limit Price</th>
-                    <th>Stop Price</th>
-                    <th class="hidden-sm">Last Bid</th>
-                    <th class="hidden-sm">Last Ask</th>
-                    <th class="hidden-sm">Slippage</th>
-                    <th class="hidden-sm">Time In Force</th>
+                    <th>
+                        <div class="hidden-xs">Fill Price</div>
+                        <div class="visible-xs">Fill</div>
+                    </th>
+                    <th>
+                        <div class="hidden-xs">Limit Price</div>
+                        <div class="visible-xs">Lmt</div>
+                    </th>
+                    <th>
+                        <div class="hidden-xs">Stop Price</div>
+                        <div class="visible-xs">Stp</div>
+                    </th>
+                    <th class="hidden-sm hidden-xs">Trail Amt</th>
+                    <th class="hidden-md hidden-sm hidden-xs">Last Bid</th>
+                    <th class="hidden-md hidden-sm hidden-xs">Last Ask</th>
+                    <th class="hidden-md hidden-sm hidden-xs">Slippage</th>
+                    <th class="hidden-md hidden-sm hidden-xs">Time In Force</th>
                 </tr>
                 <tr ng-repeat="order in ordersCtrl.orders | filter:{Status:'!Submit', Cross:ordersCtrl.crossFilter} | orderBy:'-PlacedTime'" ng-class="[{'success': order.Status == 'Filled'}, {'danger': order.Status == 'Cancelled' || order.Status == 'ApiCanceled'}]" ng-click="ordersCtrl.showOrderDetails(order.PermanentID)">
                     <td>{{order.OrderID}}</td>
-                    <td>{{order.PlacedTime | date:'dd/MM/yy HH:mm:ss'}}</td>
-                    <td>{{order.LastUpdateTime | date:'dd/MM/yy HH:mm:ss'}}</td>
-                    <td>{{order.Strategy}}</td>
-                    <td>{{order.Status}}</td>
-                    <td>{{order.Type}}</td>
-                    <td>{{order.Side}}</td>
+                    <td>{{order.PlacedTime | date:'HH:mm:ss'}}</td>
+                    <td>{{order.LastUpdateTime | date:'HH:mm:ss'}}</td>
+                    <td class="hidden-sm hidden-xs">{{order.Strategy}}</td>
+                    <td>
+                        <div class="hidden-xs">{{order.Status}}</div>
+                        <div class="visible-xs">{{ordersCtrl.shortenStatus(order.Status)}}</div>
+                    </td>
+                    <td>
+                        <div class="hidden-xs">{{order.Type}}</div>
+                        <div class="visible-xs">{{ordersCtrl.shortenType(order.Type)}}</div>
+                    </td>
+                    <td>
+                        <div class="hidden-xs">{{order.Side}}</div>
+                        <div class="visible-xs">{{ordersCtrl.shortenSide(order.Side)}}</div>
+                    </td>
                     <td>{{order.Quantity / 1000}}K</td>
-                    <td>{{order.Cross}}</td>
+                    <td>
+                        <div class="hidden-xs">{{order.Cross}}</div>
+                        <div class="visible-xs">{{ordersCtrl.shortenCross(order.Cross)}}</div>
+                    </td>
                     <td>{{ordersCtrl.formatRate(order.Cross, order.FillPrice)}}</td>
                     <td>{{ordersCtrl.formatRate(order.Cross, order.LimitPrice)}}</td>
                     <td>{{ordersCtrl.formatRate(order.Cross, order.StopPrice)}}</td>
-                    <td class="hidden-sm">
+                    <td class="hidden-sm hidden-xs">{{ordersCtrl.convertToPips(order.Cross, order.TrailingAmount)}}</td>
+                    <td class="hidden-md hidden-sm hidden-xs">
                         <div ng-show="order.Side === 'SELL'">{{order.LastBid}}</div>
                     </td>
-                    <td class="hidden-sm">
+                    <td class="hidden-md hidden-sm hidden-xs">
                         <div ng-show="order.Side === 'BUY'">{{order.LastAsk}}</div>
                     </td>
-                    <td class="hidden-sm">
+                    <td class="hidden-md hidden-sm hidden-xs">
                         <div ng-hide="order.Slippage == null || order.Type !== 'MARKET'">{{order.Slippage}} pips</div>
                     </td>
-                    <td class="hidden-sm">{{order.TimeInForce}}</td>
+                    <td class="hidden-md hidden-sm hidden-xs">{{order.TimeInForce}}</td>
                 </tr>
             </table>
             <div class="panel-body" ng-show="!ordersCtrl.orders || ordersCtrl.orders.length === 0">

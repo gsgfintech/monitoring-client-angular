@@ -45,6 +45,16 @@ angular.module('monitorApp')
         }
     };
 
+    self.convertToPips = function (cross, value) {
+        if (!value || !cross) {
+            return null;
+        } else if (cross.indexOf('JPY') > -1) {
+            return (value * 100).toFixed(1) + ' pips';
+        } else {
+            return (value * 10000).toFixed(1) + ' pips';
+        }
+    };
+
     self.showOrderDetails = function (permanentId) {
         OrderDetailsService.get({ id: permanentId }, function (response) {
             if (response) {
@@ -82,6 +92,44 @@ angular.module('monitorApp')
 
             self.downloading = false;
         });
+    };
+
+    self.shortenCross = function (cross) {
+        return cross.replace('USD', '').replace('/', '');
+    };
+
+    self.shortenSide = function (side) {
+        return side.substring(0, 1);
+    };
+
+    self.shortenType = function (type) {
+        if (!type) {
+            return null;
+        } else if (type === 'MARKET') {
+            return 'MKT';
+        } else if (type === 'STOP') {
+            return 'STP';
+        } else if (type === 'LIMIT') {
+            return 'LMT';
+        } else if (type === 'TRAILING_STOP') {
+            return 'TRAIL';
+        } else {
+            return type;
+        }
+    };
+
+    self.shortenStatus = function (status) {
+        if (!status) {
+            return null;
+        } else if (status === 'Submitted') {
+            return 'Sbtd';
+        } else if (status === 'Filled') {
+            return 'Fld';
+        } else if (status === 'Cancelled') {
+            return 'Cxld';
+        } else {
+            return status;
+        }
     };
 
     $rootScope.$on('orderUpdatedEvent', function (event, args) {
