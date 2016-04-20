@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('monitorApp')
-.controller('AlertsCtrl', ['$scope', '$rootScope', '$uibModal', '$interval', 'AlertsCloseService', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'PositionsService', 'SystemsStatusService', function ($scope, $rootScope, $uibModal, $interval, AlertsCloseService, MonitoringAppService, ExecutionsService, ExecutionDetailsService, PositionsService, SystemsStatusService) {
+.controller('AlertsCtrl', ['$scope', '$rootScope', '$uibModal', '$interval', 'AlertsCloseService', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'SystemsStatusService', function ($scope, $rootScope, $uibModal, $interval, AlertsCloseService, MonitoringAppService, ExecutionsService, ExecutionDetailsService, SystemsStatusService) {
 
     var self = this;
 
@@ -22,16 +22,16 @@ angular.module('monitorApp')
     self.grossPnlPerCross = [];
     self.totalCommissions = 0;
 
-    PositionsService.query({}, function (positions) {
-        console.log('Received latest positions');
+    //PositionsService.query({}, function (positions) {
+    //    console.log('Received latest positions');
 
-        if (positions.length > 0) {
-            self.position.positions = positions[0].PositionSecurities;
-            self.position.timestamp = positions[0].Timestamp;
+    //    if (positions.length > 0) {
+    //        self.position.positions = positions[0].PositionSecurities;
+    //        self.position.timestamp = positions[0].Timestamp;
 
-            calculatePnl();
-        }
-    });
+    //        calculatePnl();
+    //    }
+    //});
 
     ExecutionsService.query({ day: (new Date()).toISOString() }, function (executions) {
         self.executions = executions;
@@ -82,13 +82,13 @@ angular.module('monitorApp')
     };
 
     function calculatePnl() {
-        if (!self.position.positions || self.position.positions.length === 0) {
+        if (!self.position.PositionSecurities || self.position.PositionSecurities.length === 0) {
             return 'N/A';
         } else {
             var unrealisedPnl = 0;
 
-            for (var i = 0; i < self.position.positions.length; i++) {
-                unrealisedPnl = unrealisedPnl + self.position.positions[i].UnrealizedPnlUsd;
+            for (var i = 0; i < self.position.PositionSecurities.length; i++) {
+                unrealisedPnl = unrealisedPnl + self.position.PositionSecurities[i].UnrealizedPnlUsd;
             }
 
             self.position.curUnrealisedPnl = unrealisedPnl;
@@ -276,8 +276,8 @@ angular.module('monitorApp')
     }
 
     function findPositionSecurityIndex(cross) {
-        for (var i = 0; i < self.position.positions.length; i++) {
-            if (self.position.positions[i].Cross === cross) {
+        for (var i = 0; i < self.position.PositionSecurities.length; i++) {
+            if (self.position.PositionSecurities[i].Cross === cross) {
                 return i;
             }
         }
@@ -346,20 +346,24 @@ angular.module('monitorApp')
     });
 
     $rootScope.$on('positionUpdateReceivedEvent', function (event, position) {
+        if (!self.position.PositionSecurities) {
+            self.position = position;
+        }
+
         for (var i = 0; i < position.PositionSecurities.length; i++) {
             var existingPositionSecurityIndex = findPositionSecurityIndex(position.PositionSecurities[i].Cross);
 
             if (existingPositionSecurityIndex > -1) { // replace
-                self.position.positions[existingPositionSecurityIndex].PositionQuantity = position.PositionSecurities[i].PositionQuantity;
-                self.position.positions[existingPositionSecurityIndex].AverageCost = position.PositionSecurities[i].AverageCost;
-                self.position.positions[existingPositionSecurityIndex].MarketPrice = position.PositionSecurities[i].MarketPrice;
-                self.position.positions[existingPositionSecurityIndex].MarketValue = position.PositionSecurities[i].MarketValue;
-                self.position.positions[existingPositionSecurityIndex].RealizedPnL = position.PositionSecurities[i].RealizedPnL;
-                self.position.positions[existingPositionSecurityIndex].RealizedPnlUsd = position.PositionSecurities[i].RealizedPnlUsd;
-                self.position.positions[existingPositionSecurityIndex].UnrealizedPnL = position.PositionSecurities[i].UnrealizedPnL;
-                self.position.positions[existingPositionSecurityIndex].UnrealizedPnlUsd = position.PositionSecurities[i].UnrealizedPnlUsd;
+                self.position.PositionSecurities[existingPositionSecurityIndex].PositionQuantity = position.PositionSecurities[i].PositionQuantity;
+                self.position.PositionSecurities[existingPositionSecurityIndex].AverageCost = position.PositionSecurities[i].AverageCost;
+                self.position.PositionSecurities[existingPositionSecurityIndex].MarketPrice = position.PositionSecurities[i].MarketPrice;
+                self.position.PositionSecurities[existingPositionSecurityIndex].MarketValue = position.PositionSecurities[i].MarketValue;
+                self.position.PositionSecurities[existingPositionSecurityIndex].RealizedPnL = position.PositionSecurities[i].RealizedPnL;
+                self.position.PositionSecurities[existingPositionSecurityIndex].RealizedPnlUsd = position.PositionSecurities[i].RealizedPnlUsd;
+                self.position.PositionSecurities[existingPositionSecurityIndex].UnrealizedPnL = position.PositionSecurities[i].UnrealizedPnL;
+                self.position.PositionSecurities[existingPositionSecurityIndex].UnrealizedPnlUsd = position.PositionSecurities[i].UnrealizedPnlUsd;
             } else { // add new
-                self.position.positions.push(position.PositionSecurities[i]);
+                self.position.PositionSecurities.push(position.PositionSecurities[i]);
             }
         }
 

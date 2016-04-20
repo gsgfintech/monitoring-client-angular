@@ -33,7 +33,7 @@
                         <span class="hidden-xs">(USD)</span>
                     </th>
                 </tr>
-                <tr ng-repeat="position in alertsCtrl.position.positions | orderBy:'Cross'">
+                <tr ng-repeat="position in alertsCtrl.position.PositionSecurities | orderBy:'Cross'">
                     <td>{{position.Cross}}</td>
                     <td ng-class="[{'bg-success': position.PositionQuantity > 0}, {'bg-danger': position.PositionQuantity < 0}]">{{position.PositionQuantity / 1000 | number}}<span ng-show="position.PositionQuantity !== 0">K</span></td>
                     <td class="hidden-xs hidden-sm"><span ng-show="position.AverageCost !== 0">{{alertsCtrl.formatRate(position.Cross, position.AverageCost)}}</span></td>
