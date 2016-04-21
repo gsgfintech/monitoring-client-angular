@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('monitorApp')
-.controller('AlertsCtrl', ['$scope', '$rootScope', '$uibModal', '$interval', 'AlertsCloseService', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'SystemsStatusService', function ($scope, $rootScope, $uibModal, $interval, AlertsCloseService, MonitoringAppService, ExecutionsService, ExecutionDetailsService, SystemsStatusService) {
+.controller('AlertsCtrl', ['$scope', '$rootScope', '$uibModal', '$interval', 'AlertsCloseService', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'PopupService', 'TradeEnginesService', 'SystemsStatusService', function ($scope, $rootScope, $uibModal, $interval, AlertsCloseService, MonitoringAppService, ExecutionsService, ExecutionDetailsService, PopupService, TradeEnginesService, SystemsStatusService) {
 
     var self = this;
 
@@ -21,6 +21,8 @@ angular.module('monitorApp')
     self.grossPnl = 0;
     self.grossPnlPerCross = [];
     self.totalCommissions = 0;
+
+    self.crosses = [];
 
     //PositionsService.query({}, function (positions) {
     //    console.log('Received latest positions');
@@ -244,9 +246,11 @@ angular.module('monitorApp')
     }
 
     function findAttributeByName(system, attributeName) {
-        for (var i = 0; i < system.Attributes.length; i++) {
-            if (system.Attributes[i].Name === attributeName) {
-                return i;
+        if (system.Attributes) {
+            for (var i = 0; i < system.Attributes.length; i++) {
+                if (system.Attributes[i].Name === attributeName) {
+                    return i;
+                }
             }
         }
 
@@ -259,9 +263,50 @@ angular.module('monitorApp')
                 console.log('Received status updates for', statuses.length, 'systems');
 
                 self.systems.splice(0, self.systems.length);
+                self.crosses.splice(0, self.crosses.length);
 
                 for (var i = 0; i < statuses.length; i++) {
                     self.systems.push(statuses[i]);
+
+                    var nonTradingPairsIndex = findAttributeByName(statuses[i], 'NonTradingPairs');
+
+                    if (nonTradingPairsIndex > -1 && statuses[i].Attributes[nonTradingPairsIndex]) {
+                        var nonTradingPairs = statuses[i].Attributes[nonTradingPairsIndex].Value.split(', ');
+
+                        for (var jn = 0; jn < nonTradingPairs.length; jn++) {
+                            if (nonTradingPairs[jn]) {
+                                var nindex = getCrossIndex(nonTradingPairs[jn]);
+
+                                if (nindex < 0) {
+                                    self.crosses.push({
+                                        name: nonTradingPairs[jn],
+                                        trading: false
+                                    });
+                                } else {
+                                    self.crosses[nindex].trading = false;
+                                }
+                            }
+                        }
+                    }
+
+                    var tradingPairsIndex = findAttributeByName(statuses[i], 'TradingPairs');
+
+                    if (tradingPairsIndex > -1 && statuses[i].Attributes[tradingPairsIndex]) {
+                        var tradingPairs = statuses[i].Attributes[tradingPairsIndex].Value.split(', ');
+
+                        for (var jt = 0; jt < tradingPairs.length; jt++) {
+                            var tindex = getCrossIndex(tradingPairs[jt]);
+
+                            if (tindex < 0) {
+                                self.crosses.push({
+                                    name: tradingPairs[jt],
+                                    trading: true
+                                });
+                            } else {
+                                // Do nothing: if the cross is already marked as 'not trading' then we shouldn't override that
+                            }
+                        }
+                    }
                 }
             }
         });
@@ -309,6 +354,126 @@ angular.module('monitorApp')
     self.shortenSide = function (side) {
         return side.substring(0, 1);
     };
+
+    self.toggleCrossTrading = function (cross) {
+        var crossIndex = getCrossIndex(cross);
+
+        if (crossIndex < 0) {
+            console.error('Unable to toggle trading for unknown cross', cross);
+        } else {
+            self.crosses[crossIndex].btnDisabled = true;
+
+            if (self.crosses[crossIndex].trading) {
+                stopTradingCross(cross, crossIndex);
+            } else {
+                startTradingCross(cross, crossIndex);
+            }
+        }
+    };
+
+    self.getCrossTradingButtonLabel = function (trading) {
+        if (trading) {
+            return 'Stop';
+        } else {
+            return 'Start';
+        }
+    };
+
+    function getCrossIndex(cross) {
+        for (var i = 0; i < self.crosses.length; i++) {
+            if (self.crosses[i].name === cross) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    function startTradingCross(cross, index) {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'views/action-confirm-popup.html',
+            controller: 'ActionConfirmPopupCtrl',
+            controllerAs: 'actionConfirmPopupCtrl',
+            resolve: {
+                title: function () {
+                    return 'Start Trading Cross';
+                },
+                action: function () {
+                    return 'start trading cross ' + cross + ' on all trade engines';
+                },
+                objToPass: function () {
+                    return null;
+                }
+            }
+        });
+
+        modalInstance.result.then(function () {
+            console.log('Requesting to start trading cross ' + cross + ' on all trade engines');
+
+            TradeEnginesService.get({
+                engineName: 'all',
+                action: 'starttrading',
+                cross: cross
+            }, function (result) {
+                if (result.Success) {
+                    var successMsg = 'Successfully started trading cross ' + cross + ' on all trade engines';
+                    console.log(successMsg);
+                    PopupService.showSuccess('Start Trading Cross', successMsg);
+                } else {
+                    var errMsg = 'Failed to start trading cross ' + cross + ' on all trade engines: ' + result.Message;
+                    console.error(errMsg);
+                    PopupService.showError('Start Trading Cross', errMsg);
+                }
+
+                self.crosses[index].btnDisabled = false;
+            });
+        }, function () { // dismiss handler
+            self.crosses[index].btnDisabled = false;
+        });
+    }
+
+    function stopTradingCross(cross, index) {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'views/action-confirm-popup.html',
+            controller: 'ActionConfirmPopupCtrl',
+            controllerAs: 'actionConfirmPopupCtrl',
+            resolve: {
+                title: function () {
+                    return 'Stop Trading Cross';
+                },
+                action: function () {
+                    return 'stop trading cross ' + cross + ' on all trade engines';
+                },
+                objToPass: function () {
+                    return null;
+                }
+            }
+        });
+
+        modalInstance.result.then(function () {
+            console.log('Requesting to stop trading cross ' + cross + ' on all trade engines');
+
+            TradeEnginesService.get({
+                engineName: 'all',
+                action: 'stoptrading',
+                cross: cross
+            }, function (result) {
+                if (result.Success) {
+                    var successMsg = 'Successfully stopped trading cross ' + cross + 'on all trade engines';
+                    console.log(successMsg);
+                    PopupService.showSuccess('Stop Trading Cross', successMsg);
+                } else {
+                    var errMsg = 'Failed to stop trading cross ' + cross + ' on all trade engines: ' + result.Message;
+                    console.error(errMsg);
+                    PopupService.showError('Stop Trading Cross', errMsg);
+                }
+
+                self.crosses[index].btnDisabled = false;
+            });
+        }, function () { // dismiss handler
+            self.crosses[index].btnDisabled = false;
+        });
+    }
 
     if (!systemsRequested) {
         systemsRequested = true;
