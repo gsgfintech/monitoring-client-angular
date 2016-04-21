@@ -368,6 +368,8 @@ angular.module('monitorApp')
         }
 
         calculatePnl();
+
+        self.position.timestamp = new Date();
     });
 
     $rootScope.$on('systemStatusUpdateReceived', function (event, status) {
