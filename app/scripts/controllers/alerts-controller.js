@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('monitorApp')
-.controller('AlertsCtrl', ['$scope', '$rootScope', '$uibModal', '$interval', 'AlertsCloseService', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'PopupService', 'TradeEnginesService', 'SystemsStatusService', function ($scope, $rootScope, $uibModal, $interval, AlertsCloseService, MonitoringAppService, ExecutionsService, ExecutionDetailsService, PopupService, TradeEnginesService, SystemsStatusService) {
+.controller('AlertsCtrl', ['$scope', '$rootScope', '$uibModal', '$interval', 'AlertsCloseService', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'FXEventsTodayHighService', 'PopupService', 'TradeEnginesService', 'SystemsStatusService', function ($scope, $rootScope, $uibModal, $interval, AlertsCloseService, MonitoringAppService, ExecutionsService, ExecutionDetailsService, FXEventsTodayHighService, PopupService, TradeEnginesService, SystemsStatusService) {
 
     var self = this;
 
@@ -34,6 +34,9 @@ angular.module('monitorApp')
     //        calculatePnl();
     //    }
     //});
+
+    self.todayHighImpactEvents = FXEventsTodayHighService.query();
+    self.today = new Date();
 
     ExecutionsService.query({ day: (new Date()).toISOString() }, function (executions) {
         self.executions = executions;

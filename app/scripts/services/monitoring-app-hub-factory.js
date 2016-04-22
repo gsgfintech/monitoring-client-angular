@@ -169,7 +169,7 @@ angular.module('monitorApp')
             'newExecutionReceived': function (execution) {
                 var message = execution.Side + ' ' + execution.Quantity + ' ' + execution.Cross + ' @ ' + execution.Price;
 
-                console.log('Received new execution:', message);
+                console.log('Received new execution:', message, '-', execution.ExecutionId);
 
                 $rootScope.$broadcast('newExecutionReceivedEvent', execution);
 

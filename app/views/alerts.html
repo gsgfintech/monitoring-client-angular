@@ -68,17 +68,15 @@
             <table class="table table-hover table-condensed">
                 <tr>
                     <th></th>
-                    <th><div class="hidden-xs hidden-sm">Status</div></th>
                     <th>Last HB</th>
                     <th><div class="hidden-xs">Broker Conn</div></th>
                     <th><div class="hidden-xs">Is Trading</div></th>
                     <th><div class="hidden-xs">Start Time</div></th>
                 </tr>
-                <tr ng-repeat="system in alertsCtrl.systems | orderBy:'_id' | filter:filter:strict"
+                <tr ng-repeat="system in alertsCtrl.systems | orderBy:'Name' | filter:filter:strict"
                     ng-class="[{'bg-success': system.OverallStatusLevel === 'GREEN'}, {'bg-warning': system.OverallStatusLevel === 'YELLOW'}, {'bg-danger': system.OverallStatusLevel === 'RED'}]"
                     ng-click="alertsCtrl.showSystemDetails(system.Name)">
                     <td><strong>{{system.Name}}</strong></td>
-                    <td><div class="hidden-sm">{{system.Message}}</div></td>
                     <td>
                         <div class="hidden-sm">{{system.LastHeardFrom | date:'dd/MM/yy HH:mm:ss'}}</div>
                         <div class="visible-sm">{{system.LastHeardFrom | date:'HH:mm:ss'}}</div>
@@ -163,6 +161,19 @@
                             {{alertsCtrl.getCrossTradingButtonLabel(cross.trading)}}
                         </button>
                     </td>
+                </tr>
+            </table>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Major FX Events - {{alertsCtrl.today | date:'dd/MM'}}
+            </div>
+            <table class="table">
+                <tr ng-repeat="event in alertsCtrl.todayHighImpactEvents | orderBy:'Timestamp'">
+                    <td>{{event.Timestamp | date:'dd/MM/yy HH:mm:ss'}}</td>
+                    <td>{{event.Currency}}</td>
+                    <td>{{event.Title}}</td>
+                    <td>{{event.Level}}</td>
                 </tr>
             </table>
         </div>
