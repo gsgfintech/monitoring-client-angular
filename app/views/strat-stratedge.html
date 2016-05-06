@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="panel-title">Stratedge Open Trades</span>
+            </div>
+            <table class="table table-hover" ng-hide="!stratStratedgeCtrl.datapoints || stratStratedgeCtrl.datapoints.length == 0">
+                <tr>
+                    <th>Strategy</th>
+                    <th>Refreshed (HKT)</th>
+                    <th>U-Pnl (pips)</th>
+                    <th>U-Pnl Min (pips)</th>
+                    <th>U-Pnl Max (pips)</th>
+                    <th>U-Pnl Avg (pips)</th>
+                    <th>U-Pnl StdDev (pips)</th>
+                    <th>Close Metric 1</th>
+                    <th>Close Metric 2</th>
+                    <th>Close Flag 1</th>
+                    <th>Close Flag 2</th>
+                    <th>Close Flag 3</th>
+                    <th>Close Flag 4</th>
+                    <th>Close Flag 5</th>
+                </tr>
+                <tr ng-repeat="datapoint in stratStratedgeCtrl.datapoints | orderBy:['StrategyName']">
+                    <td>{{datapoint.StrategyName}}</td>
+                    <td>{{datapoint.Timestamp | date:'dd/MM/yy HH:mm:ss'}}</td>
+                    <td ng-class="[{'bg-danger': datapoint.UnrealizedPnl < 0}, {'bg-success': datapoint.UnrealizedPnl > 0}]">{{datapoint.UnrealizedPnl}}</td>
+                    <td>{{datapoint.UnrealizedPnlMin}}</td>
+                    <td>{{datapoint.UnrealizedPnlMax}}</td>
+                    <td>{{datapoint.UnrealizedPnlAvg}}</td>
+                    <td>{{datapoint.UnrealizedPnlStdDev}}</td>
+                    <td>{{datapoint.CloseMetric1 | number:2}}</td>
+                    <td>{{datapoint.CloseMetric2 | number:2}}</td>
+                    <td ng-class="[{'bg-danger text-center': !datapoint.CloseFlag1}, {'bg-success text-center': datapoint.CloseFlag1}]">
+                        <span class="glyphicon glyphicon-ok-circle" ng-show="datapoint.CloseFlag1"></span>
+                        <span class="glyphicon glyphicon-remove-circle" ng-show="!datapoint.CloseFlag1"></span>
+                    </td>
+                    <td ng-class="[{'bg-danger text-center': !datapoint.CloseFlag2}, {'bg-success text-center': datapoint.CloseFlag2}]">
+                        <span class="glyphicon glyphicon-ok-circle" ng-show="datapoint.CloseFlag2"></span>
+                        <span class="glyphicon glyphicon-remove-circle" ng-show="!datapoint.CloseFlag2"></span>
+                    </td>
+                    <td ng-class="[{'bg-danger text-center': !datapoint.CloseFlag3}, {'bg-success text-center': datapoint.CloseFlag3}]">
+                        <span class="glyphicon glyphicon-ok-circle" ng-show="datapoint.CloseFlag3"></span>
+                        <span class="glyphicon glyphicon-remove-circle" ng-show="!datapoint.CloseFlag3"></span>
+                    </td>
+                    <td ng-class="[{'bg-danger text-center': !datapoint.CloseFlag4}, {'bg-success text-center': datapoint.CloseFlag4}]">
+                        <span class="glyphicon glyphicon-ok-circle" ng-show="datapoint.CloseFlag4"></span>
+                        <span class="glyphicon glyphicon-remove-circle" ng-show="!datapoint.CloseFlag4"></span>
+                    </td>
+                    <td ng-class="[{'bg-danger text-center': !datapoint.CloseFlag5}, {'bg-success text-center': datapoint.CloseFlag5}]">
+                        <span class="glyphicon glyphicon-ok-circle" ng-show="datapoint.CloseFlag5"></span>
+                        <span class="glyphicon glyphicon-remove-circle" ng-show="!datapoint.CloseFlag5"></span>
+                    </td>
+                </tr>
+            </table>
+            <div class="panel-body" ng-show="!stratStratedgeCtrl.datapoints || stratStratedgeCtrl.datapoints.length == 0">
+                <p>No open trade</p>
+            </div>
+        </div>
+    </div>
+</div>

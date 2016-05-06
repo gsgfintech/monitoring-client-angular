@@ -80,6 +80,11 @@ angular.module('monitorApp', ['angularSpinner', 'SignalR', 'ui.bootstrap', 'ngAn
         controllerAs: 'stratNewCresusCtrl',
         templateUrl: 'views/strat-newcresus.html',
         url: '/strat/newcresus'
+    }).state('strat-stratedge', {
+        controller: 'StratStratedgeCtrl',
+        controllerAs: 'stratStratedgeCtrl',
+        templateUrl: 'views/strat-stratedge.html',
+        url: '/strat/stratedge'
     }).state('systems-logs', {
         controller: 'SystemsLogsCtrl',
         controllerAs: 'systemsLogsCtrl',
