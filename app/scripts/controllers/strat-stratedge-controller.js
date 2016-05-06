@@ -21,6 +21,10 @@ angular.module('monitorApp')
     $rootScope.$on('newAlgoDataPointReceivedEvent', function (event, args) {
         var dataPoint = args.dataPoint;
 
+        if (dataPoint.StrategyName.substring('Open_Stratedge') < 0) {
+            return; // ignore irrelevant datapoints
+        }
+
         var existingIndex = getDatapoint(dataPoint.Strategy, dataPoint.Cross);
 
         if (existingIndex > -1) { // Update existing
