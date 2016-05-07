@@ -147,6 +147,25 @@
                 <p>No trade today</p>
             </div>
         </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" style="height:44px">
+                <div class="align-left">
+                    Alerts Closed Today 
+                    <span class="badge">{{alertsCtrl.alertsClosedToday.length}}</span>
+                </div>
+                <div class="align-right"><button ng-hide="alertsCtrl.alertsClosedToday.length == 0" class="btn btn-default btn-xs" ng-click="alertsCtrl.doCollapseAlertsClosedToday()">{{alertsCtrl.collapseAlertsClosedTodayButtonTitle}}</button></div>
+            </div>
+            <div class="panel-body">
+                <div ng-hide="alertsCtrl.collapseAlertsClosedToday">
+                    <uib-alert ng-repeat="alert in alertsCtrl.alertsClosedToday" type="{{alert.type}}">
+                        <a href="#" class="alert alert-link-light" ng-click="alertsCtrl.showClosedAlertDetails($index)">
+                            <span style="font-weight: bold">{{alert.Timestamp | date:'dd/MM/yy HH:mm:ss'}} - [{{alert.Level}}] {{alert.Source}}</span> : {{alert.Subject}} <span style="font-style:italic; font-size:smaller">(Closed at {{alert.ClosedTimestamp | date:'dd/MM/yy HH:mm:ss'}})</span>
+                        </a>
+                    </uib-alert>
+                </div>
+                <p ng-show="alertsCtrl.alertsClosedToday.length == 0">No closed alert</p>
+            </div>
+        </div>
     </div>
     <div class="col-lg-6">
         <div class="panel panel-default">
@@ -197,22 +216,4 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-6">
-        <div class="panel panel-default">
-            <div class="panel-heading" style="height:44px">
-                <div class="align-left">Alerts Closed Today</div>
-                <div class="align-right"><button ng-hide="alertsCtrl.alertsClosedToday.length == 0" class="btn btn-default btn-xs" ng-click="alertsCtrl.doCollapseAlertsClosedToday()">{{alertsCtrl.collapseAlertsClosedTodayButtonTitle}}</button></div>
-            </div>
-            <div class="panel-body">
-                <div ng-hide="alertsCtrl.collapseAlertsClosedToday">
-                    <uib-alert ng-repeat="alert in alertsCtrl.alertsClosedToday" type="{{alert.type}}">
-                        <a href="#" class="alert alert-link-light" ng-click="alertsCtrl.showClosedAlertDetails($index)">
-                            <span style="font-weight: bold">{{alert.Timestamp | date:'dd/MM/yy HH:mm:ss'}} - [{{alert.Level}}] {{alert.Source}}</span> : {{alert.Subject}} <span style="font-style:italic; font-size:smaller">(Closed at {{alert.ClosedTimestamp | date:'dd/MM/yy HH:mm:ss'}})</span>
-                        </a>
-                    </uib-alert>
-                </div>
-                <p ng-show="alertsCtrl.alertsClosedToday.length == 0">No closed alert</p>
-            </div>
-        </div>
-    </div>
 </div>

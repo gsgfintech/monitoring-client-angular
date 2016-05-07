@@ -16,6 +16,7 @@
                         <div class="visible-xs">Updated</div>
                     </th>
                     <th class="hidden-sm hidden-xs">Strategy</th>
+                    <th class="hidden-sm hidden-xs">Origin</th>
                     <th>Status</th>
                     <th>Type</th>
                     <th>Side</th>
@@ -40,6 +41,7 @@
                     <td>{{order.PlacedTime | date:'HH:mm:ss'}}</td>
                     <td>{{order.LastUpdateTime | date:'HH:mm:ss'}}</td>
                     <td class="hidden-sm hidden-xs">{{order.Strategy}}</td>
+                    <td class="hidden-sm hidden-xs">{{order.Origin}}</td>
                     <td>
                         <div class="hidden-xs">{{order.Status}}</div>
                         <div class="visible-xs">{{ordersCtrl.shortenStatus(order.Status)}}</div>

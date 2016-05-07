@@ -1,0 +1,97 @@
+<div>
+    <div class="modal-header">
+        <h3 class="modal-title">
+            Trade {{executionDetailsCtrl.trade.ExecutionId}}
+            <small><a href="{{executionDetailsCtrl.detailsLink}}" target="_blank"><span class="glyphicon glyphicon-share"></span> Link</a></small>
+        </h3>
+    </div>
+    <table class="table table-condensed">
+        <tr>
+            <td><label>Account</label></td>
+            <td>{{executionDetailsCtrl.trade.AccountNumber}}</td>
+        </tr>
+        <tr>
+            <td><label>IB Client ID</label></td>
+            <td>{{executionDetailsCtrl.trade.ClientId}}</td>
+        </tr>
+        <tr>
+            <td><label>Strategy</label></td>
+            <td>{{executionDetailsCtrl.trade.Strategy}}</td>
+        </tr>
+        <tr>
+            <td><label>Strategy</label></td>
+            <td>{{executionDetailsCtrl.trade.Strategy}}</td>
+        </tr>
+        <tr>
+            <td><label>Origin</label></td>
+            <td>{{executionDetailsCtrl.trade.OrderOrigin}}</td>
+        </tr>
+        <tr>
+            <td><label>Commission</label></td>
+            <td>{{executionDetailsCtrl.trade.CommissionUsd | number:2}} USD <small>({{executionDetailsCtrl.trade.Commission | number:2}} {{executionDetailsCtrl.trade.CommissionCcy}})</small></td>
+        </tr>
+        <tr>
+            <td><label>Cross</label></td>
+            <td>{{executionDetailsCtrl.trade.Cross}}</td>
+        </tr>
+        <tr>
+            <td><label>Quantity</label></td>
+            <td>{{executionDetailsCtrl.trade.Quantity | number}}</td>
+        </tr>
+        <tr>
+            <td><label>Exchange</label></td>
+            <td>{{executionDetailsCtrl.trade.Exchange}}</td>
+        </tr>
+        <tr>
+            <td><label>Execution ID</label></td>
+            <td>{{executionDetailsCtrl.trade.ExecutionId}}</td>
+        </tr>
+        <tr>
+            <td><label>Execution Time</label></td>
+            <td>{{executionDetailsCtrl.trade.ExecutionTime | date:'dd/MM/yy HH:mm:ss Z'}}</td>
+        </tr>
+        <tr>
+            <td><label>Order ID</label></td>
+            <td>{{executionDetailsCtrl.trade.OrderId}}</td>
+        </tr>
+        <tr>
+            <td><label>Our ref</label></td>
+            <td>{{executionDetailsCtrl.trade.ClientOrderRef}}</td>
+        </tr>
+        <tr>
+            <td><label>Order Permanent ID</label></td>
+            <td>{{executionDetailsCtrl.trade.PermanentID}}</td>
+        </tr>
+        <tr>
+            <td><label>PnL</label></td>
+            <td ng-class="[{'bg-success': executionDetailsCtrl.trade.RealizedPnL > 0}, {'bg-danger': executionDetailsCtrl.trade.RealizedPnL < 0}]">
+                <span ng-show="executionDetailsCtrl.trade.RealizedPnL">
+                    {{executionDetailsCtrl.trade.RealizedPnlUsd | number:2}} USD
+                    <small>
+                        (<span ng-hide="executionDetailsCtrl.trade.Cross.split('/')[1] === 'USD'">{{executionDetailsCtrl.trade.RealizedPnL | number:2}} {{executionDetailsCtrl.trade.Cross.split('/')[1]}} / </span>
+                        {{executionDetailsCtrl.trade.RealizedPnlPips | number:2}} pips)
+                    </small>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td><label>Trade Duration</label></td>
+            <td>{{executionDetailsCtrl.trade.TradeDuration}}</td>
+        </tr>
+        <tr>
+            <td><label>Price</label></td>
+            <td>{{executionDetailsCtrl.trade.Price | number:5}}</td>
+        </tr>
+        <tr>
+            <td><label>Side</label></td>
+            <td>{{executionDetailsCtrl.trade.Side}}</td>
+        </tr>
+        <tr>
+            <td><label>Trade String</label></td>
+            <td>{{executionDetailsCtrl.trade.Side}} {{executionDetailsCtrl.trade.Quantity | number}} {{executionDetailsCtrl.trade.Cross}} @ {{executionDetailsCtrl.trade.Price | number:5}} <small>({{executionDetailsCtrl.trade.ExecutionTime | date:'dd/MM/yy HH:mm:ss Z'}})</small></td>
+        </tr>
+    </table>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="executionDetailsCtrl.close()">Close</button>
+    </div>
+</div>

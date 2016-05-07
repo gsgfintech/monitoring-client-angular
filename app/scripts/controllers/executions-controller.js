@@ -1,11 +1,27 @@
 ﻿'use strict';
 
 angular.module('monitorApp')
-.controller('ExecutionsCtrl', ['$scope', '$rootScope', '$uibModal', 'FileSaver', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'ExecutionsExcelService', 'MenuService', function ($scope, $rootScope, $uibModal, FileSaver, MonitoringAppService, ExecutionsService, ExecutionDetailsService, ExecutionsExcelService, MenuService) {
+.controller('ExecutionsCtrl', ['$cacheFactory', '$scope', '$location', '$rootScope', '$state', '$stateParams', '$uibModal', 'FileSaver', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'ExecutionsExcelService', 'MenuService', function ($cacheFactory, $scope, $location, $rootScope, $state, $stateParams, $uibModal, FileSaver, MonitoringAppService, ExecutionsService, ExecutionDetailsService, ExecutionsExcelService, MenuService) {
 
     var self = this;
 
-    self.date = new Date();
+    function formatDate(date) {
+        var yyyy = date.getFullYear().toString();
+        var mm = (date.getMonth() + 1).toString(); // getMonth() is zero-based
+        var dd = date.getDate().toString();
+        return yyyy + '-' + (mm[1] ? mm : '0' + mm[0]) + '-' + (dd[1] ? dd : '0' + dd[0]); // padding
+    }
+
+    var cache = $cacheFactory.get('executionsCtrl') || $cacheFactory('executionsCtrl');
+
+    self.activeDate = cache.get('executionsCtrl.activeDate') || ($stateParams.date ? new Date($stateParams.date) : new Date());
+
+    cache.put('executionsCtrl.activeDate', self.activeDate);
+
+    var activeDateStr = formatDate(self.activeDate);
+
+    $location.path('/executions-day/' + activeDateStr);
+    $state.go('executions-day', { date: activeDateStr });
 
     self.executions = [];
     self.grossPnl = 0;
@@ -21,8 +37,21 @@ angular.module('monitorApp')
         MonitoringAppService.requestAccount(accountName);
     };
 
-    self.getExecutions = function () {
-        ExecutionsService.query({ day: self.date.toISOString() }, function (executions) {
+    self.changeDate = function () {
+        cache.put('executionsCtrl.activeDate', self.activeDate);
+
+        var activeDateStr = formatDate(self.activeDate);
+
+        // Update path in address bar
+        $location.path('/executions-day/' + activeDateStr);
+
+        $state.go('executions-day', { date: activeDateStr });
+
+        getExecutions();
+    };
+
+    function getExecutions() {
+        ExecutionsService.query({ day: self.activeDate.toISOString() }, function (executions) {
             self.executions = executions;
 
             MenuService.getTabsCounts().tradesCount = executions.length;
@@ -51,7 +80,7 @@ angular.module('monitorApp')
                 self.totalCommissions = self.totalCommissions + self.executions[i].CommissionUsd;
             }
         });
-    };
+    }
 
     function findCrossIndexInPnlArray(cross) {
         for (var i = 0; i < self.grossPnlPerCross.length; i++) {
@@ -79,8 +108,8 @@ angular.module('monitorApp')
                 console.log('Received details of execution', id);
 
                 $uibModal.open({
-                    templateUrl: 'views/execution-details.html',
-                    controller: 'ExecutionDetailsCtrl as executionDetailsCtrl',
+                    templateUrl: 'views/execution-details-popup.html',
+                    controller: 'ExecutionDetailsPopupCtrl as executionDetailsCtrl',
                     resolve: {
                         trade: function () {
                             return response;
@@ -157,6 +186,6 @@ angular.module('monitorApp')
         }
     });
 
-    self.getExecutions();
+    getExecutions();
 
 }]);
