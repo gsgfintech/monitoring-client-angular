@@ -1,13 +1,13 @@
 ﻿'use strict';
 
 angular.module('monitorApp')
-.controller('ExecutionDetailsPopupCtrl', ['$uibModalInstance', 'trade', 'serverEnpoint', function ($uibModalInstance, trade, serverEnpoint) {
+.controller('ExecutionDetailsPopupCtrl', ['$uibModalInstance', 'trade', function ($uibModalInstance, trade) {
 
     var self = this;
 
     self.trade = trade;
 
-    self.detailsLink = serverEnpoint + '#/executions/id/' + trade.ExecutionId;
+    self.detailsLink = '#/executions/id/' + trade.ExecutionId;
 
     self.close = function () {
         $uibModalInstance.dismiss('cancel');
