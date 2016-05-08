@@ -1,11 +1,27 @@
 ﻿'use strict';
 
 angular.module('monitorApp')
-.controller('OrdersCtrl', ['$scope', '$rootScope', '$uibModal', 'FileSaver', 'OrdersService', 'OrderDetailsService', 'OrdersExcelService', 'MenuService', function ($scope, $rootScope, $uibModal, FileSaver, OrdersService, OrderDetailsService, OrdersExcelService, MenuService) {
+.controller('OrdersCtrl', ['$cacheFactory', '$scope', '$location', '$rootScope', '$state', '$stateParams', '$uibModal', 'FileSaver', 'OrdersService', 'OrderDetailsService', 'OrdersExcelService', 'MenuService', function ($cacheFactory, $scope, $location, $rootScope, $state, $stateParams, $uibModal, FileSaver, OrdersService, OrderDetailsService, OrdersExcelService, MenuService) {
 
     var self = this;
 
-    self.date = new Date();
+    function formatDate(date) {
+        var yyyy = date.getFullYear().toString();
+        var mm = (date.getMonth() + 1).toString(); // getMonth() is zero-based
+        var dd = date.getDate().toString();
+        return yyyy + '-' + (mm[1] ? mm : '0' + mm[0]) + '-' + (dd[1] ? dd : '0' + dd[0]); // padding
+    }
+
+    var cache = $cacheFactory.get('ordersCtrl') || $cacheFactory('ordersCtrl');
+
+    self.activeDate = cache.get('ordersCtrl.activeDate') || ($stateParams.date ? new Date($stateParams.date) : new Date());
+
+    cache.put('ordersCtrl.activeDate', self.activeDate);
+
+    var activeDateStr = formatDate(self.activeDate);
+
+    $location.path('/orders/day/' + activeDateStr);
+    $state.go('orders-day', { date: activeDateStr });
 
     self.orders = [];
     self.ordersCount = 0;
@@ -15,8 +31,21 @@ angular.module('monitorApp')
 
     self.downloading = false;
 
-    self.getOrders = function () {
-        OrdersService.query({ day: self.date.toISOString() }, function (orders) {
+    self.changeDate = function () {
+        cache.put('ordersCtrl.activeDate', self.activeDate);
+
+        var activeDateStr = formatDate(self.activeDate);
+
+        // Update path in address bar
+        $location.path('/orders/day/' + activeDateStr);
+
+        $state.go('orders-day', { date: activeDateStr });
+
+        getOrders();
+    };
+
+    function getOrders() {
+        OrdersService.query({ day: self.activeDate.toISOString() }, function (orders) {
             self.orders = orders;
             MenuService.getTabsCounts().ordersCount = orders.length;
 
@@ -29,7 +58,7 @@ angular.module('monitorApp')
                 }
             }
         });
-    };
+    }
 
     self.listCrosses = function () {
         return self.crosses.split(',');
@@ -61,8 +90,8 @@ angular.module('monitorApp')
                 console.log('Received details of order', permanentId);
 
                 $uibModal.open({
-                    templateUrl: 'views/order-details.html',
-                    controller: 'OrderDetailsCtrl as orderDetailsCtrl',
+                    templateUrl: 'views/order-details-popup.html',
+                    controller: 'OrderDetailsPopupCtrl as orderDetailsCtrl',
                     resolve: {
                         order: function () {
                             return response;
@@ -81,7 +110,7 @@ angular.module('monitorApp')
         self.downloading = true;
 
         OrdersExcelService.download({
-            day: self.date.toISOString()
+            day: self.activeDate.toISOString()
         }, function (result) {
             console.log('Received ', result.response.filename);
 
@@ -136,11 +165,11 @@ angular.module('monitorApp')
         var placedTime = new Date(args.placedTime);
 
         // Only reload if we're looking at today's trades
-        if (placedTime.getDate() === self.date.getDate()) {
-            self.getOrders();
+        if (placedTime.getDate() === self.activeDate.getDate()) {
+            getOrders();
         }
     });
 
-    self.getOrders();
+    getOrders();
 
 }]);

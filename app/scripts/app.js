@@ -16,11 +16,16 @@ angular.module('monitorApp', ['angularSpinner', 'SignalR', 'ui.bootstrap', 'ngAn
         controller: 'ContractsCtrl',
         controllerAs: 'contractsCtrl',
         url: '/contracts'
-    }).state('orders', {
+    }).state('orders-day', {
         controller: 'OrdersCtrl',
         controllerAs: 'ordersCtrl',
         templateUrl: 'views/orders.html',
-        url: '/orders'
+        url: '/orders/day/:date'
+    }).state('orders-id', {
+        controller: 'OrderDetailsCtrl',
+        controllerAs: 'orderDetailsCtrl',
+        templateUrl: 'views/order-details.html',
+        url: '/orders/id/:id'
     }).state('executions-day', {
         controller: 'ExecutionsCtrl',
         controllerAs: 'executionsCtrl',

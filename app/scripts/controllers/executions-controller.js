@@ -20,7 +20,7 @@ angular.module('monitorApp')
 
     var activeDateStr = formatDate(self.activeDate);
 
-    $location.path('/executions-day/' + activeDateStr);
+    $location.path('/executions/day/' + activeDateStr);
     $state.go('executions-day', { date: activeDateStr });
 
     self.executions = [];
@@ -43,7 +43,7 @@ angular.module('monitorApp')
         var activeDateStr = formatDate(self.activeDate);
 
         // Update path in address bar
-        $location.path('/executions-day/' + activeDateStr);
+        $location.path('/executions/day/' + activeDateStr);
 
         $state.go('executions-day', { date: activeDateStr });
 
@@ -128,7 +128,7 @@ angular.module('monitorApp')
         self.downloading = true;
 
         ExecutionsExcelService.download({
-            day: self.date.toISOString()
+            day: self.activeDate.toISOString()
         }, function (result) {
             console.log('Received ', result.response.filename);
 
@@ -145,7 +145,7 @@ angular.module('monitorApp')
         var executionTime = new Date(execution.ExecutionTime);
 
         // Only reload if we're looking at today's trades
-        if (executionTime.getDate() === self.date.getDate()) {
+        if (executionTime.getDate() === self.activeDate.getDate()) {
             self.executions.push(execution);
 
             // Total gross PnL

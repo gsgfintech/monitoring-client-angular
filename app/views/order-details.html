@@ -1,14 +1,15 @@
-<div>
-    <div class="modal-header">
-        <h3 class="modal-title">Order {{orderDetailsCtrl.order.OrderID}}</h3>
-    </div>
-    <table class="table table-condensed">
-        <tr ng-repeat="(key, value) in orderDetailsCtrl.order">
-            <td><label>{{key}}</label></td>
-            <td>{{value}}</td>
-        </tr>
-    </table>
-    <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="orderDetailsCtrl.close()">Close</button>
+<div class="row">
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 col-lg-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>Order {{orderDetailsCtrl.order.OrderID}}</h4>
+            </div>
+            <table class="table">
+                <tr ng-repeat="(key, value) in orderDetailsCtrl.order">
+                    <td><label>{{key}}</label></td>
+                    <td>{{value}}</td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>

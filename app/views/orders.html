@@ -8,11 +8,11 @@
                 <tr>
                     <th>ID</th>
                     <th>
-                        <div class="hidden-xs">Placed Time ({{ordersCtrl.date | date:'Z'}})</div>
+                        <div class="hidden-xs">Placed Time (HKT)</div>
                         <div class="visible-xs">Placed</div>
                     </th>
                     <th>
-                        <div class="hidden-xs">Last Update ({{ordersCtrl.date | date:'Z'}})</div>
+                        <div class="hidden-xs">Last Update (HKT)</div>
                         <div class="visible-xs">Updated</div>
                     </th>
                     <th class="hidden-sm hidden-xs">Strategy</th>
@@ -86,10 +86,9 @@
                     </form>
                 </div>
                 <div class="pull-right">
-                    <form class="form-inline" ng-submit="ordersCtrl.getOrders()">
+                    <form class="form-inline">
                         <div class="form-group-sm">
-                            <input type="date" class="form-control" ng-model="ordersCtrl.date" />
-                            <button type="submit" class="btn btn-default btn-sm">Go</button>
+                            <input type="date" class="form-control" ng-model="ordersCtrl.activeDate" ng-change="ordersCtrl.changeDate()" />
                             <button type="button" class="btn btn-default btn-sm hidden-sm hidden-xs" ng-disabled="ordersCtrl.downloading || !ordersCtrl.orders || ordersCtrl.orders.length == 0" ng-click="ordersCtrl.exportToExcel()">Excel</button>
                         </div>
                     </form>
@@ -99,11 +98,11 @@
                 <tr>
                     <th>ID</th>
                     <th>
-                        <div class="hidden-xs">Placed Time ({{ordersCtrl.date | date:'Z'}})</div>
+                        <div class="hidden-xs">Placed Time (HKT)</div>
                         <div class="visible-xs">Placed</div>
                     </th>
                     <th>
-                        <div class="hidden-xs">Last Update ({{ordersCtrl.date | date:'Z'}})</div>
+                        <div class="hidden-xs">Last Update (HKT)</div>
                         <div class="visible-xs">Updated</div>
                     </th>
                     <th class="hidden-sm hidden-xs">Strategy</th>
