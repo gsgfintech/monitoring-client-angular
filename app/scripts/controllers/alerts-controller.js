@@ -1,9 +1,11 @@
 ﻿'use strict';
 
 angular.module('monitorApp')
-.controller('AlertsCtrl', ['$scope', '$rootScope', '$uibModal', '$interval', 'AlertsCloseService', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'FXEventsTodayHighService', 'PopupService', 'TradeEnginesService', 'SystemsStatusService', function ($scope, $rootScope, $uibModal, $interval, AlertsCloseService, MonitoringAppService, ExecutionsService, ExecutionDetailsService, FXEventsTodayHighService, PopupService, TradeEnginesService, SystemsStatusService) {
+.controller('AlertsCtrl', ['$cacheFactory', '$scope', '$rootScope', '$uibModal', '$interval', 'AlertsCloseService', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'FXEventsTodayHighService', 'PopupService', 'TradeEnginesService', 'SystemsStatusService', function ($cacheFactory, $scope, $rootScope, $uibModal, $interval, AlertsCloseService, MonitoringAppService, ExecutionsService, ExecutionDetailsService, FXEventsTodayHighService, PopupService, TradeEnginesService, SystemsStatusService) {
 
     var self = this;
+
+    var cache = $cacheFactory.get('alertsCtrl') || $cacheFactory('alertsCtrl');
 
     self.openAlerts = MonitoringAppService.getAllOpenAlerts();
     self.alertsClosedToday = MonitoringAppService.getAlertsClosedToday();
@@ -15,7 +17,7 @@ angular.module('monitorApp')
     self.collapseAlertsClosedToday = false;
     self.collapseAlertsClosedTodayButtonTitle = 'Hide';
 
-    self.position = {};
+    self.position = cache.get('alertsCtrl.position') || {};
 
     self.executions = [];
     self.grossPnl = 0;
@@ -538,6 +540,8 @@ angular.module('monitorApp')
         calculatePnl();
 
         self.position.timestamp = new Date();
+
+        cache.put('alertsCtrl.position', self.position);
     });
 
     $rootScope.$on('systemStatusUpdateReceived', function (event, status) {
