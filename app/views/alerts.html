@@ -47,6 +47,21 @@
             </div>
             <p ng-show="executionsCtrl.latestPositions.length === 0">No open position</p>
         </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Trading Pairs
+            </div>
+            <table class="table">
+                <tr>
+                    <td ng-repeat="cross in alertsCtrl.crosses | orderBy:'name'" ng-class="[{'bg-success': cross.trading}, {'bg-danger': !cross.trading}]">
+                        {{cross.name}}
+                        <button ng-class="[{'btn btn-danger btn-xs': cross.trading}, {'btn btn-success btn-xs': !cross.trading}]" ng-click="alertsCtrl.toggleCrossTrading(cross.name)" ng-disabled="cross.btnDisabled">
+                            {{alertsCtrl.getCrossTradingButtonLabel(cross.trading)}}
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
     <div class="col-lg-7 col-md-12 col-sm-12 col-xs-12">
         <div ng-class="[{'panel panel-success': alertsCtrl.overallSystemStatus() === 'GREEN'}, {'panel panel-warning': alertsCtrl.overallSystemStatus() === 'YELLOW'}, {'panel panel-danger': alertsCtrl.overallSystemStatus() === 'RED'}]">
@@ -147,42 +162,8 @@
                 <p>No trade today</p>
             </div>
         </div>
-        <div class="panel panel-default">
-            <div class="panel-heading" style="height:44px">
-                <div class="align-left">
-                    Alerts Closed Today 
-                    <span class="badge">{{alertsCtrl.alertsClosedToday.length}}</span>
-                </div>
-                <div class="align-right"><button ng-hide="alertsCtrl.alertsClosedToday.length == 0" class="btn btn-default btn-xs" ng-click="alertsCtrl.doCollapseAlertsClosedToday()">{{alertsCtrl.collapseAlertsClosedTodayButtonTitle}}</button></div>
-            </div>
-            <div class="panel-body">
-                <div ng-hide="alertsCtrl.collapseAlertsClosedToday">
-                    <uib-alert ng-repeat="alert in alertsCtrl.alertsClosedToday" type="{{alert.type}}">
-                        <a href="#" class="alert alert-link-light" ng-click="alertsCtrl.showClosedAlertDetails($index)">
-                            <span style="font-weight: bold">{{alert.Timestamp | date:'dd/MM/yy HH:mm:ss'}} - [{{alert.Level}}] {{alert.Source}}</span> : {{alert.Subject}} <span style="font-style:italic; font-size:smaller">(Closed at {{alert.ClosedTimestamp | date:'dd/MM/yy HH:mm:ss'}})</span>
-                        </a>
-                    </uib-alert>
-                </div>
-                <p ng-show="alertsCtrl.alertsClosedToday.length == 0">No closed alert</p>
-            </div>
-        </div>
     </div>
     <div class="col-lg-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Trading Pairs
-            </div>
-            <table class="table">
-                <tr>
-                    <td ng-repeat="cross in alertsCtrl.crosses | orderBy:'name'" ng-class="[{'bg-success': cross.trading}, {'bg-danger': !cross.trading}]">
-                        {{cross.name}}
-                        <button ng-class="[{'btn btn-danger btn-xs': cross.trading}, {'btn btn-success btn-xs': !cross.trading}]" ng-click="alertsCtrl.toggleCrossTrading(cross.name)" ng-disabled="cross.btnDisabled">
-                            {{alertsCtrl.getCrossTradingButtonLabel(cross.trading)}}
-                        </button>
-                    </td>
-                </tr>
-            </table>
-        </div>
         <div class="panel panel-default">
             <div class="panel-heading">
                 Major FX Events - {{alertsCtrl.today | date:'dd/MM'}}
@@ -211,6 +192,25 @@
                     </a>
                 </uib-alert>
                 <p ng-show="alertsCtrl.openAlerts.length == 0">No open alert</p>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" style="height:44px">
+                <div class="align-left">
+                    Alerts Closed Today
+                    <span class="badge">{{alertsCtrl.alertsClosedToday.length}}</span>
+                </div>
+                <div class="align-right"><button ng-hide="alertsCtrl.alertsClosedToday.length == 0" class="btn btn-default btn-xs" ng-click="alertsCtrl.doCollapseAlertsClosedToday()">{{alertsCtrl.collapseAlertsClosedTodayButtonTitle}}</button></div>
+            </div>
+            <div class="panel-body">
+                <div ng-hide="alertsCtrl.collapseAlertsClosedToday">
+                    <uib-alert ng-repeat="alert in alertsCtrl.alertsClosedToday" type="{{alert.type}}">
+                        <a href="#" class="alert alert-link-light" ng-click="alertsCtrl.showClosedAlertDetails($index)">
+                            <span style="font-weight: bold">{{alert.Timestamp | date:'dd/MM/yy HH:mm:ss'}} - [{{alert.Level}}] {{alert.Source}}</span> : {{alert.Subject}} <span style="font-style:italic; font-size:smaller">(Closed at {{alert.ClosedTimestamp | date:'dd/MM/yy HH:mm:ss'}})</span>
+                        </a>
+                    </uib-alert>
+                </div>
+                <p ng-show="alertsCtrl.alertsClosedToday.length == 0">No closed alert</p>
             </div>
         </div>
     </div>
