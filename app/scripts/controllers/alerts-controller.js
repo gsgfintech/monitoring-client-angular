@@ -210,8 +210,8 @@ angular.module('monitorApp')
                 console.log('Received details of execution', id);
 
                 $uibModal.open({
-                    templateUrl: 'views/execution-details.html',
-                    controller: 'ExecutionDetailsCtrl as executionDetailsCtrl',
+                    templateUrl: 'views/execution-details-popup.html',
+                    controller: 'ExecutionDetailsPopupCtrl as executionDetailsCtrl',
                     resolve: {
                         trade: function () {
                             return response;
