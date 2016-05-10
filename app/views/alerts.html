@@ -133,6 +133,7 @@
             <table class="table table-hover" ng-hide="!alertsCtrl.executions || alertsCtrl.executions.length === 0">
                 <tr>
                     <th>Exec Time (HKT)</th>
+                    <th class="hidden-xs">Origin</th>
                     <th>Side</th>
                     <th>Quantity</th>
                     <th>Pair</th>
@@ -143,6 +144,7 @@
                 </tr>
                 <tr ng-repeat="execution in alertsCtrl.executions | orderBy:'-ExecutionTime' track by execution.ExecutionId" ng-click="alertsCtrl.showTradeDetails(execution.ExecutionId)">
                     <td>{{execution.ExecutionTime | date:'HH:mm:ss'}}</td>
+                    <td class="text-overflow hidden-xs">{{execution.OrderOrigin}}</td>
                     <td>
                         <div class="hidden-xs">{{execution.Side}}</div>
                         <div class="visible-xs">{{alertsCtrl.shortenSide(execution.Side)}}</div>
