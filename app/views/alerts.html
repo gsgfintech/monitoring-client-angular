@@ -204,7 +204,7 @@
             </div>
             <div class="panel-body">
                 <div ng-hide="alertsCtrl.collapseAlertsClosedToday">
-                    <uib-alert ng-repeat="alert in alertsCtrl.alertsClosedToday" type="{{alert.type}}">
+                    <uib-alert ng-repeat="alert in alertsCtrl.alertsClosedToday | orderBy:'-Timestamp'" type="{{alert.type}}">
                         <a href="#" class="alert alert-link-light" ng-click="alertsCtrl.showClosedAlertDetails($index)">
                             <span style="font-weight: bold">{{alert.Timestamp | date:'dd/MM/yy HH:mm:ss'}} - [{{alert.Level}}] {{alert.Source}}</span> : {{alert.Subject}} <span style="font-style:italic; font-size:smaller">(Closed at {{alert.ClosedTimestamp | date:'dd/MM/yy HH:mm:ss'}})</span>
                         </a>
