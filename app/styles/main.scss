@@ -147,6 +147,10 @@ body {
     white-space: nowrap;
 }
 
+.table-horizontal-scroll {
+    overflow-y:scroll;
+}
+
 .strat-newcresus-table-wrapper {
     overflow-x: auto;
     overflow-y: auto;

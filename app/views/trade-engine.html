@@ -28,7 +28,7 @@
                     <button type="button" class="btn btn-danger" ng-click="tradeEngineCtrl.cancelAllOrders(tradeEngine.Name)">Cancel All Orders</button>
                     <button type="button" class="btn btn-danger" ng-click="tradeEngineCtrl.closeAllPositions(tradeEngine.Name)">Close All Positions</button>
                 </div>
-                <button type="button" class="btn btn-default" ng-click="tradeEngineCtrl.editConfig(tradeEngine)">Edit Config</button>
+                <button type="button" class="btn btn-default hidden-xs hidden-sm" ng-click="tradeEngineCtrl.editConfig(tradeEngine)">Edit Config</button>
             </div>
             <div class="row">
                 <h3>Broker Settings</h3>
@@ -70,16 +70,24 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-2">
-                                    <label>IB Controller Port</label>
-                                </div>
-                                <div class="col-sm-4">
-                                    {{tradeEngine.MarketDataBrokerClient.IBControllerPort}}
-                                </div>
-                                <div class="col-sm-2">
                                     <label>Account</label>
                                 </div>
                                 <div class="col-sm-4">
                                     {{tradeEngine.MarketDataBrokerClient.TradingAccount}}
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>IB Controller App</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    {{tradeEngine.MarketDataBrokerClient.IBControllerServiceAppName}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label>IB Controller Service</label>
+                                </div>
+                                <div class="col-sm-10 text-overflow">
+                                    {{tradeEngine.MarketDataBrokerClient.IBControllerServiceEndpoint}}
                                 </div>
                             </div>
                         </div>
@@ -121,16 +129,24 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-2">
-                                    <label>IB Controller Port</label>
-                                </div>
-                                <div class="col-sm-4">
-                                    {{tradeEngine.TradingBrokerClient.IBControllerPort}}
-                                </div>
-                                <div class="col-sm-2">
                                     <label>Account</label>
                                 </div>
                                 <div class="col-sm-4">
                                     {{tradeEngine.TradingBrokerClient.TradingAccount}}
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>IB Controller App</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    {{tradeEngine.TradingBrokerClient.IBControllerServiceAppName}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label>IB Controller Service</label>
+                                </div>
+                                <div class="col-sm-10 text-overflow">
+                                    {{tradeEngine.TradingBrokerClient.IBControllerServiceEndpoint}}
                                 </div>
                             </div>
                         </div>
@@ -146,28 +162,30 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">Strategies</h4>
                         </div>
-                        <table class="table table-hover" ng-hide="!tradeEngine.Strats || tradeEngine.Strats.length === 0">
-                            <tr>
-                                <th>Name</th>
-                                <th>Version</th>
-                                <th>Active on {{tradeEngine.Name}}</th>
-                                <th>Trading on {{tradeEngine.Name}}</th>
-                            </tr>
-                            <tr ng-repeat="strat in tradeEngine.Strats | orderBy:['Name','Version']">
-                                <td>{{strat.Name}}</td>
-                                <td>{{strat.Version}}</td>
-                                <td>
-                                    <div ng-click="tradeEngineCtrl.toggleStrat(strat.Active, tradeEngine.Name, strat.Name, strat.Version)">
-                                        <switch ng-model="strat.Active"></switch>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div ng-click="tradeEngineCtrl.toggleStratTrading(strat.Trading, tradeEngine.Name, strat.Name, strat.Version)">
-                                        <switch ng-model="strat.Trading"></switch>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-hover" ng-hide="!tradeEngine.Strats || tradeEngine.Strats.length === 0">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Version</th>
+                                    <th>Active on {{tradeEngine.Name}}</th>
+                                    <th>Trading on {{tradeEngine.Name}}</th>
+                                </tr>
+                                <tr ng-repeat="strat in tradeEngine.Strats | orderBy:['Name','Version']">
+                                    <td>{{strat.Name}}</td>
+                                    <td>{{strat.Version}}</td>
+                                    <td>
+                                        <div ng-click="tradeEngineCtrl.toggleStrat(strat.Active, tradeEngine.Name, strat.Name, strat.Version)">
+                                            <switch ng-model="strat.Active"></switch>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div ng-click="tradeEngineCtrl.toggleStratTrading(strat.Trading, tradeEngine.Name, strat.Name, strat.Version)">
+                                            <switch ng-model="strat.Trading"></switch>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                         <div class="panel-body" ng-show="!tradeEngine.Strats || tradeEngine.Strats.length === 0">
                             <p>No strategy</p>
                         </div>

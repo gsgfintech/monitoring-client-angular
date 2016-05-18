@@ -6,27 +6,139 @@
     </div>
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
-            <uib-accordion close-others="false">
-                <uib-accordion-group ng-repeat="config in stratConfigsCtrl.configs | orderBy:['StratName','StratVersion','-ConfigVersion']">
-                    <uib-accordion-heading>
-                        {{config.StratName}} - v{{config.StratVersion}} <small>({{config.ConfigVersion}})</small>
-                    </uib-accordion-heading>
-                    <div class="container-fluid">
-                        <div ng-repeat="(key, value) in config | orderBy:'key'" class="row">
-                            <div class="col-sm-3 col-md-2">
-                                <label>{{key}}</label>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Stratedge Algo</h4>
+                </div>
+                <div class="panel-body">
+                    <uib-accordion close-others="false">
+                        <uib-accordion-group ng-repeat="(key, configs) in stratConfigsCtrl.stratedgeConfigs">
+                            <uib-accordion-heading>
+                                {{key}}
+                                <button class="btn btn-xs btn-danger pull-right" ng-click="stratConfigsCtrl.toggleStratedgeConfigEditIndex(key)">Edit</button>
+                            </uib-accordion-heading>
+                            <div class="table-responsive">
+                                <table class="table table-condensed" ng-hide="stratConfigsCtrl.stratedgeConfigEditIndex === key">
+                                    <tr>
+                                        <th></th>
+                                        <th>BufferLengthInMinutes</th>
+                                        <th>HighLowMultiplier</th>
+                                        <th>HighLowMinDiff</th>
+                                        <th>LimitLevelInPips</th>
+                                        <th>StopLevelInPips</th>
+                                        <th>StopLevelTighteningFactorPer10MinutesInPips</th>
+                                        <th>LimitLevelUpdateMinTimeElapsedInSeconds</th>
+                                        <th>StopLevelUpdateMinTimeElapsedInSeconds</th>
+                                        <th>UseTrailingStopOrders</th>
+                                        <th>UseContingentLimitOrders</th>
+                                        <th>NotifyPositionReverse</th>
+                                        <th>NotifyOpenTradeMetrics</th>
+                                    </tr>
+                                    <tr ng-repeat="config in configs | orderBy:'StratName'">
+                                        <td>{{config.StratName}}</td>
+                                        <td>{{config.BufferLengthInMinutes | number}}</td>
+                                        <td>{{config.HighLowMultiplier | number}}</td>
+                                        <td>{{config.HighLowMinDiff | number}}</td>
+                                        <td>{{config.LimitLevelInPips | number}}</td>
+                                        <td>{{config.StopLevelInPips | number}}</td>
+                                        <td>{{config.StopLevelTighteningFactorPer10MinutesInPips | number}}</td>
+                                        <td>{{config.LimitLevelUpdateMinTimeElapsedInSeconds | number}}</td>
+                                        <td>{{config.StopLevelUpdateMinTimeElapsedInSeconds | number}}</td>
+                                        <td>
+                                            <span class="glyphicon glyphicon-ok-circle" ng-show="config.UseTrailingStopOrders"></span>
+                                            <span class="glyphicon glyphicon-remove-circle" ng-hide="config.UseTrailingStopOrders"></span>
+                                        </td>
+                                        <td>
+                                            <span class="glyphicon glyphicon-ok-circle" ng-show="config.UseContingentLimitOrders"></span>
+                                            <span class="glyphicon glyphicon-remove-circle" ng-hide="config.UseContingentLimitOrders"></span>
+                                        </td>
+                                        <td>
+                                            <span class="glyphicon glyphicon-ok-circle" ng-show="config.NotifyPositionReverse"></span>
+                                            <span class="glyphicon glyphicon-remove-circle" ng-hide="config.NotifyPositionReverse"></span>
+                                        </td>
+                                        <td>
+                                            <span class="glyphicon glyphicon-ok-circle" ng-show="config.NotifyOpenTradeMetrics !== false"></span>
+                                            <span class="glyphicon glyphicon-remove-sign" ng-show="config.NotifyOpenTradeMetrics === false"></span>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table class="table table-condensed" ng-show="stratConfigsCtrl.stratedgeConfigEditIndex === key">
+                                    <tr>
+                                        <th></th>
+                                        <th>BufferLengthInMinutes</th>
+                                        <th>HighLowMultiplier</th>
+                                        <th>HighLowMinDiff</th>
+                                        <th>LimitLevelInPips</th>
+                                        <th>StopLevelInPips</th>
+                                        <th>StopLevelTighteningFactorPer10MinutesInPips</th>
+                                        <th>LimitLevelUpdateMinTimeElapsedInSeconds</th>
+                                        <th>StopLevelUpdateMinTimeElapsedInSeconds</th>
+                                        <th>UseTrailingStopOrders</th>
+                                        <th>UseContingentLimitOrders</th>
+                                        <th>NotifyPositionReverse</th>
+                                        <th>NotifyOpenTradeMetrics</th>
+                                    </tr>
+                                    <tr ng-repeat="config in configs | orderBy:'StratName'">
+                                        <td>{{config.StratName}}</td>
+                                        <td><input class="form-control" type="number" ng-model="config.BufferLengthInMinutes" /></td>
+                                        <td><input class="form-control" type="number" ng-model="config.HighLowMultiplier" /></td>
+                                        <td><input class="form-control" type="number" ng-model="config.HighLowMinDiff" /></td>
+                                        <td><input class="form-control" type="number" ng-model="config.LimitLevelInPips" /></td>
+                                        <td><input class="form-control" type="number" ng-model="config.StopLevelInPips" /></td>
+                                        <td><input class="form-control" type="number" ng-model="config.StopLevelTighteningFactorPer10MinutesInPips" /></td>
+                                        <td><input class="form-control" type="number" ng-model="config.LimitLevelUpdateMinTimeElapsedInSeconds" /></td>
+                                        <td><input class="form-control" type="number" ng-model="config.StopLevelUpdateMinTimeElapsedInSeconds" /></td>
+                                        <td><input type="checkbox" ng-model="config.UseTrailingStopOrders" /></td>
+                                        <td><input type="checkbox" ng-model="config.UseContingentLimitOrders" /></td>
+                                        <td><input type="checkbox" ng-model="config.NotifyPositionReverse" /></td>
+                                        <td><input type="checkbox" ng-model="config.NotifyOpenTradeMetrics" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>All</td>
+                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.BufferLengthInMinutes" /></td>
+                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.HighLowMultiplier" /></td>
+                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.HighLowMinDiff" /></td>
+                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.LimitLevelInPips" /></td>
+                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.StopLevelInPips" /></td>
+                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.StopLevelTighteningFactorPer10MinutesInPips" /></td>
+                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.LimitLevelUpdateMinTimeElapsedInSeconds" /></td>
+                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.StopLevelUpdateMinTimeElapsedInSeconds" /></td>
+                                        <td><input type="checkbox" ng-model="stratConfigsCtrl.allStratedgeConfigs.UseTrailingStopOrders" /></td>
+                                        <td><input type="checkbox" ng-model="stratConfigsCtrl.allStratedgeConfigs.UseContingentLimitOrders" /></td>
+                                        <td><input type="checkbox" ng-model="stratConfigsCtrl.allStratedgeConfigs.NotifyPositionReverse" /></td>
+                                        <td><input type="checkbox" ng-model="stratConfigsCtrl.allStratedgeConfigs.NotifyOpenTradeMetrics" /></td>
+                                    </tr>
+                                </table>
                             </div>
-                            <div class="col-sm-9 col-md-10">
-                                {{value}}
-                            </div>
-                        </div>
-                        <div class="btn-group-xs">
-                            <button class="btn btn-success" role="button" ng-click="stratConfigsCtrl.duplicate(config)"><span class="glyphicon glyphicon-plus-sign"></span> Duplicate</button>
-                            <button class="btn btn-danger" role="button" ng-click="stratConfigsCtrl.delete(config)"><span class="glyphicon glyphicon-remove"></span> Delete</button>
-                        </div>
-                    </div>
-                </uib-accordion-group>
-            </uib-accordion>
+                        </uib-accordion-group>
+                    </uib-accordion>
+                </div>
+            </div>
         </div>
+        <!--<div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <uib-accordion close-others="false">
+                    <uib-accordion-group ng-repeat="config in stratConfigsCtrl.configs | orderBy:['StratName','StratVersion','-ConfigVersion']">
+                        <uib-accordion-heading>
+                            {{config.StratName}} - v{{config.StratVersion}} <small>({{config.ConfigVersion}})</small>
+                        </uib-accordion-heading>
+                        <div class="container-fluid">
+                            <div ng-repeat="(key, value) in config | orderBy:'key'" class="row">
+                                <div class="col-sm-3 col-md-2">
+                                    <label>{{key}}</label>
+                                </div>
+                                <div class="col-sm-9 col-md-10">
+                                    {{value}}
+                                </div>
+                            </div>
+                            <div class="btn-group-xs">
+                                <button class="btn btn-success" role="button" ng-click="stratConfigsCtrl.duplicate(config)"><span class="glyphicon glyphicon-plus-sign"></span> Duplicate</button>
+                                <button class="btn btn-danger" role="button" ng-click="stratConfigsCtrl.delete(config)"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                            </div>
+                        </div>
+                    </uib-accordion-group>
+                </uib-accordion>
+            </div>
+        </div>-->
     </div>
 </div>

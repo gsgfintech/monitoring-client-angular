@@ -5,7 +5,32 @@ angular.module('monitorApp')
 
     var self = this;
 
-    self.configs = StratConfigsService.query();
+    self.configs = [];
+    self.stratedgeConfigs = {};
+
+    self.stratedgeConfigEditIndex = null;
+    self.allStratedgeConfigs = {};
+
+    StratConfigsService.query(function (configs) {
+        if (configs) {
+            for (var i = 0; i < configs.length; i++) {
+                if (configs[i].StratName.indexOf('Stratedge1602') > -1) {
+                    if (self.stratedgeConfigs[configs[i].StratVersion]) {
+                        self.stratedgeConfigs[configs[i].StratVersion].push(configs[i]);
+                    } else {
+                        self.stratedgeConfigs[configs[i].StratVersion] = [configs[i]];
+                    }
+                }
+                else {
+                    self.configs.push(configs[i]);
+                }
+            }
+        }
+    });
+
+    self.toggleStratedgeConfigEditIndex = function (versionToEdit) {
+        self.stratedgeConfigEditIndex = versionToEdit;
+    };
 
     self.duplicate = function (config) {
         var modalInstance = $uibModal.open({

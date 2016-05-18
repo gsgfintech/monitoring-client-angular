@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('monitorApp')
-.controller('ExecutionsCtrl', ['$cacheFactory', '$scope', '$location', '$rootScope', '$state', '$stateParams', '$uibModal', 'FileSaver', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'ExecutionsExcelService', 'MenuService', function ($cacheFactory, $scope, $location, $rootScope, $state, $stateParams, $uibModal, FileSaver, MonitoringAppService, ExecutionsService, ExecutionDetailsService, ExecutionsExcelService, MenuService) {
+.controller('ExecutionsCtrl', ['$cacheFactory', '$scope', '$location', '$rootScope', '$state', '$stateParams', '$uibModal', 'FileSaver', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'ExecutionsExcelService', 'MenuService', 'TradesService', function ($cacheFactory, $scope, $location, $rootScope, $state, $stateParams, $uibModal, FileSaver, MonitoringAppService, ExecutionsService, ExecutionDetailsService, ExecutionsExcelService, MenuService, TradesService) {
 
     var self = this;
 
@@ -93,13 +93,19 @@ angular.module('monitorApp')
     }
 
     self.formatRate = function (cross, rate) {
-        if (!rate) {
-            return null;
-        } else if (cross.indexOf('JPY') > -1) {
-            return rate.toFixed(3);
-        } else {
-            return rate.toFixed(5);
-        }
+        return TradesService.formatRate(cross, rate);
+    };
+
+    self.shortenOrigin = function (origin) {
+        return TradesService.shortenOrigin(origin);
+    };
+
+    self.shortenCross = function (cross) {
+        return TradesService.shortenCross(cross);
+    };
+
+    self.shortenSide = function (side) {
+        return TradesService.shortenSide(side);
     };
 
     self.showTradeDetails = function (id) {

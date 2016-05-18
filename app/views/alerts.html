@@ -51,16 +51,12 @@
             <div class="panel-heading">
                 Trading Pairs
             </div>
-            <table class="table">
-                <tr>
-                    <td ng-repeat="cross in alertsCtrl.crosses | orderBy:'name'" ng-class="[{'bg-success': cross.trading}, {'bg-danger': !cross.trading}]">
-                        {{cross.name}}
-                        <button ng-class="[{'btn btn-danger btn-xs': cross.trading}, {'btn btn-success btn-xs': !cross.trading}]" ng-click="alertsCtrl.toggleCrossTrading(cross.name)" ng-disabled="cross.btnDisabled">
-                            {{alertsCtrl.getCrossTradingButtonLabel(cross.trading)}}
-                        </button>
-                    </td>
-                </tr>
-            </table>
+            <ul class="list-group list-inline nav-justified">
+                <li class="list-group-item" ng-repeat="cross in alertsCtrl.crosses | orderBy:'name'" ng-class="[{'list-group-item-success': cross.trading}, {'list-group-item-danger': !cross.trading}]"
+                    ng-click="alertsCtrl.toggleCrossTrading(cross.name)" ng-disabled="cross.btnDisabled">
+                    {{cross.name}}
+                </li>
+            </ul>
         </div>
     </div>
     <div class="col-lg-7 col-md-12 col-sm-12 col-xs-12">

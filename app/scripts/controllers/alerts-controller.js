@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('monitorApp')
-.controller('AlertsCtrl', ['$cacheFactory', '$scope', '$rootScope', '$uibModal', '$interval', 'AlertsCloseService', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'FXEventsTodayHighService', 'PopupService', 'TradeEnginesService', 'SystemsStatusService', function ($cacheFactory, $scope, $rootScope, $uibModal, $interval, AlertsCloseService, MonitoringAppService, ExecutionsService, ExecutionDetailsService, FXEventsTodayHighService, PopupService, TradeEnginesService, SystemsStatusService) {
+.controller('AlertsCtrl', ['$cacheFactory', '$scope', '$rootScope', '$uibModal', '$interval', 'AlertsCloseService', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'FXEventsTodayHighService', 'PopupService', 'TradeEnginesService', 'TradesService', 'SystemsStatusService', function ($cacheFactory, $scope, $rootScope, $uibModal, $interval, AlertsCloseService, MonitoringAppService, ExecutionsService, ExecutionDetailsService, FXEventsTodayHighService, PopupService, TradeEnginesService, TradesService, SystemsStatusService) {
 
     var self = this;
 
@@ -353,11 +353,11 @@ angular.module('monitorApp')
     };
 
     self.shortenCross = function (cross) {
-        return cross.replace('USD', '').replace('/', '');
+        return TradesService.shortenCross(cross);
     };
 
     self.shortenSide = function (side) {
-        return side.substring(0, 1);
+        return TradesService.shortenSide(side);
     };
 
     self.toggleCrossTrading = function (cross) {

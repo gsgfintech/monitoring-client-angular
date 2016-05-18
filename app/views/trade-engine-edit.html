@@ -8,38 +8,44 @@
                 <uib-accordion-group heading="Market Data Broker Client">
                     <div class="panel-body">
                         <div class="form-group">
-                            <label for="md-broker-name" class="col-sm-2">Name</label>
-                            <div class="col-sm-10">
+                            <label for="md-broker-name" class="col-sm-3">Name</label>
+                            <div class="col-sm-9">
                                 <input class="form-control" id="md-broker-name" type="text" ng-model="tradeEngineEditCtrl.config.MarketDataBrokerClient.Name" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="md-broker-number" class="col-sm-2">Number</label>
-                            <div class="col-sm-10">
+                            <label for="md-broker-number" class="col-sm-3">Number</label>
+                            <div class="col-sm-9">
                                 <input id="md-broker-number" class="form-control" type="number" ng-model="tradeEngineEditCtrl.config.MarketDataBrokerClient.ClientNumber" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="md-broker-host" class="col-sm-2">Host</label>
-                            <div class="col-sm-10">
+                            <label for="md-broker-host" class="col-sm-3">Host</label>
+                            <div class="col-sm-9">
                                 <input id="md-broker-host" class="form-control" type="text" ng-model="tradeEngineEditCtrl.config.MarketDataBrokerClient.Host" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="md-broker-port" class="col-sm-2">Port</label>
-                            <div class="col-sm-10">
+                            <label for="md-broker-port" class="col-sm-3">Port</label>
+                            <div class="col-sm-9">
                                 <input id="md-broker-port" class="form-control" type="number" ng-model="tradeEngineEditCtrl.config.MarketDataBrokerClient.Port" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="md-broker-port" class="col-sm-2">IB Controller Port</label>
-                            <div class="col-sm-10">
-                                <input id="md-broker-port" class="form-control" type="number" ng-model="tradeEngineEditCtrl.config.MarketDataBrokerClient.IBControllerPort" />
+                            <label for="md-broker-port" class="col-sm-3">IB Controller App</label>
+                            <div class="col-sm-9">
+                                <input id="md-broker-port" class="form-control" type="text" ng-model="tradeEngineEditCtrl.config.MarketDataBrokerClient.IBControllerServiceAppName" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="md-broker-account" class="col-sm-2">Account</label>
-                            <div class="col-sm-10">
+                            <label for="md-broker-port" class="col-sm-3">IB Controller Service</label>
+                            <div class="col-sm-9">
+                                <input id="md-broker-port" class="form-control" type="text" ng-model="tradeEngineEditCtrl.config.MarketDataBrokerClient.IBControllerServiceEndpoint" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="md-broker-account" class="col-sm-3">Account</label>
+                            <div class="col-sm-9">
                                 <input id="md-broker-account" class="form-control" type="text" ng-model="tradeEngineEditCtrl.config.MarketDataBrokerClient.TradingAccount" />
                             </div>
                         </div>
@@ -48,38 +54,44 @@
                 <uib-accordion-group heading="Trading Broker Client">
                     <div class="panel-body">
                         <div class="form-group">
-                            <label for="md-broker-name" class="col-sm-2">Name</label>
-                            <div class="col-sm-10">
+                            <label for="md-broker-name" class="col-sm-3">Name</label>
+                            <div class="col-sm-9">
                                 <input class="form-control" id="md-broker-name" type="text" ng-model="tradeEngineEditCtrl.config.TradingBrokerClient.Name" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="md-broker-number" class="col-sm-2">Number</label>
-                            <div class="col-sm-10">
+                            <label for="md-broker-number" class="col-sm-3">Number</label>
+                            <div class="col-sm-9">
                                 <input id="md-broker-number" class="form-control" type="number" ng-model="tradeEngineEditCtrl.config.TradingBrokerClient.ClientNumber" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="md-broker-host" class="col-sm-2">Host</label>
-                            <div class="col-sm-10">
+                            <label for="md-broker-host" class="col-sm-3">Host</label>
+                            <div class="col-sm-9">
                                 <input id="md-broker-host" class="form-control" type="text" ng-model="tradeEngineEditCtrl.config.TradingBrokerClient.Host" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="md-broker-port" class="col-sm-2">Port</label>
-                            <div class="col-sm-10">
+                            <label for="md-broker-port" class="col-sm-3">Port</label>
+                            <div class="col-sm-9">
                                 <input id="md-broker-port" class="form-control" type="number" ng-model="tradeEngineEditCtrl.config.TradingBrokerClient.Port" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="md-broker-port" class="col-sm-2">IB Controller Port</label>
-                            <div class="col-sm-10">
-                                <input id="md-broker-port" class="form-control" type="number" ng-model="tradeEngineEditCtrl.config.TradingBrokerClient.IBControllerPort" />
+                            <label for="md-broker-port" class="col-sm-3">IB Controller App</label>
+                            <div class="col-sm-9">
+                                <input id="md-broker-port" class="form-control" type="text" ng-model="tradeEngineEditCtrl.config.TradingBrokerClient.IBControllerServiceAppName" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="md-broker-account" class="col-sm-2">Account</label>
-                            <div class="col-sm-10">
+                            <label for="md-broker-port" class="col-sm-3">IB Controller Service</label>
+                            <div class="col-sm-9">
+                                <input id="md-broker-port" class="form-control" type="text" ng-model="tradeEngineEditCtrl.config.TradingBrokerClient.IBControllerServiceEndpoint" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="md-broker-account" class="col-sm-3">Account</label>
+                            <div class="col-sm-9">
                                 <input id="md-broker-account" class="form-control" type="text" ng-model="tradeEngineEditCtrl.config.TradingBrokerClient.TradingAccount" />
                             </div>
                         </div>
@@ -98,26 +110,26 @@
                 <uib-accordion-group heading="Controller">
                     <div class="panel-body">
                         <div class="form-group">
-                            <label for="controller-endpoint" class="col-sm-2">Controller Endpoint</label>
-                            <div class="col-sm-10">
+                            <label for="controller-endpoint" class="col-sm-3">Controller Endpoint</label>
+                            <div class="col-sm-9">
                                 <input id="controller-endpoint" class="form-control" type="text" ng-model="tradeEngineEditCtrl.config.ControllerEndpoint" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="converter-endpoint" class="col-sm-2">Converter Service</label>
-                            <div class="col-sm-10">
+                            <label for="converter-endpoint" class="col-sm-3">Converter Service</label>
+                            <div class="col-sm-9">
                                 <input id="converter-endpoint" class="form-control" type="text" ng-model="tradeEngineEditCtrl.config.ConverterServiceEndpoint" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="converter-endpoint" class="col-sm-2">Market Data Service</label>
-                            <div class="col-sm-10">
+                            <label for="converter-endpoint" class="col-sm-3">Market Data Service</label>
+                            <div class="col-sm-9">
                                 <input id="converter-endpoint" class="form-control" type="text" ng-model="tradeEngineEditCtrl.config.MDServiceEndpoint" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="controller-logmdticks" class="col-sm-2">Log MD Ticks</label>
-                            <div class="col-sm-10">
+                            <label for="controller-logmdticks" class="col-sm-3">Log MD Ticks</label>
+                            <div class="col-sm-9">
                                 <input id="controller-logmdticks" type="checkbox" ng-model="tradeEngineEditCtrl.config.LogMarketDataTicks" />
                             </div>
                         </div>
@@ -126,20 +138,20 @@
                 <uib-accordion-group heading="Monitoring">
                     <div class="panel-body">
                         <div class="form-group">
-                            <label for="monitoring-endpoint" class="col-sm-2">Monitoring Endpoint</label>
-                            <div class="col-sm-10">
+                            <label for="monitoring-endpoint" class="col-sm-3">Monitoring Endpoint</label>
+                            <div class="col-sm-9">
                                 <input id="monitoring-endpoint" class="form-control" type="text" ng-model="tradeEngineEditCtrl.config.AlertingEndpoint" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="pinger-service-port" class="col-sm-2">Pinger Service Port</label>
-                            <div class="col-sm-10">
+                            <label for="pinger-service-port" class="col-sm-3">Pinger Service Port</label>
+                            <div class="col-sm-9">
                                 <input id="pinger-service-port" class="form-control" type="number" ng-model="tradeEngineEditCtrl.config.PingerServicePort" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="slack-webhook" class="col-sm-2">Slack Webhook</label>
-                            <div class="col-sm-10">
+                            <label for="slack-webhook" class="col-sm-3">Slack Webhook</label>
+                            <div class="col-sm-9">
                                 <input id="slack-webhook" class="form-control" type="text" ng-model="tradeEngineEditCtrl.config.SlackWebHook" />
                             </div>
                         </div>

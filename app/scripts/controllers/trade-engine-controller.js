@@ -75,7 +75,6 @@ angular.module('monitorApp')
             templateUrl: 'views/trade-engine-edit.html',
             controller: 'TradeEngineEditCtrl',
             controllerAs: 'tradeEngineEditCtrl',
-            size: 'lg',
             resolve: {
                 config: function () {
                     return angular.copy(config);
