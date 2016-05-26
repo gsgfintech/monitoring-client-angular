@@ -95,6 +95,11 @@ angular.module('monitorApp', ['angularSpinner', 'SignalR', 'ui.bootstrap', 'ngAn
         controllerAs: 'stratStratedgeCtrl',
         templateUrl: 'views/strat-stratedge.html',
         url: '/strat/stratedge'
+    }).state('system-status', {
+        controller: 'SystemStatusDetailsCtrl',
+        controllerAs: 'systemStatusDetailsCtrl',
+        templateUrl: 'views/system-status-details.html',
+        url: '/systems/:name'
     }).state('systems-logs', {
         controller: 'SystemsLogsCtrl',
         controllerAs: 'systemsLogsCtrl',

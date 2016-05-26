@@ -190,8 +190,8 @@ angular.module('monitorApp')
 
         if (index > -1) {
             $uibModal.open({
-                templateUrl: 'views/system-status-details.html',
-                controller: 'SystemStatusDetailsCtrl as systemStatusDetailsCtrl',
+                templateUrl: 'views/system-status-details-popup.html',
+                controller: 'SystemStatusDetailsPopupCtrl as systemStatusDetailsCtrl',
                 size: 'lg',
                 resolve: {
                     system: function () {

@@ -514,6 +514,10 @@ angular.module('monitorApp')
         return -1;
     };
 
+    function setupHub() {
+        console.log('Setting up hub');
+    }
+
     hub.promise.done(function () {
         console.log('monitoringAppHub is now ready');
 
@@ -558,7 +562,10 @@ angular.module('monitorApp')
         // Positions
         getLatestPositions: function () {
             return latestPositions;
-        }
+        },
+
+        // Other
+        setupHub: setupHub
 
     };
 }]);

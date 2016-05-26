@@ -1,0 +1,68 @@
+<div>
+    <div ng-class="[{'modal-header bg-success': systemStatusDetailsCtrl.system.OverallStatusLevel === 'GREEN'},
+         {'modal-header bg-warning': systemStatusDetailsCtrl.system.OverallStatusLevel === 'YELLOW'},
+         {'modal-header bg-danger': systemStatusDetailsCtrl.system.OverallStatusLevel === 'RED'}]">
+        <h3 class="modal-title">
+            {{systemStatusDetailsCtrl.system.Name}}
+            <small><a href="{{systemStatusDetailsCtrl.detailsLink}}" target="_blank"><span class="glyphicon glyphicon-share"></span> Link</a></small>
+        </h3>
+    </div>
+    <table class="table table-condensed">
+        <tr>
+            <td><label>Last HB</label></td>
+            <td>{{systemStatusDetailsCtrl.system.LastHeardFrom | date:'yy/MM/dd HH:mm:ss Z'}}</td>
+        </tr>
+        <tr>
+            <td><label>Start Time</label></td>
+            <td>{{systemStatusDetailsCtrl.system.StartTime | date:'yy/MM/dd HH:mm:ss Z'}}</td>
+        </tr>
+        <tr>
+            <td><label>Is Alive</label></td>
+            <td>
+                <div class="label label-success" ng-show="systemStatusDetailsCtrl.system.IsAlive === true"><span class="glyphicon glyphicon-ok-sign"></span></div>
+                <div class="label label-danger" ng-show="systemStatusDetailsCtrl.system.IsAlive === false"><span class="glyphicon glyphicon-remove-sign"></span></div>
+            </td>
+        </tr>
+        <tr ng-show="systemStatusDetailsCtrl.system.ConnectionStatus">
+            <td><label>Broker Connection</label></td>
+            <td>
+                <div class="label label-success" ng-show="systemStatusDetailsCtrl.system.ConnectionStatus === 'GREEN'"><span class="glyphicon glyphicon-ok-sign"></span></div>
+                <div class="label label-warning" ng-show="systemStatusDetailsCtrl.system.ConnectionStatus === 'YELLOW'"><span class="glyphicon glyphicon-warning-sign"></span></div>
+                <div class="label label-danger" ng-show="systemStatusDetailsCtrl.system.ConnectionStatus === 'RED'"><span class="glyphicon glyphicon-remove-sign"></span></div>
+            </td>
+        </tr>
+        <tr ng-show="systemStatusDetailsCtrl.system.TradingStatus">
+            <td><label>Is Trading</label></td>
+            <td>
+                <div class="label label-success" ng-show="systemStatusDetailsCtrl.system.TradingStatus === 'GREEN'"><span class="glyphicon glyphicon-ok-sign"></span></div>
+                <div class="label label-warning" ng-show="systemStatusDetailsCtrl.system.TradingStatus === 'YELLOW'"><span class="glyphicon glyphicon-warning-sign"></span></div>
+                <div class="label label-danger" ng-show="systemStatusDetailsCtrl.system.TradingStatus === 'RED'"><span class="glyphicon glyphicon-remove-sign"></span></div>
+            </td>
+        </tr>
+        <tr ng-repeat="attribute in systemStatusDetailsCtrl.system.Attributes | orderBy:'Name'">
+            <td><label>{{attribute.Name}}</label></td>
+            <td ng-class="[{'bg-success': attribute.Level == 'GREEN'}, {'bg-warning': attribute.Level == 'YELLOW'}, {'bg-danger': attribute.Level == 'RED'}]">
+                {{attribute.Value}}
+                <div class="pull-right" ng-show="attribute.Level === 'RED' && attribute.Acked === false">
+                    <select ng-model="systemStatusDetailsCtrl.ackedUntilStr">
+                        <option value="30m">For 30m</option>
+                        <option value="1h">For 1h</option>
+                        <option value="4h">For 4h</option>
+                        <option value="12h">For 12h</option>
+                        <option value="1d">For 1d</option>
+                        <option value="1w">For 1w</option>
+                        <option value="na">Til cxld</option>
+                    </select>
+                    <button type="button" class="btn btn-success btn-sm" ng-click="systemStatusDetailsCtrl.ackAttribute(attribute.Name)">Ack</button>
+                </div>
+                <div class="pull-right" ng-show="attribute.Level === 'RED' && attribute.Acked === true">
+                    <button type="button" class="btn btn-danger btn-sm" ng-click="systemStatusDetailsCtrl.unackAttribute(attribute.Name)">Unack</button>
+                </div>
+            </td>
+            <td></td>
+        </tr>
+    </table>
+    <div class="modal-footer">
+        <button class="btn btn-default" ng-click="systemStatusDetailsCtrl.close()">Close</button>
+    </div>
+</div>

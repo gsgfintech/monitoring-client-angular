@@ -1,11 +1,13 @@
 ﻿'use strict';
 
 angular.module('monitorApp')
-.controller('SystemStatusDetailsCtrl', ['$rootScope', '$uibModalInstance', 'SystemsStatusAckService', 'SystemsStatusUnackService', 'system', function ($rootScope, $uibModalInstance, SystemsStatusAckService, SystemsStatusUnackService, system) {
+.controller('SystemStatusDetailsPopupCtrl', ['$rootScope', '$uibModalInstance', 'SystemsStatusAckService', 'SystemsStatusUnackService', 'system', function ($rootScope, $uibModalInstance, SystemsStatusAckService, SystemsStatusUnackService, system) {
 
     var self = this;
 
     self.system = system;
+
+    self.detailsLink = '#/systems/' + system.Name;
 
     self.ackedUntilStr = null;
 
@@ -32,7 +34,7 @@ angular.module('monitorApp')
 
 
     // Event listeners
-
+    
     $rootScope.$on('systemStatusUpdateReceived', function (event, status) {
         self.system = status;
     });
@@ -67,5 +69,26 @@ angular.module('monitorApp')
 
         return -1;
     }
+
+}])
+.controller('SystemStatusDetailsCtrl', ['$rootScope', '$stateParams', 'MonitoringAppService', 'SystemsStatusService', function ($rootScope, $stateParams, MonitoringAppService, SystemsStatusService) {
+
+    var self = this;
+
+    self.system = null;
+
+    var systemName = $stateParams.name;
+
+    if (systemName) {
+        self.system = SystemsStatusService.get({ systemName: systemName });
+    }
+
+    $rootScope.$on('systemStatusUpdateReceivedEvent', function (event, status) {
+        if (self.system && self.system.Name === status.Name) {
+            self.system = status;
+        }
+    });
+
+    MonitoringAppService.setupHub();
 
 }]);
