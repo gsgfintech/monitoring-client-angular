@@ -36,29 +36,29 @@
                                     </tr>
                                     <tr ng-repeat="config in configs | orderBy:'StratName'">
                                         <td>{{config.StratName}}</td>
-                                        <td>{{config.BufferLengthInMinutes | number}}</td>
-                                        <td>{{config.HighLowMultiplier | number}}</td>
-                                        <td>{{config.HighLowMinDiff | number}}</td>
-                                        <td>{{config.LimitLevelInPips | number}}</td>
-                                        <td>{{config.StopLevelInPips | number}}</td>
-                                        <td>{{config.StopLevelTighteningFactorPer10MinutesInPips | number}}</td>
-                                        <td>{{config.LimitLevelUpdateMinTimeElapsedInSeconds | number}}</td>
-                                        <td>{{config.StopLevelUpdateMinTimeElapsedInSeconds | number}}</td>
+                                        <td>{{config.ParamBufferLengthInMinutes | number}}</td>
+                                        <td>{{config.ParamHighLowMultiplier | number}}</td>
+                                        <td>{{config.ParamHighLowMinDiff | number}}</td>
+                                        <td>{{config.ParamLimitLevelInPips | number}}</td>
+                                        <td>{{config.ParamStopLevelInPips | number}}</td>
+                                        <td>{{config.ParamStopLevelTighteningFactorPer10MinutesInPips | number}}</td>
+                                        <td>{{config.ParamLimitLevelUpdateMinTimeElapsedInSeconds | number}}</td>
+                                        <td>{{config.ParamStopLevelUpdateMinTimeElapsedInSeconds | number}}</td>
                                         <td>
-                                            <span class="glyphicon glyphicon-ok-circle" ng-show="config.UseTrailingStopOrders"></span>
-                                            <span class="glyphicon glyphicon-remove-circle" ng-hide="config.UseTrailingStopOrders"></span>
+                                            <span class="glyphicon glyphicon-ok-circle" ng-show="config.ParamUseTrailingStopOrders"></span>
+                                            <span class="glyphicon glyphicon-remove-circle" ng-hide="config.ParamUseTrailingStopOrders"></span>
                                         </td>
                                         <td>
-                                            <span class="glyphicon glyphicon-ok-circle" ng-show="config.UseContingentLimitOrders"></span>
-                                            <span class="glyphicon glyphicon-remove-circle" ng-hide="config.UseContingentLimitOrders"></span>
+                                            <span class="glyphicon glyphicon-ok-circle" ng-show="config.ParamUseContingentLimitOrders"></span>
+                                            <span class="glyphicon glyphicon-remove-circle" ng-hide="config.ParamUseContingentLimitOrders"></span>
                                         </td>
                                         <td>
-                                            <span class="glyphicon glyphicon-ok-circle" ng-show="config.NotifyPositionReverse"></span>
-                                            <span class="glyphicon glyphicon-remove-circle" ng-hide="config.NotifyPositionReverse"></span>
+                                            <span class="glyphicon glyphicon-ok-circle" ng-show="config.ParamNotifyPositionReverse"></span>
+                                            <span class="glyphicon glyphicon-remove-circle" ng-hide="config.ParamNotifyPositionReverse"></span>
                                         </td>
                                         <td>
-                                            <span class="glyphicon glyphicon-ok-circle" ng-show="config.NotifyOpenTradeMetrics !== false"></span>
-                                            <span class="glyphicon glyphicon-remove-sign" ng-show="config.NotifyOpenTradeMetrics === false"></span>
+                                            <span class="glyphicon glyphicon-ok-circle" ng-show="config.ParamNotifyOpenTradeMetrics !== false"></span>
+                                            <span class="glyphicon glyphicon-remove-sign" ng-show="config.ParamNotifyOpenTradeMetrics === false"></span>
                                         </td>
                                     </tr>
                                 </table>
@@ -80,33 +80,33 @@
                                     </tr>
                                     <tr ng-repeat="config in configs | orderBy:'StratName'">
                                         <td>{{config.StratName}}</td>
-                                        <td><input class="form-control" type="number" ng-model="config.BufferLengthInMinutes" /></td>
-                                        <td><input class="form-control" type="number" ng-model="config.HighLowMultiplier" /></td>
-                                        <td><input class="form-control" type="number" ng-model="config.HighLowMinDiff" /></td>
-                                        <td><input class="form-control" type="number" ng-model="config.LimitLevelInPips" /></td>
-                                        <td><input class="form-control" type="number" ng-model="config.StopLevelInPips" /></td>
-                                        <td><input class="form-control" type="number" ng-model="config.StopLevelTighteningFactorPer10MinutesInPips" /></td>
-                                        <td><input class="form-control" type="number" ng-model="config.LimitLevelUpdateMinTimeElapsedInSeconds" /></td>
-                                        <td><input class="form-control" type="number" ng-model="config.StopLevelUpdateMinTimeElapsedInSeconds" /></td>
-                                        <td><input type="checkbox" ng-model="config.UseTrailingStopOrders" /></td>
-                                        <td><input type="checkbox" ng-model="config.UseContingentLimitOrders" /></td>
-                                        <td><input type="checkbox" ng-model="config.NotifyPositionReverse" /></td>
-                                        <td><input type="checkbox" ng-model="config.NotifyOpenTradeMetrics" /></td>
+                                        <td><input class="form-control" type="number" ng-model="config.ParamBufferLengthInMinutes" /></td>
+                                        <td><input class="form-control" type="number" ng-model="config.ParamHighLowMultiplier" /></td>
+                                        <td><input class="form-control" type="number" ng-model="config.ParamHighLowMinDiff" /></td>
+                                        <td><input class="form-control" type="number" ng-model="config.ParamLimitLevelInPips" /></td>
+                                        <td><input class="form-control" type="number" ng-model="config.ParamStopLevelInPips" /></td>
+                                        <td><input class="form-control" type="number" ng-model="config.ParamStopLevelTighteningFactorPer10MinutesInPips" /></td>
+                                        <td><input class="form-control" type="number" ng-model="config.ParamLimitLevelUpdateMinTimeElapsedInSeconds" /></td>
+                                        <td><input class="form-control" type="number" ng-model="config.ParamStopLevelUpdateMinTimeElapsedInSeconds" /></td>
+                                        <td><input type="checkbox" ng-model="config.ParamUseTrailingStopOrders" /></td>
+                                        <td><input type="checkbox" ng-model="config.ParamUseContingentLimitOrders" /></td>
+                                        <td><input type="checkbox" ng-model="config.ParamNotifyPositionReverse" /></td>
+                                        <td><input type="checkbox" ng-model="config.ParamNotifyOpenTradeMetrics" /></td>
                                     </tr>
                                     <tr>
                                         <td>All</td>
-                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.BufferLengthInMinutes" /></td>
-                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.HighLowMultiplier" /></td>
-                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.HighLowMinDiff" /></td>
-                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.LimitLevelInPips" /></td>
-                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.StopLevelInPips" /></td>
-                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.StopLevelTighteningFactorPer10MinutesInPips" /></td>
-                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.LimitLevelUpdateMinTimeElapsedInSeconds" /></td>
-                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.StopLevelUpdateMinTimeElapsedInSeconds" /></td>
-                                        <td><input type="checkbox" ng-model="stratConfigsCtrl.allStratedgeConfigs.UseTrailingStopOrders" /></td>
-                                        <td><input type="checkbox" ng-model="stratConfigsCtrl.allStratedgeConfigs.UseContingentLimitOrders" /></td>
-                                        <td><input type="checkbox" ng-model="stratConfigsCtrl.allStratedgeConfigs.NotifyPositionReverse" /></td>
-                                        <td><input type="checkbox" ng-model="stratConfigsCtrl.allStratedgeConfigs.NotifyOpenTradeMetrics" /></td>
+                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.ParamBufferLengthInMinutes" /></td>
+                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.ParamHighLowMultiplier" /></td>
+                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.ParamHighLowMinDiff" /></td>
+                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.ParamLimitLevelInPips" /></td>
+                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.ParamStopLevelInPips" /></td>
+                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.ParamStopLevelTighteningFactorPer10MinutesInPips" /></td>
+                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.ParamLimitLevelUpdateMinTimeElapsedInSeconds" /></td>
+                                        <td><input class="form-control" type="number" ng-model="stratConfigsCtrl.allStratedgeConfigs.ParamStopLevelUpdateMinTimeElapsedInSeconds" /></td>
+                                        <td><input type="checkbox" ng-model="stratConfigsCtrl.allStratedgeConfigs.ParamUseTrailingStopOrders" /></td>
+                                        <td><input type="checkbox" ng-model="stratConfigsCtrl.allStratedgeConfigs.ParamUseContingentLimitOrders" /></td>
+                                        <td><input type="checkbox" ng-model="stratConfigsCtrl.allStratedgeConfigs.ParamNotifyPositionReverse" /></td>
+                                        <td><input type="checkbox" ng-model="stratConfigsCtrl.allStratedgeConfigs.ParamNotifyOpenTradeMetrics" /></td>
                                     </tr>
                                 </table>
                             </div>

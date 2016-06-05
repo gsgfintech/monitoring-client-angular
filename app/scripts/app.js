@@ -104,7 +104,7 @@ angular.module('monitorApp', ['angularSpinner', 'SignalR', 'ui.bootstrap', 'ngAn
         controller: 'SystemsLogsCtrl',
         controllerAs: 'systemsLogsCtrl',
         templateUrl: 'views/systems-logs.html',
-        url: '/systems/logs'
+        url: '/systems-logs'
     }).state('systems-systems-service', {
         templateUrl: 'views/systems-service.html',
         controller: 'SystemsServiceCtrl',
