@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('monitorApp')
-.controller('AlertsCtrl', ['$cacheFactory', '$scope', '$rootScope', '$uibModal', '$interval', 'AlertsCloseService', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'FXEventsTodayHighService', 'PopupService', 'TradeEnginesService', 'TradesService', 'SystemsStatusService', function ($cacheFactory, $scope, $rootScope, $uibModal, $interval, AlertsCloseService, MonitoringAppService, ExecutionsService, ExecutionDetailsService, FXEventsTodayHighService, PopupService, TradeEnginesService, TradesService, SystemsStatusService) {
+.controller('AlertsCtrl', ['$cacheFactory', '$scope', '$rootScope', '$uibModal', '$interval', 'AlertsCloseService', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'FXEventsTodayHighService', 'PopupService', 'TradeEnginesService', 'CommonsService', 'TradesService', 'SystemsStatusService', function ($cacheFactory, $scope, $rootScope, $uibModal, $interval, AlertsCloseService, MonitoringAppService, ExecutionsService, ExecutionDetailsService, FXEventsTodayHighService, PopupService, TradeEnginesService, CommonsService, TradesService, SystemsStatusService) {
 
     var self = this;
 
@@ -26,19 +26,18 @@ angular.module('monitorApp')
 
     self.crosses = [];
 
-    //PositionsService.query({}, function (positions) {
-    //    console.log('Received latest positions');
-
-    //    if (positions.length > 0) {
-    //        self.position.positions = positions[0].PositionSecurities;
-    //        self.position.timestamp = positions[0].Timestamp;
-
-    //        calculatePnl();
-    //    }
-    //});
-
     self.todayHighImpactEvents = FXEventsTodayHighService.query();
     self.today = new Date();
+
+    function setGrosPnlAndTotalFees(pnlValueToAdd, feesValueToAdd) {
+        // Total gross PnL
+        self.grossPnl = self.grossPnl + pnlValueToAdd;
+
+        // Total commissions
+        self.totalCommissions = self.totalCommissions + feesValueToAdd;
+
+        TradesService.setNetPnl(self.grossPnl - self.totalCommissions);
+    }
 
     ExecutionsService.query({ day: (new Date()).toISOString() }, function (executions) {
         self.executions = executions;
@@ -46,8 +45,7 @@ angular.module('monitorApp')
         self.totalCommissions = 0;
 
         for (var i = 0; i < self.executions.length; i++) {
-            // Total gross PnL
-            self.grossPnl = self.grossPnl + self.executions[i].RealizedPnlUsd;
+            setGrosPnlAndTotalFees(self.executions[i].RealizedPnlUsd, self.executions[i].CommissionUsd);
 
             // Gross PnL per cross
             var existingIndex = findCrossIndexInPnlArray(self.executions[i].Cross);
@@ -61,9 +59,6 @@ angular.module('monitorApp')
                     grossPnl: self.executions[i].RealizedPnlUsd || 0
                 });
             }
-
-            // Total commissions
-            self.totalCommissions = self.totalCommissions + self.executions[i].CommissionUsd;
         }
     });
 
@@ -353,11 +348,11 @@ angular.module('monitorApp')
     };
 
     self.shortenCross = function (cross) {
-        return TradesService.shortenCross(cross);
+        return CommonsService.shortenCross(cross);
     };
 
     self.shortenSide = function (side) {
-        return TradesService.shortenSide(side);
+        return CommonsService.shortenSide(side);
     };
 
     self.toggleCrossTrading = function (cross) {
@@ -495,8 +490,7 @@ angular.module('monitorApp')
     $rootScope.$on('newExecutionReceivedEvent', function (event, execution) {
         self.executions.push(execution);
 
-        // Total gross PnL
-        self.grossPnl = self.grossPnl + execution.RealizedPnlUsd;
+        setGrosPnlAndTotalFees(execution.RealizedPnlUsd, execution.CommissionUsd);
 
         // Gross PnL per cross
         var existingIndex = findCrossIndexInPnlArray(execution.Cross);
@@ -510,9 +504,6 @@ angular.module('monitorApp')
                 grossPnl: execution.RealizedPnlUsd || 0
             });
         }
-
-        // Total commissions
-        self.totalCommissions = self.totalCommissions + execution.CommissionUsd;
     });
 
     $rootScope.$on('positionUpdateReceivedEvent', function (event, position) {

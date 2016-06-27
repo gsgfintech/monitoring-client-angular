@@ -1,8 +1,8 @@
 ﻿<!doctype html>
-<html>
+<html ng-app="monitorApp">
 <head>
     <meta charset="utf-8">
-    <title>FX Monitor</title>
+    <title ng-controller="IndexTitleCtrl as ctrl">{{ctrl.title}}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="images/favicon.png" />
@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 </head>
-<body ng-app="monitorApp">
+<body>
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -208,6 +208,8 @@
     <script src="scripts/filters/ng-range-filter.js"></script>
     <script src="scripts/services/alerts-service.js"></script>
     <script src="scripts/controllers/strat-stratedge-controller.js"></script>
+    <script src="scripts/controllers/index-title-controller.js"></script>
+    <script src="scripts/services/commons-service.js"></script>
     <!-- endbuild -->
     <script src="bower_components/amstock3/amcharts/amcharts.js"></script>
     <script src="bower_components/amstock3/amcharts/serial.js"></script>
