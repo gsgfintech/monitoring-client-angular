@@ -21,4 +21,40 @@ angular.module('monitorApp')
     var address = marketDataServiceEnpoint + 'api/marketdata/crosses';
 
     return $resource(address);
+}])
+.factory('MarketDataService', ['MarketDataCrossesService', function (MarketDataCrossesService) {
+
+    var crossesInDb = null;
+
+    function getListOfCrossesAvailable(successCb, errCb) {
+        if (crossesInDb) {
+            if (successCb) {
+                successCb(crossesInDb);
+            }
+        } else {
+            MarketDataCrossesService.query(function (crosses) {
+                if (crosses) {
+                    crossesInDb = crosses;
+
+                    if (successCb) {
+                        successCb(crossesInDb);
+                    }
+                } else {
+                    if (errCb) {
+                        errCb('No cross retrieved');
+                    }
+                }
+            }, function (err) {
+                console.error(err);
+
+                if (errCb) {
+                    errCb(err);
+                }
+            });
+        }
+    }
+
+    return {
+        getListOfCrossesAvailable: getListOfCrossesAvailable
+    };
 }]);

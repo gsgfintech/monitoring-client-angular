@@ -3,7 +3,8 @@
 angular.module('monitorApp', ['angularSpinner', 'SignalR', 'ui.bootstrap', 'ngAnimate', 'ngFileSaver', 'ngResource', 'ngRoute', 'ngSanitize',
     'toaster', 'ui.router', 'ui.bootstrap', 'uiSwitch'])
 .constant('serverEnpoint', 'https://fxmonitor.gsg.capital:9098/')
-.constant('marketDataServiceEnpoint', 'https://tryphon.gsg.capital:6581/')
+//.constant('marketDataServiceEnpoint', 'https://tryphon.gsg.capital:6581/')
+.constant('marketDataServiceEnpoint', 'http://localhost:50876/')
 .constant('systemsServiceEnpoint', 'https://tryphon.gsg.capital:6582/')
 .config(['$stateProvider', '$urlRouterProvider', 'usSpinnerConfigProvider', function ($stateProvider, $urlRouterProvider, usSpinnerConfigProvider) {
     $stateProvider.state('home', {
@@ -70,6 +71,11 @@ angular.module('monitorApp', ['angularSpinner', 'SignalR', 'ui.bootstrap', 'ngAn
         controllerAs: 'marketDataExcelCtrl',
         templateUrl: 'views/marketdata-excel.html',
         url: '/marketdata/excel'
+    }).state('marketdata-walked-paths', {
+        controller: 'MarketDataWalkedPathsCtrl',
+        controllerAs: 'ctrl',
+        templateUrl: 'views/marketdata-walked-paths.html',
+        url: '/marketdata/walked-paths'
     }).state('strats', {
         templateUrl: 'views/strats.html',
         controller: 'StratsCtrl',
