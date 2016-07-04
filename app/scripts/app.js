@@ -3,8 +3,7 @@
 angular.module('monitorApp', ['angularSpinner', 'SignalR', 'ui.bootstrap', 'ngAnimate', 'ngFileSaver', 'ngResource', 'ngRoute', 'ngSanitize',
     'toaster', 'ui.router', 'ui.bootstrap', 'uiSwitch'])
 .constant('serverEnpoint', 'https://fxmonitor.gsg.capital:9098/')
-//.constant('marketDataServiceEnpoint', 'https://tryphon.gsg.capital:6581/')
-.constant('marketDataServiceEnpoint', 'http://localhost:50876/')
+.constant('marketDataServiceEnpoint', 'https://tryphon.gsg.capital:6581/')
 .constant('systemsServiceEnpoint', 'https://tryphon.gsg.capital:6582/')
 .config(['$stateProvider', '$urlRouterProvider', 'usSpinnerConfigProvider', function ($stateProvider, $urlRouterProvider, usSpinnerConfigProvider) {
     $stateProvider.state('home', {
