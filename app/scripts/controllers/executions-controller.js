@@ -29,6 +29,8 @@ angular.module('monitorApp')
     self.executionsCount = 0;
     self.totalCommissions = 0;
 
+    var netPnlByTime = [];
+
     self.latestPositions = MonitoringAppService.getLatestPositions();
 
     self.downloading = false;
@@ -36,6 +38,17 @@ angular.module('monitorApp')
     self.requestAccount = function (accountName) {
         MonitoringAppService.requestAccount(accountName);
     };
+
+    function updateNetPnlByTime(netPnl, time) {
+        netPnlByTime.push({
+            netPnl: netPnl,
+            time: time
+        });
+    }
+
+    function updateNetPnlGraph() {
+        $rootScope.$broadcast('executionsPnlChart.refresh', { netPnlByTime: netPnlByTime });
+    }
 
     self.changeDate = function () {
         cache.put('executionsCtrl.activeDate', self.activeDate);
@@ -58,6 +71,7 @@ angular.module('monitorApp')
 
             self.grossPnl = 0;
             self.totalCommissions = 0;
+            netPnlByTime.splice(0, netPnlByTime.length);
 
             for (var i = 0; i < self.executions.length; i++) {
                 // Total gross PnL
@@ -78,7 +92,12 @@ angular.module('monitorApp')
 
                 // Total commissions
                 self.totalCommissions = self.totalCommissions + self.executions[i].CommissionUsd;
+
+                // Net Pnl by time
+                updateNetPnlByTime(self.grossPnl - self.totalCommissions, new Date(self.executions[i].ExecutionTime));
             }
+
+            updateNetPnlGraph();
         });
     }
 
@@ -172,6 +191,10 @@ angular.module('monitorApp')
 
             // Total commissions
             self.totalCommissions = self.totalCommissions + execution.CommissionUsd;
+
+            // Net Pnl by time
+            updateNetPnlByTime(self.grossPnl - self.totalCommissions, executionTime);
+            updateNetPnlGraph();
         }
     });
 
