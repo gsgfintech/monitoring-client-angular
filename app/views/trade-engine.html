@@ -1,5 +1,5 @@
 ﻿<uib-accordion close-others="false">
-    <uib-accordion-group ng-repeat="tradeEngine in tradeEngineCtrl.tradeEngines | orderBy:'Name' track by tradeEngine.Name" is-open="$first">
+    <div uib-accordion-group ng-repeat="tradeEngine in tradeEngineCtrl.tradeEngines | orderBy:'Name' track by tradeEngine.Name" is-open="$first">
         <uib-accordion-heading>
             <div style="height:20px">
                 <div class="align-left">{{tradeEngine.Name}}</div>
@@ -262,5 +262,5 @@
                 </div>
             </div>
         </div>
-    </uib-accordion-group>
+    </div>
 </uib-accordion>

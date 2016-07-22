@@ -1,0 +1,17 @@
+﻿<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h4>InfluxDB Loggers</h4>
+    </div>
+    <table class="table">
+        <tr ng-repeat="logger in $ctrl.loggers | orderBy:'Name'">
+            <th>{{logger.Name}}</th>
+            <td>
+                <div class="btn-group btn-group-sm">
+                    <button class="btn btn-success" ng-click="$ctrl.start(logger.Name)">Start</button>
+                    <button class="btn btn-danger" ng-click="$ctrl.stop(logger.Name)">Stop</button>
+                    <button class="btn btn-danger" ng-click="$ctrl.restart(logger.Name)">Restart</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

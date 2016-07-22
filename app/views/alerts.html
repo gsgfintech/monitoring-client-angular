@@ -184,11 +184,11 @@
                 <div class="align-right"><button class="btn btn-warning btn-xs" ng-click="alertsCtrl.closeAllOpenAlerts()" ng-hide="alertsCtrl.openAlerts.length == 0">Close All</button></div>
             </div>
             <div class="panel-body">
-                <uib-alert ng-repeat="alert in alertsCtrl.openAlerts" type="{{alert.type}}" close="alertsCtrl.closeAlert(alert.AlertId)">
+                <div uib-alert ng-repeat="alert in alertsCtrl.openAlerts" ng-class="'alert-' + (alert.type || 'warning')" close="alertsCtrl.closeAlert(alert.AlertId)">
                     <a class="alert alert-link-light" ng-click="alertsCtrl.showOpenAlertDetails($index)">
                         <span style="font-weight: bold">{{alert.Timestamp | date:'dd/MM/yy HH:mm:ss'}} - [{{alert.Level}}] {{alert.Source}}</span> : {{alert.Subject}}
                     </a>
-                </uib-alert>
+                </div>
                 <p ng-show="alertsCtrl.openAlerts.length == 0">No open alert</p>
             </div>
         </div>
@@ -202,11 +202,11 @@
             </div>
             <div class="panel-body">
                 <div ng-hide="alertsCtrl.collapseAlertsClosedToday">
-                    <uib-alert ng-repeat="alert in alertsCtrl.alertsClosedToday | orderBy:'-Timestamp'" type="{{alert.type}}">
+                    <div uib-alert ng-repeat="alert in alertsCtrl.alertsClosedToday | orderBy:'-Timestamp'" ng-class="'alert-' + (alert.type || 'warning')">
                         <a href="#" class="alert alert-link-light" ng-click="alertsCtrl.showClosedAlertDetails($index)">
                             <span style="font-weight: bold">{{alert.Timestamp | date:'dd/MM/yy HH:mm:ss'}} - [{{alert.Level}}] {{alert.Source}}</span> : {{alert.Subject}} <span style="font-style:italic; font-size:smaller">(Closed at {{alert.ClosedTimestamp | date:'dd/MM/yy HH:mm:ss'}})</span>
                         </a>
-                    </uib-alert>
+                    </div>
                 </div>
                 <p ng-show="alertsCtrl.alertsClosedToday.length == 0">No closed alert</p>
             </div>

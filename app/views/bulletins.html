@@ -8,9 +8,9 @@
                 </div>
             </div>
             <div class="panel-body">
-                <uib-alert ng-repeat="bulletin in newsBulletinsCtrl.openBulletins" type="info" close="newsBulletinsCtrl.closeBulletin(bulletin.Id)">
+                <div uib-alert ng-repeat="bulletin in newsBulletinsCtrl.openBulletins" class="alert-info" close="newsBulletinsCtrl.closeBulletin(bulletin.Id)">
                     <strong>{{bulletin.Timestamp | date:'dd/MM/yy HH:mm:ss'}} - [{{bulletin.BulletinType}}] {{bulletin.OrigExchange}}</strong> : {{bulletin.Message}}
-                </uib-alert>
+                </div>
                 <p ng-show="newsBulletinsCtrl.openBulletins.length == 0">No open bulletin</p>
             </div>
         </div>
@@ -23,9 +23,9 @@
             </div>
             <div class="panel-body">
                 <div uib-collapse="newsBulletinsCtrl.collapseBulletinsClosedToday">
-                    <uib-alert ng-repeat="bulletin in newsBulletinsCtrl.bulletinsClosedToday" type="info">
+                    <div uib-alert ng-repeat="bulletin in newsBulletinsCtrl.bulletinsClosedToday" class="alert-info">
                         <strong>{{bulletin.Timestamp | date:'dd/MM/yy HH:mm:ss'}} - [{{bulletin.BulletinType}}] {{bulletin.OrigExchange}}</strong> : {{bulletin.Message}} <span style="font-style:italic; font-size:smaller">(Closed at {{bulletin.ClosedTimestamp | date:'dd/MM/yy HH:mm:ss'}})</span>
-                    </uib-alert>
+                    </div>
                 </div>
                 <p ng-show="newsBulletinsCtrl.bulletinsClosedToday.length == 0">No bulletin closed today</p>
             </div>
