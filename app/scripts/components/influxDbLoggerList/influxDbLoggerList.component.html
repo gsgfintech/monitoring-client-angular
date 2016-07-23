@@ -2,7 +2,7 @@
     <div class="panel-heading">
         <h4>InfluxDB Loggers</h4>
     </div>
-    <table class="table">
+    <table class="table" style="max-width:100%">
         <tr ng-repeat="logger in $ctrl.loggers | orderBy:'Name'">
             <th>{{logger.Name}}</th>
             <td>
@@ -11,6 +11,23 @@
                     <button class="btn btn-danger" ng-click="$ctrl.stop(logger.Name)">Stop</button>
                     <button class="btn btn-danger" ng-click="$ctrl.restart(logger.Name)">Restart</button>
                 </div>
+            </td>
+            <td>
+                <span ng-repeat="pair in logger.Pairs" 
+                      ng-class="'label label-' + pair.level"
+                      style="display:inline-block;padding:4px; margin:4px">
+                    {{pair.pair}}
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <th>Unassigned Pairs</th>
+            <td colspan="2">
+                <span ng-repeat="pair in $ctrl.unassignedPairs"
+                      class="label label-info"
+                      style="display:inline-block;padding:4px; margin:4px">
+                    {{pair.pair}} ({{pair.code}})
+                </span>
             </td>
         </tr>
     </table>
