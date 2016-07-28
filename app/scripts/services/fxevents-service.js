@@ -1,18 +1,18 @@
 'use strict';
 
 angular.module('monitorApp')
-.factory('FXEventsWeekService', ['$resource', 'marketDataServiceEnpoint', function ($resource, marketDataServiceEnpoint) {
-    var address = marketDataServiceEnpoint + 'api/fxevents/week';
+.factory('FXEventsWeekService', ['$resource', 'serverEnpoint', function ($resource, serverEnpoint) {
+    var address = serverEnpoint + 'api/fxevents/week';
 
     return $resource(address);
 }])
-.factory('FXEventsTodayHighService', ['$resource', 'marketDataServiceEnpoint', function ($resource, marketDataServiceEnpoint) {
-    var address = marketDataServiceEnpoint + 'api/fxevents/todayhigh';
+.factory('FXEventsTodayHighService', ['$resource', 'serverEnpoint', function ($resource, serverEnpoint) {
+    var address = serverEnpoint + 'api/fxevents/todayhigh';
 
     return $resource(address);
 }])
-.factory('FXEventsByCrossForWebService', ['$resource', 'marketDataServiceEnpoint', function ($resource, marketDataServiceEnpoint) {
-    var address = marketDataServiceEnpoint + 'api/fxevents/?cross=:cross&day=:day';
+.factory('FXEventsByCrossForWebService', ['$resource', 'serverEnpoint', function ($resource, serverEnpoint) {
+    var address = serverEnpoint + 'api/fxevents/?cross=:cross&day=:day';
 
     return $resource(address, {
         cross: 'cross',
