@@ -166,6 +166,11 @@ angular.module('monitorApp')
             },
 
             // Executions
+            'fxPairsStatsUpdated': function (stats) {
+                $rootScope.$broadcast('fxPairsStatsUpdatedEvent', stats);
+            },
+
+            // FX Pairs Stats
             'newExecutionReceived': function (execution) {
                 var message = execution.Side + ' ' + execution.Quantity + ' ' + execution.Cross + ' @ ' + execution.Price;
 

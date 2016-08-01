@@ -1,0 +1,28 @@
+﻿<div class="panel panel-default">
+	<div class="panel-heading">
+		<h4>Day Stats</h4>
+	</div>
+	<table class="table" ng-show="$ctrl.pairs.length > 0">
+		<thead>
+			<tr>
+				<th></th>
+				<th>DB Logger</th>
+				<th>Price Ticks</th>
+				<th>Size Ticks</th>
+				<th>RT Bars</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="pair in $ctrl.pairs | orderBy:'pair'">
+				<th>{{pair.pair}}</th>
+				<td>{{pair.dbLogger}}</td>
+				<td>{{pair.priceTicks | number:0}}</td>
+				<td>{{pair.sizeTicks | number:0}}</td>
+				<td>{{pair.rtBars | number:0}}</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="panel-body" ng-hide="$ctrl.pairs.length > 0">
+		No stats for today
+	</div>
+</div>
