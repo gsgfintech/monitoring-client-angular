@@ -367,12 +367,6 @@ angular.module('monitorApp')
             // IB Broker Client Configs
             'requestIBBrokerClientConfigs', 'requestInsertIBBrokerClientConfig', 'requestSaveIBBrokerClientConfig', 'requestDeleteIBBrokerClientConfig',
 
-            // Loggers
-            'requestSaveConfig',
-
-            // Orders
-            'requestTodaysOrders',
-
             // Positions
             'requestLatestPositions'
         ],
