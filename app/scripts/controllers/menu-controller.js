@@ -7,6 +7,10 @@ angular.module('monitorApp')
 
         self.tabsSettings = MenuService.getTabsCounts();
 
-        // Initial state
-        //$state.go('alerts');
+        self.userName = null;
+
+        if ($scope.userInfo && $scope.userInfo.profile) {
+            self.userName = $scope.userInfo.profile.given_name;
+        }
+
     }]);

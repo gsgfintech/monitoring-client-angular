@@ -26,6 +26,8 @@ angular.module('monitorApp')
 
     self.crosses = [];
 
+    console.log($scope.userInfo.userName);
+
     self.todayHighImpactEvents = FXEventsTodayHighService.query();
     self.today = new Date();
 

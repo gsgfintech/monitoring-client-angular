@@ -1,17 +1,18 @@
 'use strict';
 
-angular.module('monitorApp', ['angularSpinner', 'SignalR', 'ui.bootstrap', 'ngAnimate', 'ngFileSaver', 'ngResource', 'ngRoute', 'ngSanitize',
+angular.module('monitorApp', ['AdalAngular', 'angularSpinner', 'SignalR', 'ui.bootstrap', 'ngAnimate', 'ngFileSaver', 'ngResource', 'ngRoute', 'ngSanitize',
     'toaster', 'ui.router', 'ui.bootstrap', 'uiSwitch'])
 .constant('serverEnpoint', 'https://fxmonitor.gsg.capital:9098/')
 .constant('marketDataServiceEnpoint', 'https://tryphon.gsg.capital:6581/')
 .constant('systemsServiceEnpoint', 'https://tryphon.gsg.capital:6582/')
-.config(['$stateProvider', '$urlRouterProvider', 'usSpinnerConfigProvider', function ($stateProvider, $urlRouterProvider, usSpinnerConfigProvider) {
+.config(['$httpProvider', '$stateProvider', '$urlRouterProvider', 'adalAuthenticationServiceProvider', 'usSpinnerConfigProvider', function ($httpProvider, $stateProvider, $urlRouterProvider, adalAuthenticationServiceProvider, usSpinnerConfigProvider) {
     $stateProvider.state('home', {
         controller: 'AlertsCtrl',
         controllerAs: 'alertsCtrl',
         templateUrl: 'views/alerts.html',
-        url: '/'
-    }).state('contracts', {
+        url: '/',
+        requireADLogin: true
+}).state('contracts', {
         templateUrl: 'views/contracts.html',
         controller: 'ContractsCtrl',
         controllerAs: 'contractsCtrl',
@@ -20,7 +21,8 @@ angular.module('monitorApp', ['angularSpinner', 'SignalR', 'ui.bootstrap', 'ngAn
         controller: 'OrdersCtrl',
         controllerAs: 'ordersCtrl',
         templateUrl: 'views/orders.html',
-        url: '/orders/day/:date'
+        url: '/orders/day/:date',
+        requireADLogin: true
     }).state('orders-id', {
         controller: 'OrderDetailsCtrl',
         controllerAs: 'orderDetailsCtrl',
@@ -30,101 +32,97 @@ angular.module('monitorApp', ['angularSpinner', 'SignalR', 'ui.bootstrap', 'ngAn
         controller: 'ExecutionsCtrl',
         controllerAs: 'executionsCtrl',
         templateUrl: 'views/executions.html',
-        url: '/executions/day/:date'
+        url: '/executions/day/:date',
+        requireADLogin: true
     }).state('executions-id', {
         controller: 'ExecutionDetailsCtrl',
         controllerAs: 'executionDetailsCtrl',
         templateUrl: 'views/execution-details.html',
-        url: '/executions/id/:id'
+        url: '/executions/id/:id',
+        requireADLogin: true
     }).state('bulletins', {
         controller: 'NewsBulletinsCtrl',
         controllerAs: 'newsBulletinsCtrl',
         templateUrl: 'views/bulletins.html',
-        url: '/bulletins'
+        url: '/bulletins',
+        requireADLogin: true
     }).state('systems', {
         controller: 'SystemsCtrl',
         controllerAs: 'systemsCtrl',
-        templateUrl: 'views/systems.html'
+        templateUrl: 'views/systems.html',
+        requireADLogin: true
     }).state('systems-loggers', {
         controller: 'LoggerCtrl',
         controllerAs: 'loggerCtrl',
         templateUrl: 'views/logger.html',
-        url: '/sytems/loggers'
+        url: '/sytems/loggers',
+        requireADLogin: true
     }).state('systems-trade-engines', {
         controller: 'TradeEngineCtrl',
         controllerAs: 'tradeEngineCtrl',
         templateUrl: 'views/trade-engine.html',
-        url: '/systems/trade-engines'
-    }).state('marketdata-graphs', {
-        controller: 'GraphsCtrl',
-        controllerAs: 'graphsCtrl',
-        templateUrl: 'views/graphs.html',
-        url: '/marketdata/graphs/:cross'
+        url: '/systems/trade-engines',
+        requireADLogin: true
     }).state('marketdata-fxevents', {
         templateUrl: 'views/fxevents.html',
         controller: 'FxEventsCtrl',
         controllerAs: 'fxEventsCtrl',
-        url: '/marketdata/fxevents'
-    }).state('marketdata-excel', {
-        controller: 'MarketDataExcelCtrl',
-        controllerAs: 'marketDataExcelCtrl',
-        templateUrl: 'views/marketdata-excel.html',
-        url: '/marketdata/excel'
+        url: '/marketdata/fxevents',
+        requireADLogin: true
     }).state('marketdata-walked-paths', {
         controller: 'MarketDataWalkedPathsCtrl',
         controllerAs: 'ctrl',
         templateUrl: 'views/marketdata-walked-paths.html',
-        url: '/marketdata/walked-paths'
+        url: '/marketdata/walked-paths',
+        requireADLogin: true
     }).state('strats', {
         templateUrl: 'views/strats.html',
         controller: 'StratsCtrl',
         controllerAs: 'stratsCtrl',
-        url: '/strats'
+        url: '/strats',
+        requireADLogin: true
     }).state('strat-configs', {
         controller: 'StratConfigsCtrl',
         controllerAs: 'stratConfigsCtrl',
         templateUrl: 'views/strat-configs.html',
-        url: '/strat/configs'
+        url: '/strat/configs',
+        requireADLogin: true
     }).state('strat-datapoints', {
         controller: 'StratDatapointsCtrl',
         controllerAs: 'stratDatapointsCtrl',
         templateUrl: 'views/strat-datapoints.html',
-        url: '/strat/datapoints'
-    }).state('strat-newcresus', {
-        controller: 'StratNewCresusCtrl',
-        controllerAs: 'stratNewCresusCtrl',
-        templateUrl: 'views/strat-newcresus.html',
-        url: '/strat/newcresus'
-    }).state('strat-stratedge', {
-        controller: 'StratStratedgeCtrl',
-        controllerAs: 'stratStratedgeCtrl',
-        templateUrl: 'views/strat-stratedge.html',
-        url: '/strat/stratedge'
+        url: '/strat/datapoints',
+        requireADLogin: true
     }).state('system-status', {
         controller: 'SystemStatusDetailsCtrl',
         controllerAs: 'systemStatusDetailsCtrl',
         templateUrl: 'views/system-status-details.html',
-        url: '/systems/:name'
+        url: '/systems/:name',
+        requireADLogin: true
     }).state('systems-logs', {
         controller: 'SystemsLogsCtrl',
         controllerAs: 'systemsLogsCtrl',
         templateUrl: 'views/systems-logs.html',
-        url: '/systems-logs'
+        url: '/systems-logs',
+        requireADLogin: true
     }).state('systems-systems-service', {
         templateUrl: 'views/systems-service.html',
         controller: 'SystemsServiceCtrl',
         controllerAs: 'systemsServiceCtrl',
-        url: '/systems/systems-service'
+        url: '/systems/systems-service',
+        requireADLogin: true
     }).state('systems-converter-service', {
         templateUrl: 'views/converter-service.html',
         controller: 'ConverterServiceCtrl',
         controllerAs: 'converterServiceCtrl',
-        url: '/systems/converter-service'
+        url: '/systems/converter-service',
+        requireADLogin: true
     }).state('systems-service-control-service', {
         templateUrl: 'views/service-control-service.html',
         controller: 'ServiceControlServiceCtrl',
         controllerAs: 'serviceControlServiceCtrl',
-        url: '/systems/service-control-service'
+        url: '/systems/service-control-service',
+        requireADLogin: true
     });
     
     $urlRouterProvider.otherwise('/');
@@ -134,4 +132,11 @@ angular.module('monitorApp', ['angularSpinner', 'SignalR', 'ui.bootstrap', 'ngAn
         width: 2,
         length: 4
     });
+
+    adalAuthenticationServiceProvider.init({
+        instance: 'https://login.microsoftonline.com/', 
+        tenant: 'gsgfintech.onmicrosoft.com',
+        clientId: '43b38e23-1035-4266-8ec1-f1b6001b0cd5',
+        extraQueryParameter: 'nux=1'
+    }, $httpProvider);
 }]);
