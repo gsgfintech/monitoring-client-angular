@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('monitorApp')
-.controller('NewsBulletinsCtrl', ['$scope', '$rootScope', '$timeout', 'NewsBulletinsByStatusService', 'NewsBulletinsClosedTodayService', 'NewsBulletinsCloseService', function ($scope, $rootScope, $timeout, NewsBulletinsByStatusService, NewsBulletinsClosedTodayService, NewsBulletinsCloseService) {
+.controller('NewsBulletinsCtrl', ['$scope', '$rootScope', '$timeout', 'NewsBulletinsService', 'NewsBulletinsClosedTodayService', 'NewsBulletinsCloseService', function ($scope, $rootScope, $timeout, NewsBulletinsService, NewsBulletinsClosedTodayService, NewsBulletinsCloseService) {
 
     var self = this;
 
@@ -9,7 +9,7 @@ angular.module('monitorApp')
     self.bulletinsClosedToday = [];
 
     function getOpenBulletins() {
-        NewsBulletinsByStatusService.query({ status: 'Open' }, function (bulletins) {
+        NewsBulletinsService.query(function (bulletins) {
             console.log('Received open bulletins');
 
             self.openBulletins.splice(0, self.openBulletins.length);
@@ -50,8 +50,11 @@ angular.module('monitorApp')
         }
     };
 
-    self.closeBulletin = function (id) {
-        NewsBulletinsCloseService.get({ id: id }, function () {
+    self.closeBulletin = function (source, id) {
+        NewsBulletinsCloseService.get({
+            id: id,
+            source: source
+        }, function () {
             console.log('Closed bulletin', id);
 
             $timeout(refreshBulletins(), 1000);
@@ -62,7 +65,7 @@ angular.module('monitorApp')
         console.log('Closing all open bulletins');
 
         for (var i = 0; i < self.openBulletins.length; i++) {
-            self.closeBulletin(self.openBulletins[i].Id);
+            self.closeBulletin(self.openBulletins[i].Source, self.openBulletins[i].Id);
         }
     };
 

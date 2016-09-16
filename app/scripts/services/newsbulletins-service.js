@@ -21,9 +21,10 @@ angular.module('monitorApp')
     return $resource(address);
 }])
 .factory('NewsBulletinsCloseService', ['$resource', 'serverEnpoint', function ($resource, serverEndpoint) {
-    var address = serverEndpoint + 'api/newsbulletins/close/:id';
+    var address = serverEndpoint + 'api/newsbulletins/close/:source/:id';
 
     return $resource(address, {
-        id: '@_id'
+        id: '@_id',
+        source: '@Source'
     });
 }]);

@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <div uib-alert ng-repeat="bulletin in newsBulletinsCtrl.openBulletins" class="alert-info" close="newsBulletinsCtrl.closeBulletin(bulletin.Id)">
+                <div uib-alert ng-repeat="bulletin in newsBulletinsCtrl.openBulletins" class="alert-info" close="newsBulletinsCtrl.closeBulletin(bulletin.Source, bulletin.Id)">
                     <strong>{{bulletin.Timestamp | date:'dd/MM/yy HH:mm:ss'}} - [{{bulletin.BulletinType}}] {{bulletin.OrigExchange}}</strong> : {{bulletin.Message}}
                 </div>
                 <p ng-show="newsBulletinsCtrl.openBulletins.length == 0">No open bulletin</p>
