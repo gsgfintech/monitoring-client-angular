@@ -141,13 +141,6 @@ angular.module('monitorApp')
                 }
             },
 
-            // AlgoDataPoints
-            'newAlgoDataPointReceived': function (dataPoint) {
-                console.log('Received new algoDataPoint', dataPoint);
-
-                $rootScope.$broadcast('newAlgoDataPointReceivedEvent', { dataPoint: dataPoint });
-            },
-
             // Contracts
             'contractDeleted': function (id) {
                 console.log('Received delete notification for contract', id);
