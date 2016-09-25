@@ -34,6 +34,8 @@ angular.module('monitorApp')
             return 'PRC';
         } else if (origin === 'PositionReverse_Open') {
             return 'PRO';
+        } else if (origin === 'PositionDouble') {
+            return 'PD';
         } else {
             return origin;
         }
