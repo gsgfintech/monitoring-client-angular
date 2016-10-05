@@ -7,4 +7,13 @@ angular.module('monitorApp')
     return $resource(address, {
         ids: '@Ids'
     });
+}])
+.factory('AlertsOpenService', ['$resource', 'serverEnpoint', function ($resource, serverEndpoint) {
+    var address = serverEndpoint + 'api/alerts';
+
+    return $resource(address);
+}]).factory('AlertsClosedTodayService', ['$resource', 'serverEnpoint', function ($resource, serverEndpoint) {
+    var address = serverEndpoint + 'api/alerts/closedtoday';
+
+    return $resource(address);
 }]);

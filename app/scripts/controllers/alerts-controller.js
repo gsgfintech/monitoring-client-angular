@@ -1,14 +1,14 @@
 ﻿'use strict';
 
 angular.module('monitorApp')
-.controller('AlertsCtrl', ['$cacheFactory', '$scope', '$rootScope', '$uibModal', '$interval', 'AlertsCloseService', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'FXEventsTodayHighService', 'PopupService', 'TradeEnginesService', 'CommonsService', 'TradesService', 'SystemsStatusService', function ($cacheFactory, $scope, $rootScope, $uibModal, $interval, AlertsCloseService, MonitoringAppService, ExecutionsService, ExecutionDetailsService, FXEventsTodayHighService, PopupService, TradeEnginesService, CommonsService, TradesService, SystemsStatusService) {
+.controller('AlertsCtrl', ['$cacheFactory', '$scope', '$rootScope', '$uibModal', '$interval', 'AlertsCloseService', 'AlertsClosedTodayService', 'AlertsOpenService', 'MonitoringAppService', 'ExecutionsService', 'ExecutionDetailsService', 'FXEventsTodayHighService', 'PopupService', 'TradeEnginesService', 'CommonsService', 'TradesService', 'SystemsStatusService', function ($cacheFactory, $scope, $rootScope, $uibModal, $interval, AlertsCloseService, AlertsClosedTodayService, AlertsOpenService, MonitoringAppService, ExecutionsService, ExecutionDetailsService, FXEventsTodayHighService, PopupService, TradeEnginesService, CommonsService, TradesService, SystemsStatusService) {
 
     var self = this;
 
     var cache = $cacheFactory.get('alertsCtrl') || $cacheFactory('alertsCtrl');
 
-    self.openAlerts = MonitoringAppService.getAllOpenAlerts();
-    self.alertsClosedToday = MonitoringAppService.getAlertsClosedToday();
+    self.openAlerts = AlertsOpenService.query();
+    self.alertsClosedToday = AlertsClosedTodayService.query();
 
     self.systems = [];
     var systemsQueryTask = null;

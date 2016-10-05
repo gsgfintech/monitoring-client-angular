@@ -351,9 +351,6 @@ angular.module('monitorApp')
             // Accounts
             'requestAccount',
 
-            // Alerts
-            'requestAllOpenAlerts', 'requestAlertsClosedToday', 'requestAlertById',
-
             // Crosses
             'requestSaveContract',
 
@@ -528,14 +525,6 @@ angular.module('monitorApp')
 
         // Accounts
         requestAccount: requestAccount,
-
-        // Alerts
-        getAllOpenAlerts: function () {
-            return allOpenAlerts;
-        },
-        getAlertsClosedToday: function () {
-            return alertsClosedToday;
-        },
 
         // Crosses
         validateLoggerForCross: validateLoggerForCross,
